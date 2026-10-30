@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>แผนที่ภูมิภาคไทย · Agriculture Simulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Noto+Serif+Thai:wght@600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* Layout: big map on the left (sticky on desktop), region dossier + planner on the right. */
+.tgrid{display:grid;grid-template-columns:minmax(300px,480px) 1fr;gap:24px;align-items:start}
+@media (max-width:900px){.tgrid{grid-template-columns:1fr}}
+.mapcol{position:sticky;top:12px}
+@media (max-width:900px){.mapcol{position:static}}
+.mapbox{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:10px;position:relative}
+.mapbox svg{width:100%;height:auto;display:block;touch-action:manipulation}
+.readout{font-family:var(--f-mono);font-size:12px;color:var(--muted);min-height:1.6em;margin-top:6px}
+.layers{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.layers label{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;padding:3px 9px;border:1px solid var(--line);border-radius:999px;background:var(--paper);cursor:pointer;user-select:none}
+.layers input{accent-color:var(--sel);margin:0}
+.hyps{display:flex;flex-wrap:wrap;gap:2px;margin-top:8px;font-family:var(--f-mono);font-size:10.5px;color:var(--muted)}
+.hyps span{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:34px}
+.hyps i{display:block;width:100%;height:10px;border-radius:2px}
+.lbl{font-family:var(--f-body);font-size:10px;fill:var(--ink);paint-order:stroke;stroke:var(--paper);stroke-width:2.6px;stroke-linejoin:round}
+.lbl.sea{font-size:13px;fill:var(--river);font-style:italic;stroke:none}
+.lbl.rg{font-size:13px;font-weight:600}
+.city{cursor:pointer}
+.city circle{fill:var(--paper);stroke:var(--ink);stroke-width:1.4}
+.city.a circle{fill:#d4613a;stroke:#d4613a}
+.city.b circle{fill:#2b78a8;stroke:#2b78a8}
+.city:hover circle,.city:focus circle{stroke-width:2.6}
+.city:focus{outline:none}
+.reg{cursor:pointer}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tabs button{font:inherit;font-size:13.5px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--sel);color:var(--paper);border-color:var(--sel)}
+.stack{display:flex;height:22px;border-radius:4px;overflow:hidden;border:1px solid var(--line)}
+.stack i{display:block;height:100%}
+.keyrow{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted);margin-top:4px}
+.keyrow b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.planner{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.planner{grid-template-columns:1fr}}
+select,input[type=number]{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);width:100%}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.res .card h3{font-size:15px}
+.kv{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:13px}
+.kv span:nth-child(even){font-family:var(--f-mono);text-align:right;font-variant-numeric:tabular-nums}
+.prof{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:8px}
+.prof svg{width:100%;height:auto;display:block}
+table.modes{border-collapse:collapse;width:100%;font-size:13px;min-width:520px}
+.modes th,.modes td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right}
+.modes th:first-child,.modes td:first-child{text-align:left}
+.modes thead th{font-weight:500;color:var(--muted);font-size:12px}
+.modes tr.na td{color:var(--muted)}
+.modes tr.best td:first-child{font-weight:600;color:var(--forest)}
+</style>
+</head>
+<body>
+<nav class="topnav"><a href="index.html">หน้าแรก</a><a href="thailand.html" aria-current="page">แผนที่ภูมิภาคไทย</a><a href="nan-basin.html">ลุ่มน้ำน่าน</a><a href="soil.html">ดิน น้ำ หรือระบบปิด</a></nav>
+<div class="wrap">
+<header>
+  <span class="eyebrow">ภาพรวมประเทศ · 6 ภูมิภาค · ต้นน้ำถึงทะเล</span>
+  <h1>แผนที่วางแผนภูมิภาคไทย</h1>
+  <p class="lede">ดูความสูงของพื้นที่ แม่น้ำสายหลักถึงสายย่อย อ่างเก็บน้ำ อ่าว และโครงข่ายถนน ราง ท่าเรือ สนามบิน โรงไฟฟ้า แยกตามภูมิภาค แล้วเลือกเมืองต้นทางกับปลายทางเพื่อคำนวณคร่าวๆ ว่าการส่งน้ำ ส่งไฟฟ้า และขนสินค้าระหว่างสองจุดใช้พลังงานและต้นทุนเท่าไร</p>
+  <p class="note"><span class="tag">ข้อมูล</span> = ตัวเลขสาธารณะที่ปัดเศษ ควรตรวจกับหน่วยงานก่อนใช้จริง &nbsp; <span class="tag inf">อนุมาน</span> = ค่าประมาณเพื่อการออกแบบ &nbsp; แผนที่เป็นแผนภาพเชิงอธิบาย เส้นเขตและความสูงเป็นค่าโดยประมาณ ไม่ใช่แผนที่สำรวจ</p>
+</header>
+
+<section>
+<div class="tgrid">
+  <div class="mapcol">
+    <div class="mapbox">
+      <svg id="map" viewBox="0 0 580 1050" role="img" aria-label="แผนที่ประเทศไทยแสดงความสูง แม่น้ำ และโครงสร้างพื้นฐาน">
+        <rect x="0" y="0" width="580" height="1050" fill="var(--sea)"/>
+        <image id="relief" x="0" y="0" width="580" height="1050" preserveAspectRatio="none"/>
+        <path id="outline" fill="none" stroke="var(--ink)" stroke-width="1" stroke-opacity=".55"/>
+        <g id="gRegLbl"></g>
+        <g id="gRivers"></g>
+        <g id="gLakes"></g>
+        <g id="gRoad"></g>
+        <g id="gRail"></g>
+        <g id="gGrid"></g>
+        <g id="gWater"></g>
+        <g id="gLine"></g>
+        <g id="gPts"></g>
+        <g id="gCity"></g>
+        <g id="gSea"></g>
+      </svg>
+      <div class="readout" id="readout">ชี้บนแผนที่เพื่อดูความสูงโดยประมาณ · แตะเมืองเพื่อตั้งจุด A และ B</div>
+      <div class="hyps" id="hyps"></div>
+      <div class="layers" id="layers"></div>
+    </div>
+  </div>
+
+  <div class="stackcol" style="display:flex;flex-direction:column;gap:28px;min-width:0">
+    <section>
+      <div><span class="eyebrow">1 · ภูมิภาค</span><h2>เลือกภูมิภาค</h2></div>
+      <div class="tabs" id="regTabs"></div>
+      <div id="regBox" aria-live="polite" style="display:flex;flex-direction:column;gap:14px"></div>
+    </section>
+
+    <section>
+      <div><span class="eyebrow">2 · วางแผนเชื่อมสองจุด</span><h2>ส่งน้ำ ส่งไฟ ขนส่ง</h2>
+      <p class="note">เลือกเมือง A และ B (หรือแตะจุดเมืองบนแผนที่) ระบบจะวาดหน้าตัดความสูงตามแนวเส้นตรง แล้วประมาณพลังงานสูบน้ำ การสูญเสียในสายส่ง และต้นทุนขนส่งแต่ละแบบ <span class="tag inf">อนุมาน</span></p></div>
+      <div class="planner">
+        <label class="ctl">ต้นทาง A<select id="selA"></select></label>
+        <label class="ctl">ปลายทาง B<select id="selB"></select></label>
+        <label class="ctl">ปริมาณน้ำที่ส่ง (ล้าน ลบ.ม./ปี)<input id="inV" type="number" min="0.1" step="0.5" value="10"></label>
+        <label class="ctl">กำลังไฟที่ส่ง (เมกะวัตต์)<input id="inP" type="number" min="1" step="10" value="300"></label>
+        <label class="ctl">สินค้าที่ขน (ตัน)<input id="inT" type="number" min="1" step="100" value="1000"></label>
+        <label class="ctl">ระดับแรงดันสายส่ง<select id="selKV"><option value="500">500 kV</option><option value="230" selected>230 kV</option><option value="115">115 kV</option></select></label>
+      </div>
+      <div class="prof"><svg id="prof" viewBox="0 0 600 170" role="img" aria-label="หน้าตัดความสูงระหว่าง A และ B"></svg></div>
+      <div class="res" id="res"></div>
+      <div class="scroll"><table class="modes" id="modes"></table></div>
+      <p class="note">สมมติฐาน: แรงเสียดทานในท่อหรือคลองส่งน้ำ 0.6 ม. ต่อ กม. ประสิทธิภาพปั๊ม 75% ค่าไฟ 4 บาทต่อหน่วย ระยะทางจริงของถนน ราง และเรือ คูณจากเส้นตรง 1.3, 1.4 และ 1.6 เท่า ต้นทุนต่อตัน-กม. ใช้ค่าที่มักอ้างในไทย ถนน 1.72 ราง 0.93 น้ำ 0.64 บาท และอากาศประมาณ 12 บาท ทั้งหมดเป็นค่าประมาณ <span class="tag inf">อนุมาน</span></p>
+    </section>
+  </div>
+</div>
+</section>
+
+<section>
+  <div><span class="eyebrow">3 · เทียบทุกภูมิภาค</span><h2>สัดส่วนการใช้ที่ดินและโครงสร้างเศรษฐกิจ</h2>
+  <p class="lede">แถบบนคือสัดส่วนพื้นที่ แถบล่างคือสัดส่วนมูลค่าเศรษฐกิจของภูมิภาค (เกษตร อุตสาหกรรม บริการ) ใช้ดูว่าภูมิภาคไหนพื้นที่ส่วนใหญ่เป็นเกษตรแต่รายได้มาจากอุตสาหกรรม ตัวเลขปัดเป็นค่าประมาณ <span class="tag inf">อนุมาน</span> ควรตรวจกับข้อมูลการใช้ที่ดินของกรมพัฒนาที่ดินและผลิตภัณฑ์ภาคของ สศช. ก่อนใช้</p></div>
+  <div class="card" id="cmp"></div>
+</section>
+
+<section class="src">
+  <span class="eyebrow">ที่มาและข้อจำกัด</span>
+  <ul>
+    <li>การแบ่ง 6 ภูมิภาคตามคณะกรรมการภูมิศาสตร์แห่งชาติ: เหนือ 9 จังหวัด อีสาน 20 กลาง 22 (รวมกรุงเทพฯ) ตะวันออก 7 ตะวันตก 5 ใต้ 14</li>
+    <li>ความสูงคำนวณจากแบบจำลองแนวเทือกเขาหลัก ไม่ใช่ข้อมูลแบบจำลองความสูงเชิงเลข (DEM) จริง ถ้าจะออกแบบระบบส่งน้ำจริงให้ใช้ DEM ของ GISTDA หรือ SRTM 30 ม.</li>
+    <li>ความจุอ่างเก็บน้ำเป็นตัวเลขปัดเศษจาก กฟผ. และกรมชลประทาน ตำแหน่งโครงสร้างพื้นฐานเป็นตำแหน่งโดยประมาณ</li>
+    <li>ต้องการระดับลุ่มน้ำและแปลง ดูต่อที่ <a href="nan-basin.html">ห้องทดลองลุ่มน้ำน่าน</a></li>
+  </ul>
+</section>
+</div>
+
+<script src="assets/thailand-data.js"></script>
+<script src="assets/thailand.js"></script>
+</body>
+</html>

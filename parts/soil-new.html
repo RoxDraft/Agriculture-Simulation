@@ -1,0 +1,84 @@
+
+  <h2 id="lab">10. ห้องทดลองเคมีราก: สภาพแวดล้อมเปลี่ยน ปฏิกิริยาเปลี่ยน</h2>
+  <p>ปรับระบบปลูก ความเป็นกรดด่าง น้ำ และปุ๋ยที่ให้ แล้วดูว่าพืชดูดธาตุอาหารได้จริงเท่าไร ปฏิกิริยาเคมีอะไรเกิดขึ้นในดินหรือสารละลาย และใบแสดงอาการอย่างไร รูปแบบความเป็นประโยชน์ของธาตุตาม pH อิงแผนภาพคลาสสิกของ Truog<sup><a href="#r24">24</a></sup> และตำราโภชนาการพืช<sup><a href="#r25">25</a></sup> ส่วนปฏิกิริยาในดินขังน้ำอิง Ponnamperuma<sup><a href="#r26">26</a></sup> ตัวเลขในห้องทดลองเป็นแบบจำลองสัมพัทธ์ <span class="inf">อนุมาน</span> ไม่ใช่ค่าวัดจริง</p>
+  <div class="lab2">
+    <div class="lab2-ctl">
+      <div class="seg2" id="cEnv" role="group" aria-label="ระบบปลูก"><button data-v="soil" aria-pressed="true">ดิน</button><button data-v="hydro" aria-pressed="false">ไฮโดรโปนิกส์</button><button data-v="closed" aria-pressed="false">ระบบปิด</button></div>
+      <div class="seg2" id="cCrop" role="group" aria-label="พืช"><button data-v="rice" aria-pressed="false">ข้าว</button><button data-v="lettuce" aria-pressed="true">ผักกาดหอม</button><button data-v="tomato" aria-pressed="false">มะเขือเทศ</button></div>
+      <label class="rng">pH <b id="vPH"></b><input id="cPH" type="range" min="4" max="9" step="0.1" value="6.3"></label>
+      <label class="rng"><span id="lW">น้ำในดิน</span> <b id="vW"></b><input id="cW" type="range" min="0" max="100" value="55"></label>
+      <label class="rng">อุณหภูมิ <b id="vT"></b><input id="cT" type="range" min="12" max="42" value="22"></label>
+      <div class="nut" id="cNut"></div>
+    </div>
+    <div class="lab2-out">
+      <div class="plantbox"><svg id="plant" viewBox="0 0 220 260" role="img" aria-label="ภาพพืชแสดงอาการ"></svg>
+        <div><div class="grow"><span>การเติบโตสัมพัทธ์</span><b id="vGrow"></b></div><div class="gbar"><i id="gGrow"></i></div><p class="mini" id="limit"></p></div></div>
+      <div class="avail" id="avail"></div>
+    </div>
+  </div>
+  <h3>ปฏิกิริยาที่เกิดขึ้นตอนนี้</h3>
+  <div class="rx" id="rx"></div>
+  <h3>อาการที่ใบและผลบอก</h3>
+  <ul id="sym"></ul>
+
+  <h2 id="pest">11. จำลองแมลงศัตรูพืชกับศัตรูธรรมชาติในนาข้าว</h2>
+  <p>แบบจำลองนี้ใช้เพลี้ยกระโดดสีน้ำตาลกับแมงมุมและมวนที่กินเพลี้ยเป็นตัวอย่าง ลองพ่นยาฆ่าแมลงแบบออกฤทธิ์กว้างหลายรอบ แล้วเทียบกับปลูกดอกไม้ขอบแปลงและใช้พันธุ์ต้านทาน จะเห็นว่าการพ่นยาฆ่าศัตรูธรรมชาติไปด้วย ทำให้เพลี้ยกลับมาระบาดหนักกว่าเดิม ตรงกับที่พบในเอเชีย<sup><a href="#r2">2</a></sup> ค่าในกราฟเป็นแบบจำลองเชิงสัมพัทธ์ <span class="inf">อนุมาน</span></p>
+  <div class="lab2">
+    <div class="lab2-ctl">
+      <div class="seg2" id="pN" role="group" aria-label="ปุ๋ยไนโตรเจน"><button data-v="0.8" aria-pressed="false">N ต่ำ</button><button data-v="1" aria-pressed="true">N ตามค่าดิน</button><button data-v="1.35" aria-pressed="false">N สูงเกิน</button></div>
+      <label class="rng">พ่นยาออกฤทธิ์กว้าง <b id="vSpray"></b><input id="pSpray" type="range" min="0" max="4" value="0"></label>
+      <label class="chk2"><input type="checkbox" id="pFlower"> ปลูกดอกไม้คันนา (ที่อยู่ศัตรูธรรมชาติ)</label>
+      <label class="chk2"><input type="checkbox" id="pResist"> ใช้พันธุ์ต้านทานเพลี้ย</label>
+      <label class="chk2"><input type="checkbox" id="pBio"> ใช้เชื้อราบิวเวอเรีย (เฉพาะแมลงเป้าหมาย)</label>
+      <label class="rng">ดูแปลงวันที่ <b id="vDay"></b><input id="pDay" type="range" min="0" max="110" value="80"></label>
+    </div>
+    <div class="lab2-out">
+      <canvas id="pChart" height="220" aria-label="กราฟจำนวนเพลี้ยและศัตรูธรรมชาติ"></canvas>
+      <div class="legend2"><span><i style="background:var(--warn)"></i>เพลี้ยกระโดด</span><span><i style="background:var(--leaf)"></i>แมงมุม มวน (×4 ให้เห็นชัด)</span><span><i style="background:var(--muted)"></i>วันที่พ่นยา</span></div>
+      <div class="field" id="field" aria-label="สภาพต้นข้าวในแปลง"></div>
+      <div class="kpi" id="pKpi"></div>
+    </div>
+  </div>
+
+  <h2 id="cycle">12. วงจรการเพาะปลูก จากแบบดั้งเดิมถึงอัตโนมัติ</h2>
+  <p>ขั้นตอนพื้นฐานของการปลูกยังเหมือนเดิมทุกยุค คือ เตรียมพันธุ์ เตรียมดิน ปลูก ดูแลน้ำและปุ๋ย จัดการศัตรูพืช เก็บเกี่ยว และขาย สิ่งที่เปลี่ยนคือเครื่องมือ ใครตัดสินใจ และข้อมูลที่ใช้ตัดสินใจ เลือกยุคแล้วกดเล่นฤดูปลูกเพื่อดูทีละขั้น <span class="noref">ไม่มีอ้างอิง</span></p>
+  <div class="tabs2" id="eraTabs"></div>
+  <div class="cyc">
+    <svg id="wheel" viewBox="0 0 320 320" role="img" aria-label="วงจรการเพาะปลูก"></svg>
+    <div class="cyc-txt">
+      <p class="mini" id="eraYears"></p>
+      <h3 id="stepName" style="margin-top:4px"></h3>
+      <p id="stepTxt"></p>
+      <button class="btn2" id="playBtn">▶ เล่นฤดูปลูก</button>
+      <div class="avail" id="eraBars" style="margin-top:14px"></div>
+      <p class="mini">แถบเป็นค่าเปรียบเทียบโดยประมาณสำหรับนาข้าวไทย <span class="inf">อนุมาน</span></p>
+    </div>
+  </div>
+
+  <h3>การพัฒนาพันธุ์พืช: ใช้เวลากี่ปีกว่าจะได้พันธุ์ใหม่</h3>
+  <p>เลือกวิธีปรับปรุงพันธุ์เพื่อดูหลักการ เวลาที่ใช้โดยประมาณ และตัวอย่างในไทย <span class="noref">ไม่มีอ้างอิง</span></p>
+  <div class="tabs2" id="brTabs"></div>
+  <div class="answer" id="brBox"></div>
+
+  <h2 id="time">13. ระยะเวลาการเติบโต: ปลูกจนเก็บเกี่ยวใช้เวลาเท่าไร</h2>
+  <p>พืชแต่ละชนิดใช้เวลาต่างกันมาก ตั้งแต่ผักบุ้งไม่ถึงเดือน ไปจนถึงไม้สักที่ใช้เวลาหลายสิบปี ตัวเลขด้านล่างเป็นช่วงที่พบทั่วไปในไทย ขึ้นกับพันธุ์ ฤดู และการจัดการ <span class="noref">ไม่มีอ้างอิง</span> ช่วงเวลาที่ต้องใช้วางแผนลงทุนควรตรวจกับคำแนะนำของกรมวิชาการเกษตรและกรมการข้าว</p>
+  <div class="tabs2" id="gTabs"><button data-v="d" aria-pressed="true">พืชอายุสั้น (วัน)</button><button data-v="m" aria-pressed="false">พืชไร่อายุยาว (เดือน)</button><button data-v="y" aria-pressed="false">ไม้ยืนต้น (ปี)</button></div>
+  <div class="tbl gtl" id="gChart"></div>
+  <div class="legend2" id="gLeg"></div>
+
+  <h3>ข้าวไวแสงกับข้าวไม่ไวแสง: ปลูกช้าแล้วเก็บเกี่ยวเมื่อไร</h3>
+  <p>ข้าวหอมมะลิ 105 เป็นข้าวไวต่อช่วงแสง จะออกดอกเมื่อกลางวันสั้นลงช่วงปลายเดือนตุลาคมไม่ว่าจะปลูกเมื่อไร ส่วนข้าวไม่ไวแสงนับอายุจากวันปลูก เลื่อนวันปลูกเพื่อเทียบ <span class="noref">ไม่มีอ้างอิง</span></p>
+  <label class="rng" style="max-width:520px">วันตกกล้า <b id="vPlant"></b><input id="cPlant" type="range" min="0" max="105" value="45"></label>
+  <div class="tbl" style="padding:12px 14px"><svg id="photo" viewBox="0 0 640 168" role="img" aria-label="เทียบเวลาออกดอกและเก็บเกี่ยวของข้าวไวแสงและไม่ไวแสง"></svg></div>
+  <p id="photoTxt"></p>
+
+  <h3>ผักกาดหอมในสามระบบ</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>ระบบ</th><th>เพาะเมล็ดถึงเก็บเกี่ยว</th><th>ทำไมเร็วหรือช้า</th></tr></thead>
+    <tbody>
+      <tr><th>ดิน แปลงเปิด</th><td>ราว 55–65 วัน</td><td>ขึ้นกับฝน อุณหภูมิ และแมลง รากต้องหาน้ำและธาตุอาหารเอง</td></tr>
+      <tr><th>ไฮโดรโปนิกส์ (NFT) ในโรงเรือน</th><td>ราว 35–45 วัน</td><td>ธาตุอาหารอยู่ในน้ำพร้อมดูด รากไม่ต้องขยายไกล แต่อากาศร้อนในไทยทำให้ช้าลงหรือผักขม</td></tr>
+      <tr><th>ระบบปิดใช้แสงไฟ</th><td>ราว 30–35 วัน</td><td>คุมแสง อุณหภูมิ และเพิ่ม CO₂ ได้ตลอด 24 ชั่วโมงตามที่ตั้ง ปลูกได้ 10 รอบขึ้นไปต่อปี<sup><a href="#r8">8</a></sup></td></tr>
+    </tbody>
+  </table></div>
+  <p class="refs">ช่วงวันในตารางเป็นค่าทั่วไปที่พบในการปลูกเชิงพาณิชย์ <span class="inf">อนุมาน</span></p>

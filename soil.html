@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ดิน น้ำ หรือระบบปิด · Agriculture Simulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@500;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column with wide comparison tables that scroll on their own; soil (brown), water (teal), leaf (green) as the three system colors */
+:root{
+  --bg:#f3f5f1; --surface:#ffffff; --fg:#1f2a24; --muted:#5b6a61; --line:#d6ddd5;
+  --soil:#7a4f2c; --water:#1f6f78; --leaf:#3f7a35; --warn:#a1561b; --tag:#e8ece5;
+  --display:"Noto Serif Thai", Georgia, serif;
+  --body:"IBM Plex Sans Thai", "Leelawadee UI", Tahoma, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141a17; --surface:#1c2420; --fg:#e4ebe5; --muted:#9caba2; --line:#2f3a34;
+  --soil:#d39a6a; --water:#5fb7bf; --leaf:#88c47a; --warn:#e3a066; --tag:#26302b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a17; --surface:#1c2420; --fg:#e4ebe5; --muted:#9caba2; --line:#2f3a34;
+  --soil:#d39a6a; --water:#5fb7bf; --leaf:#88c47a; --warn:#e3a066; --tag:#26302b; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:860px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.35;margin:0}
+h1{font-size:2.1rem}
+h2{font-size:1.45rem;margin-top:48px;padding-top:20px;border-top:1px solid var(--line)}
+h3{font-size:1.1rem;margin-top:24px}
+p,li{max-width:68ch}
+p{margin:12px 0}
+.lede{font-size:1.08rem;color:var(--muted)}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--water)}
+.answer{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 20px;margin-top:16px}
+.answer strong{color:var(--soil)}
+.noref{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;background:var(--tag);color:var(--muted);padding:0 6px;border-radius:3px;vertical-align:1px;border:1px dashed var(--line)}
+.chk{font-family:var(--mono);font-size:.78rem;color:var(--leaf);margin-right:4px}
+.chk.warn{color:var(--warn)}
+.inf{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;background:var(--tag);color:var(--warn);padding:0 6px;border-radius:3px;vertical-align:1px}
+sup a{color:var(--water);text-decoration:none;font-family:var(--mono);font-size:.75em}
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.92rem;line-height:1.55}
+th,td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+thead th{font-family:var(--body);font-weight:600;font-size:.85rem}
+tbody th{font-weight:500;color:var(--muted);width:20%}
+tr:last-child td,tr:last-child th{border-bottom:0}
+.c-soil{color:var(--soil)} .c-water{color:var(--water)} .c-leaf{color:var(--leaf)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.ok{color:var(--leaf);font-weight:600} .mid{color:var(--warn);font-weight:600} .no{color:var(--muted);font-weight:600}
+ol.steps{padding-left:0;list-style:none;counter-reset:s;display:grid;gap:12px;margin-top:16px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:2.2rem 1fr;gap:8px;max-width:none}
+ol.steps li::before{content:counter(s);font-family:var(--mono);font-size:.85rem;color:var(--water);border:1px solid var(--water);border-radius:50%;width:1.8rem;height:1.8rem;display:grid;place-items:center;margin-top:2px}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px;font-size:.88rem}
+.flow span{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:4px 10px}
+.flow b{color:var(--muted);font-weight:400}
+.refs{font-size:.86rem;color:var(--muted)}
+.refs li{margin:6px 0;max-width:none}
+.refs a{color:var(--water);word-break:break-word}
+code,.num{font-family:var(--mono);font-size:.88em}
+a:focus-visible{outline:2px solid var(--water);outline-offset:2px}
+</style>
+
+<link rel="stylesheet" href="assets/soil-lab.css">
+<style>
+.topnav{max-width:860px;margin:0 auto;display:flex;flex-wrap:wrap;gap:4px 18px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:13.5px;font-family:var(--body)}
+.topnav a{color:var(--muted);text-decoration:none}.topnav a:hover{text-decoration:underline}
+.topnav a[aria-current="page"]{color:inherit;font-weight:600}
+body{margin:0}
+</style>
+</head>
+<body>
+<nav class="topnav"><a href="index.html">หน้าแรก</a><a href="thailand.html">แผนที่ภูมิภาคไทย</a><a href="nan-basin.html">ลุ่มน้ำน่าน</a><a href="soil.html" aria-current="page">ดิน น้ำ หรือระบบปิด</a></nav>
+<div class="wrap">
+  <div class="eyebrow">ลุ่มน้ำน่าน · ต้นน้ำถึงปลายน้ำ</div>
+  <h1>ดิน น้ำ หรือระบบปิด</h1>
+  <p class="lede">เทียบวิธีปลูกแบบดินที่ใช้จุลินทรีย์ ไฮโดรโปนิกส์ และโรงเรือนระบบปิด รวมถึงการผลิตต้นพันธุ์จากเมล็ดและเนื้อเยื่อ การวัดก๊าซเรือนกระจกจากแปลง และเส้นทางเปลี่ยนผ่านที่ไม่ต้องหยุดการผลิตเดิม ส่วนหัวข้อ 10–13 เป็นแบบจำลองให้ลองปรับเอง ได้แก่ <a href="#lab" style="color:var(--water)">ปฏิกิริยาเคมีที่ราก</a> <a href="#pest" style="color:var(--water)">แมลงกับศัตรูธรรมชาติ</a> <a href="#cycle" style="color:var(--water)">วงจรเพาะปลูกและการพัฒนาพันธุ์</a> และ <a href="#time" style="color:var(--water)">ระยะเวลาการเติบโต</a></p>
+  <p class="refs">ข้อความที่ติดป้าย <span class="inf">อนุมาน</span> คือข้อสรุปของผู้เขียนจากหลักฐานทั่วไป ยังไม่ได้ตรวจกับข้อมูลภาคสนามของน่าน ข้อความที่ติดป้าย <span class="noref">ไม่มีอ้างอิง</span> คือข้อเท็จจริงทั่วไปที่ยังไม่มีแหล่งอ้างอิงในหน้านี้ ส่วนตัวเลขยกกำลังคือหมายเลขแหล่งที่มาท้ายหน้า ซึ่งตรวจกับต้นฉบับแล้วเมื่อ 23 ต.ค. 2026</p>
+
+  <h2>1. โรคและแมลงเกิดจากขาดจุลินทรีย์หรือขาดอาหารหรือไม่</h2>
+  <div class="answer">
+    <p><strong>คำตอบสั้น:</strong> ไม่ได้เกิดจากสาเหตุเดียว โรคพืชเกิดเมื่อสามอย่างมาเจอกัน คือ พืชที่อ่อนแอ เชื้อโรคที่มีอยู่ และสภาพแวดล้อมที่เหมาะกับเชื้อ (สามเหลี่ยมโรคพืช)<sup><a href="#r1">1</a></sup> การขาดจุลินทรีย์ที่ดีในดินและธาตุอาหารที่ไม่สมดุลเป็นปัจจัยที่ทำให้พืชอ่อนแอลง แต่ไม่ใช่ต้นเหตุทั้งหมด</p>
+  </div>
+  <h3>ปัจจัยที่พบบ่อยในระบบปลูกเชิงเดี่ยว</h3>
+  <ul>
+    <li><b>ปลูกพืชเดิมซ้ำที่เดิม</b> ทำให้เชื้อโรคในดินสะสม เช่น เชื้อราฟิวซาเรียม พิเทียม ไรซอคโทเนีย และแมลงศัตรูมีอาหารต่อเนื่องทั้งปี</li>
+    <li><b>ใส่ไนโตรเจนมากเกิน</b> ทำให้ใบอ่อนนุ่ม ดึงดูดแมลงปากดูด เช่น เพลี้ยกระโดดสีน้ำตาลในนาข้าว <span class="noref">ไม่มีอ้างอิง</span></li>
+    <li><b>ใช้ยาฆ่าแมลงแบบไม่เลือก</b> ฆ่าศัตรูธรรมชาติ (แมงมุม มวน แตนเบียน) จนแมลงศัตรูกลับมาระบาดหนักกว่าเดิม ซึ่งเป็นสาเหตุหลักของการระบาดเพลี้ยกระโดดในเอเชีย<sup><a href="#r2">2</a></sup></li>
+    <li><b>อินทรียวัตถุในดินต่ำ</b> จุลินทรีย์ที่แข่งขันกับเชื้อโรคมีน้อยลง ดินอุ้มน้ำได้น้อย พืชเครียดง่าย<sup><a href="#r3">3</a></sup></li>
+    <li><b>ดินเป็นกรดหรือขาดธาตุรอง</b> เช่น แคลเซียม โบรอน ทำให้ผนังเซลล์อ่อนแอ และผลผลิตเสียหายง่ายหลังเก็บเกี่ยว <span class="noref">ไม่มีอ้างอิง</span></li>
+  </ul>
+  <p>ปัญหาที่เห็นที่ปลายทาง เช่น ผักผลไม้เน่าหรือมีสารตกค้าง ส่วนหนึ่งจึงเริ่มจากต้นทางของห่วงโซ่ ทั้งดิน พันธุ์ และการจัดการแปลง <span class="inf">อนุมาน</span></p>
+
+  <h2>2. ไตรโคเดอร์มาครอบคลุมพืชสำคัญได้แค่ไหน</h2>
+  <p>ไตรโคเดอร์มาเป็นเชื้อราที่อยู่บริเวณราก แย่งพื้นที่และอาหาร ทำลายเส้นใยเชื้อราโรค และกระตุ้นให้พืชสร้างภูมิต้านทาน<sup><a href="#r4">4</a></sup> ในไทยมีสายพันธุ์ที่ส่งเสริมใช้แพร่หลาย เช่น <i>Trichoderma asperellum</i> สายพันธุ์ CB-Pin-01 ซึ่งภาควิชาโรคพืช มหาวิทยาลัยเกษตรศาสตร์ ทดสอบแล้วว่าช่วยลดโรคเมล็ดด่างในข้าว<sup><a href="#r5">5</a></sup> ที่น่านเอง เกษตรกรปลูกพริกในอำเภอท่าวังผาเกือบทุกรายรู้วิธีใช้ไตรโคเดอร์มา และรับเชื้อจากศูนย์จัดการศัตรูพืชชุมชน<sup><a href="#r23">23</a></sup></p>
+  <div class="tbl"><table>
+    <thead><tr><th>กลุ่มปัญหา</th><th>ได้ผลแค่ไหน <span class="noref">ไม่มีอ้างอิง</span></th><th>ตัวอย่าง</th></tr></thead>
+    <tbody>
+      <tr><th>เชื้อราในดิน</th><td><span class="ok">ได้ผลดี</span></td><td>รากเน่าโคนเน่า (ไฟทอฟธอรา พิเทียม) ในทุเรียน ส้ม พริก โรคกล้าเน่า เหี่ยวจากฟิวซาเรียม โรคโคนเน่าจากสเคลอโรเทียม</td></tr>
+      <tr><th>เชื้อราบนใบ</th><td><span class="mid">ได้บางส่วน</span></td><td>โรคใบไหม้ข้าว กาบใบแห้ง แอนแทรคโนส ต้องฉีดพ่นซ้ำและผลแปรตามความชื้น</td></tr>
+      <tr><th>แบคทีเรีย</th><td><span class="no">ได้น้อย</span></td><td>เหี่ยวเขียว (<i>Ralstonia</i>) ในมะเขือเทศ ขิง กล้วย ต้องใช้การหมุนเวียนพืชและพันธุ์ต้านทาน</td></tr>
+      <tr><th>ไวรัส</th><td><span class="no">ไม่ได้ผลโดยตรง</span></td><td>ใบด่างมันสำปะหลัง ไวรัสในพริกและมะละกอ ต้องใช้ท่อนพันธุ์สะอาดและควบคุมแมลงพาหะ</td></tr>
+      <tr><th>แมลง</th><td><span class="no">ไม่ใช่เป้าหมาย</span></td><td>ใช้เชื้อราอื่นแทน เช่น บิวเวอเรีย เมตาไรเซียม หรือศัตรูธรรมชาติ</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>สรุป:</b> ไตรโคเดอร์มาครอบคลุมโรคจากเชื้อราในดินของพืชหลักในน่านได้ดี ทั้งข้าว ข้าวโพด พืชผัก และไม้ผล แต่ใช้แทนการจัดการทั้งระบบไม่ได้ ได้ผลดีที่สุดเมื่อใช้ป้องกันก่อนโรคระบาด ผสมกับปุ๋ยหมักหรืออินทรียวัตถุ และในดินที่ไม่เป็นกรดจัดหรือแห้งจัด<sup><a href="#r4">4</a></sup><sup><a href="#r5">5</a></sup></p>
+
+  <h2>3. วิธีบำรุงดินที่ได้ผลที่สุด</h2>
+  <p>ไม่มีวัสดุตัวเดียวที่ดีที่สุด หลักที่หน่วยงานด้านดินทั่วโลกใช้ร่วมกันมีสี่ข้อ คือ รบกวนดินให้น้อย คลุมดินตลอดเวลา ปลูกพืชให้หลากหลาย และให้มีรากพืชมีชีวิตอยู่ในดินนานที่สุด<sup><a href="#r3">3</a></sup><sup><a href="#r6">6</a></sup></p>
+  <ol class="steps">
+    <li><div><b>ตรวจดินก่อน</b> วัดค่า pH อินทรียวัตถุ ฟอสฟอรัส โพแทสเซียม แล้วใส่ปุ๋ยตามค่าวิเคราะห์ กรมพัฒนาที่ดินมีบริการตรวจดินและสารเร่ง พด.<sup><a href="#r7">7</a></sup></div></li>
+    <li><div><b>เพิ่มอินทรียวัตถุ</b> ไถกลบตอซังแทนการเผา ใส่ปุ๋ยหมัก มูลสัตว์ หรือปลูกพืชปุ๋ยสด เช่น ปอเทือง ถั่วพร้า</div></li>
+    <li><div><b>ปลูกหมุนเวียน</b> สลับข้าว ข้าวโพด กับพืชตระกูลถั่ว เพื่อตัดวงจรโรคและเพิ่มไนโตรเจน</div></li>
+    <li><div><b>คลุมดินและลดการไถ</b> ลดการชะล้างหน้าดิน ซึ่งสำคัญมากบนพื้นที่ลาดชันต้นน้ำ</div></li>
+    <li><div><b>เติมจุลินทรีย์เมื่อมีอาหารให้มันแล้ว</b> ไตรโคเดอร์มาและจุลินทรีย์อื่นอยู่รอดได้เมื่อดินมีอินทรียวัตถุ ใส่ลงดินเปล่าที่ไม่มีอาหารจะได้ผลน้อย</div></li>
+  </ol>
+
+  <h2>4. เทียบระบบปลูกสามแบบ</h2>
+  <p>ไฮโดรโปนิกส์และระบบปิดควบคุมสภาพได้แม่นยำกว่าดินจริง แต่ปลูกได้เพียงพืชบางกลุ่มและใช้ทุนกับพลังงานสูงกว่ามาก ข้าว ข้าวโพด และไม้ผลยังต้องปลูกในดิน</p>
+  <div class="tbl"><table>
+    <thead><tr>
+      <th></th>
+      <th><span class="dot" style="background:var(--soil)"></span><span class="c-soil">ดิน + จุลินทรีย์ (เช่น ไตรโคเดอร์มา)</span></th>
+      <th><span class="dot" style="background:var(--water)"></span><span class="c-water">ไฮโดรโปนิกส์ในโรงเรือน</span></th>
+      <th><span class="dot" style="background:var(--leaf)"></span><span class="c-leaf">ระบบปิดใช้แสงไฟ (โรงงานผลิตพืช)</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><th>พืชที่เหมาะ</th><td>ทุกชนิด ข้าว ข้าวโพด ไม้ผล กาแฟ ผัก</td><td>ผักใบ มะเขือเทศ แตงกวา เมลอน สตรอว์เบอร์รี</td><td>ผักใบ สมุนไพร ต้นกล้า พืชมูลค่าสูง</td></tr>
+      <tr><th>การควบคุม</th><td>ต่ำถึงกลาง ขึ้นกับฝนและอากาศ</td><td>สูงด้านธาตุอาหารและน้ำ อากาศคุมได้บางส่วน</td><td>สูงสุด คุมแสง อุณหภูมิ CO₂ ความชื้น</td></tr>
+      <tr><th>ผลผลิตต่อพื้นที่</th><td>ฐานอ้างอิง</td><td>ผักกาดหอมได้ราว 11 เท่าของดินต่อพื้นที่<sup><a href="#r9">9</a></sup></td><td>สูงที่สุดเมื่อนับหลายชั้นและปลูกทั้งปี<sup><a href="#r8">8</a></sup></td></tr>
+      <tr><th>น้ำ</th><td>มาก พึ่งฝนหรือชลประทาน</td><td>น้อยกว่าดินมาก ผักกาดหอมในงานทดลองที่แอริโซนาใช้น้ำราว 1 ใน 13 ของการปลูกในดิน<sup><a href="#r9">9</a></sup></td><td>น้อยที่สุด เก็บไอน้ำกลับมาใช้</td></tr>
+      <tr><th>พลังงาน</th><td>ต่ำ</td><td>สูงกว่าที่คาด ในงานเดียวกันใช้พลังงานต่อกิโลกรัมราว 82 เท่าของการปลูกในดิน เพราะต้องคุมอุณหภูมิโรงเรือน<sup><a href="#r9">9</a></sup></td><td>สูงมาก ไฟปลูกและแอร์เป็นต้นทุนหลัก<sup><a href="#r8">8</a></sup></td></tr>
+      <tr><th>เงินลงทุน</th><td>ต่ำ</td><td>กลาง</td><td>สูงมาก</td></tr>
+      <tr><th>ความเสี่ยงโรค</th><td>เชื้อในดินสะสม ใช้จุลินทรีย์และหมุนเวียนพืชช่วย</td><td>ถ้าเชื้อรากเน่าเข้าระบบน้ำหมุนเวียน จะลามทั้งโรงเร็วมาก</td><td>ต่ำ ถ้ารักษาความสะอาดเข้มงวด</td></tr>
+      <tr><th>สารเคมีตกค้าง</th><td>ขึ้นกับการจัดการ</td><td>ต่ำ ไม่ค่อยต้องใช้ยาฆ่าแมลง</td><td>แทบไม่มี</td></tr>
+      <tr><th>คาร์บอนและดิน</th><td>สะสมคาร์บอนในดินได้ถ้าจัดการดี</td><td>ไม่ช่วยดิน</td><td>ไม่ช่วยดิน ก๊าซจากไฟฟ้าสูงถ้าใช้ไฟจากฟอสซิล</td></tr>
+      <tr><th>ตำแหน่งในลุ่มน้ำน่าน <span class="inf">อนุมาน</span></th><td>ต้นน้ำ ใช้วนเกษตร กาแฟใต้ร่มไม้ ไม้ผล แทนข้าวโพดบนที่ชัน กลางน้ำ นาข้าวและพืชหมุนเวียน</td><td>ใกล้เมืองน่านหรือชุมชนกลางน้ำ ส่งผักสดให้ตลาด โรงพยาบาล โรงเรียน โรงแรม</td><td>ขนาดเล็กใกล้ตลาดปลายทาง หรือใช้ผลิตต้นกล้าสะอาดให้เกษตรกร ไม่คุ้มสำหรับพืชไร่</td></tr>
+    </tbody>
+  </table></div>
+  <p class="refs">ช่องในตารางที่ไม่มีเลขอ้างอิงเป็นข้อสรุปทั่วไป <span class="noref">ไม่มีอ้างอิง</span></p>
+  <p>ทั้งสามแบบจึงไม่ได้แข่งกัน แต่วางคนละตำแหน่งในลุ่มน้ำ ระบบดินคือฐานของพื้นที่ส่วนใหญ่ ไฮโดรโปนิกส์และระบบปิดเป็นส่วนเสริมสำหรับผักมูลค่าสูงใกล้ตลาด <span class="inf">อนุมาน</span></p>
+
+  <h2>5. จากเมล็ดหรือเนื้อเยื่อ ไปจนถึงโรงงาน</h2>
+  <h3>เส้นทางเมล็ดพันธุ์</h3>
+  <div class="flow"><span>คัดพันธุ์หรือผสมพันธุ์</span><b>→</b><span>เมล็ดพันธุ์หลัก</span><b>→</b><span>แปลงขยายพันธุ์</span><b>→</b><span>ตรวจความงอกและความบริสุทธิ์</span><b>→</b><span>เกษตรกร</span><b>→</b><span>โรงสี โรงงานอาหารสัตว์ ผู้ส่งออก</span></div>
+  <p>ใช้กับข้าว ข้าวโพด ถั่ว ผัก ข้าวโพดเลี้ยงสัตว์ส่วนใหญ่เป็นพันธุ์ลูกผสม F1 ที่เกษตรกรต้องซื้อเมล็ดใหม่ทุกฤดู ส่วนข้าวมีศูนย์เมล็ดพันธุ์ข้าวของกรมการข้าวผลิตเมล็ดพันธุ์รับรอง <span class="noref">ไม่มีอ้างอิง</span></p>
+  <h3>เส้นทางเพาะเลี้ยงเนื้อเยื่อ</h3>
+  <div class="flow"><span>เลือกต้นแม่ปลอดโรค</span><b>→</b><span>ฟอกฆ่าเชื้อชิ้นส่วน</span><b>→</b><span>เพิ่มจำนวนยอดในอาหารวุ้น</span><b>→</b><span>ชักนำราก</span><b>→</b><span>อนุบาลในโรงเรือน</span><b>→</b><span>แปลงขยายท่อนพันธุ์</span><b>→</b><span>เกษตรกร</span></div>
+  <p>ใช้กับพืชที่ขยายด้วยส่วนของต้น เช่น กล้วย อ้อย มันสำปะหลัง กล้วยไม้ สตรอว์เบอร์รี ข้อดีคือได้ต้นปลอดโรคจำนวนมากและตรงพันธุ์ ตัวอย่างสำคัญคือการผลิตท่อนพันธุ์มันสำปะหลังสะอาดหลังโรคใบด่างเริ่มพบตามแนวชายแดนไทยในปี 2561 แล้วลามไปทั่วประเทศผ่านท่อนพันธุ์ที่ติดเชื้อ<sup><a href="#r10">10</a></sup> ข้อจำกัดคือต้นทุนต่อต้นสูงกว่าและต้องมีห้องปฏิบัติการปลอดเชื้อ</p>
+  <p>สำหรับน่าน ห้องปฏิบัติการเนื้อเยื่อร่วมกับโรงเรือนระบบปิดขนาดเล็กเป็นจุดเชื่อมที่ดี คือผลิตต้นกล้าสะอาดของกาแฟ ไม้ผล หรือกล้วย ให้เกษตรกรต้นน้ำที่เปลี่ยนจากข้าวโพด <span class="inf">อนุมาน</span></p>
+
+  <h2>6. วัดก๊าซเรือนกระจกจากการเพาะปลูกอย่างไร</h2>
+  <p>ก๊าซหลักจากแปลงมีสามตัว คือ มีเทนจากนาน้ำขัง ไนตรัสออกไซด์จากปุ๋ยไนโตรเจน และคาร์บอนไดออกไซด์จากการเผาเศษพืช การไถ และพลังงาน การรายงานในระดับประเทศใช้แนวทางของ IPCC แบ่งความละเอียดเป็นสามระดับ<sup><a href="#r11">11</a></sup></p>
+  <div class="tbl"><table>
+    <thead><tr><th>ระดับ</th><th>วิธี</th><th>ใช้เมื่อไร</th></tr></thead>
+    <tbody>
+      <tr><th>Tier 1</th><td>ข้อมูลกิจกรรม × ค่าสัมประสิทธิ์มาตรฐาน IPCC เช่น ไนตรัสออกไซด์ราว 1% ของไนโตรเจนที่ใส่ (ค่ารวม) ถ้าแยกตามสภาพ ปุ๋ยเคมีในเขตชื้นอย่างไทยใช้ 1.6% และนาข้าวน้ำขังใช้ 0.4%<sup><a href="#r11">11</a></sup></td><td>เริ่มต้นได้ทันทีจากบันทึกการใส่ปุ๋ย พื้นที่ และจำนวนวันขังน้ำ</td></tr>
+      <tr><th>Tier 2</th><td>ใช้ค่าสัมประสิทธิ์ของประเทศหรือภูมิภาค ที่ได้จากงานวิจัยในพื้นที่</td><td>รายงานระดับจังหวัดหรือโครงการคาร์บอน</td></tr>
+      <tr><th>Tier 3</th><td>วัดโดยตรงหรือใช้แบบจำลอง เช่น กล่องครอบปิดเก็บตัวอย่างอากาศไปวิเคราะห์ด้วยแก๊สโครมาโทกราฟ หรือหอวัดฟลักซ์ eddy covariance</td><td>งานวิจัย หรือใช้ปรับค่าของ Tier 2</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>วิธีกล่องครอบปิด</b> เป็นวิธีที่ใช้มากที่สุดในนาข้าว วางกล่องครอบต้นข้าวบนฐานที่ฝังในดิน ดูดอากาศในกล่องที่ 0, 10, 20, 30 นาที แล้ววัดว่าความเข้มข้นมีเทนเพิ่มเร็วแค่ไหน คำนวณออกมาเป็นกิโลกรัมต่อไร่ต่อวัน ทำซ้ำตลอดฤดูปลูก <span class="noref">ไม่มีอ้างอิง</span></p>
+  <p><b>คาร์บอนในดิน</b> วัดโดยเก็บตัวอย่างดินลึก 0–30 ซม. วิเคราะห์ปริมาณคาร์บอนและความหนาแน่นดิน แล้วเทียบซ้ำทุก 3–5 ปี <span class="noref">ไม่มีอ้างอิง</span></p>
+  <p>ในไทย องค์การบริหารจัดการก๊าซเรือนกระจก (อบก.) ออกระเบียบวิธีภายใต้โครงการ T-VER ให้นับคาร์บอนเครดิตจากภาคเกษตรได้ เช่น การทำนาเปียกสลับแห้ง (AWD) ซึ่งลดมีเทนได้ราว 48% โดยผลผลิตไม่ลด<sup><a href="#r13">13</a></sup> ตอนนี้มีโครงการนาเปียกสลับแห้งที่จดทะเบียน T-VER แล้ว เช่น ที่สุพรรณบุรี (เริ่มปี 2025)<sup><a href="#r12">12</a></sup> ส่วนการลดเผาตอซังช่วยปัญหาหมอกควัน PM2.5 ในภาคเหนือด้วย <span class="noref">ไม่มีอ้างอิง</span></p>
+
+  <h2>7. ยังหยุดวิธีเดิมไม่ได้ จะเปลี่ยนอย่างไร</h2>
+  <p>ใช่ หยุดทันทีไม่ได้ เพราะรายได้ของครัวเรือน หนี้ และสัญญากับผู้รับซื้อผูกอยู่กับพืชเดิม เส้นทางที่ทำได้จริงคือเปลี่ยนทีละส่วนโดยที่การผลิตเดิมยังเดินอยู่ <span class="inf">อนุมาน</span></p>
+  <div class="tbl"><table>
+    <thead><tr><th>ช่วง</th><th>สิ่งที่ทำ</th><th>ผลที่วัดได้</th></tr></thead>
+    <tbody>
+      <tr><th>ปีที่ 1<br>ลดต้นทุนในระบบเดิม</th><td>ตรวจดินแล้วใส่ปุ๋ยตามค่าวิเคราะห์ ใช้ไตรโคเดอร์มาในแปลงกล้าและหลุมปลูก เลิกเผาตอซัง เริ่มจดบันทึกปุ๋ย ยา และวันขังน้ำ</td><td>ค่าปุ๋ยต่อไร่ จำนวนครั้งที่พ่นยา ข้อมูลพร้อมคำนวณก๊าซแบบ Tier 1</td></tr>
+      <tr><th>ปีที่ 2–3<br>แบ่งแปลงทดลอง</th><td>แบ่งพื้นที่ 10–20% ปลูกพืชหมุนเวียนหรือพืชปุ๋ยสด ทำนาเปียกสลับแห้งในแปลงที่คุมน้ำได้ ต้นน้ำเริ่มปลูกไม้ผลหรือกาแฟแซมในแปลงข้าวโพด</td><td>เทียบผลผลิตและกำไรกับแปลงเดิมในฤดูเดียวกัน</td></tr>
+      <tr><th>ปีที่ 3–5<br>ขยายและเชื่อมตลาด</th><td>ขยายส่วนที่ได้ผล ตั้งโรงเรือนไฮโดรโปนิกส์ของกลุ่มใกล้ตลาด รับต้นกล้าสะอาดจากแล็บเนื้อเยื่อ ขอรับรอง GAP หรือเข้าโครงการ T-VER</td><td>รายได้จากช่องทางใหม่ ค่าคาร์บอนในดิน เครดิตคาร์บอน</td></tr>
+    </tbody>
+  </table></div>
+  <p>สิ่งที่ทำให้การเปลี่ยนผ่านสำเร็จมักไม่ใช่เทคโนโลยี แต่คือการมีผู้รับซื้อที่แน่นอนและเงินทุนช่วงรอผลผลิตของพืชยืนต้น เช่น ไม้ผลและกาแฟที่ใช้เวลา 3–4 ปีกว่าจะให้ผล <span class="inf">อนุมาน</span></p>
+
+  <h2>8. ปุ๋ย: ทำจากอะไร ส่งผลกับสายพันธุ์พืชไหม และพืชแต่ละแบบต้องการต่างกันอย่างไร</h2>
+  <h3>ปุ๋ยเปลี่ยนสายพันธุ์พืชหรือไม่</h3>
+  <p>ปุ๋ยไม่เปลี่ยนพันธุกรรมของพืชโดยตรง แต่ส่งผลทางอ้อมต่อว่าพันธุ์ไหนถูกปลูก ข้าวพันธุ์ต้นเตี้ยยุคปฏิวัติเขียว เช่น IR8 ถูกปรับปรุงพันธุ์มาเพื่อให้ตอบสนองต่อปุ๋ยไนโตรเจนมากๆ โดยไม่ล้ม<sup><a href="#r16">16</a></sup> เมื่อพันธุ์ที่ให้ผลผลิตสูงต้องพึ่งปุ๋ย พันธุ์พื้นเมืองที่ไม่ตอบสนองต่อปุ๋ยจึงค่อยๆ หายไปจากแปลง</p>
+  <p>อีกทางหนึ่งคือการขายเป็นชุด บริษัทเกษตรรายใหญ่หลายรายขายทั้งเมล็ดพันธุ์ลูกผสม ปุ๋ย และยา บางครั้งผ่านระบบเกษตรพันธสัญญา เช่น ข้าวโพดเลี้ยงสัตว์ในภาคเหนือ เกษตรกรจึงเลือกพันธุ์ตามชุดที่ผู้รับซื้อกำหนดมากกว่าเลือกตามดินของตัวเอง <span class="inf">อนุมาน</span></p>
+
+  <h3>ธาตุอาหารที่ใช้กันมาก <span class="noref">ไม่มีอ้างอิง</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>กลุ่ม</th><th>ธาตุ</th><th>หน้าที่หลัก</th></tr></thead>
+    <tbody>
+      <tr><th>ธาตุหลัก</th><td>ไนโตรเจน (N) ฟอสฟอรัส (P) โพแทสเซียม (K)</td><td>N สร้างใบและลำต้น P สร้างรากและดอก K ช่วยสะสมแป้งและน้ำตาล ทำให้ผลมีคุณภาพ</td></tr>
+      <tr><th>ธาตุรอง</th><td>แคลเซียม แมกนีเซียม กำมะถัน</td><td>Ca สร้างผนังเซลล์ Mg เป็นแกนกลางของคลอโรฟิลล์ S สร้างโปรตีน</td></tr>
+      <tr><th>จุลธาตุ</th><td>เหล็ก แมงกานีส สังกะสี ทองแดง โบรอน โมลิบดีนัม คลอรีน นิกเกิล</td><td>ใช้น้อยแต่ขาดไม่ได้ เช่น โบรอนช่วยการติดผล สังกะสีสำคัญกับข้าวโพดและข้าว</td></tr>
+    </tbody>
+  </table></div>
+  <p>ตัวเลขบนกระสอบ เช่น <span class="num">15-15-15</span> หมายถึงร้อยละของ N, P₂O₅ และ K₂O ตามลำดับ สูตรที่เห็นบ่อยในไทยได้แก่ ยูเรีย <span class="num">46-0-0</span> แอมโมเนียมซัลเฟต <span class="num">21-0-0</span> <span class="num">16-20-0</span> สำหรับนาข้าว และโพแทสเซียมคลอไรด์ <span class="num">0-0-60</span> <span class="noref">ไม่มีอ้างอิง</span></p>
+
+  <h3>ปุ๋ยผลิตมาจากอะไร</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>ธาตุ</th><th>วัตถุดิบและกระบวนการ</th><th>ข้อสังเกต</th></tr></thead>
+    <tbody>
+      <tr><th>ไนโตรเจน</th><td>ดึงไนโตรเจนจากอากาศมาทำปฏิกิริยากับไฮโดรเจนที่ได้จากก๊าซธรรมชาติ เกิดเป็นแอมโมเนีย (กระบวนการฮาเบอร์-บอช) แล้วนำแอมโมเนียไปทำปฏิกิริยากับ CO₂ เป็นยูเรีย</td><td>ใช้พลังงานมาก ราคาปุ๋ยจึงขึ้นลงตามราคาก๊าซธรรมชาติ <span class="noref">ไม่มีอ้างอิง</span></td></tr>
+      <tr><th>ฟอสฟอรัส</th><td>ขุดหินฟอสเฟต แล้วย่อยด้วยกรดกำมะถันหรือกรดฟอสฟอริก ได้ซูเปอร์ฟอสเฟต DAP และ MAP</td><td>แหล่งสำรองราว 68% ของโลกอยู่ในโมร็อกโก<sup><a href="#r14">14</a></sup> เป็นทรัพยากรที่ใช้แล้วหมดไป</td></tr>
+      <tr><th>โพแทสเซียม</th><td>ขุดแร่โพแทช (ซิลไวต์) แล้วแยกเกลือออก ได้โพแทสเซียมคลอไรด์</td><td>ผู้ผลิตรายใหญ่ปี 2025 คือแคนาดา รัสเซีย จีน และเบลารุส<sup><a href="#r14">14</a></sup> ไทยมีแหล่งแร่โพแทชบนที่ราบสูงโคราชแต่ยังผลิตได้น้อย <span class="noref">ไม่มีอ้างอิง</span></td></tr>
+      <tr><th>กำมะถัน</th><td>ส่วนใหญ่เป็นผลพลอยได้จากการกลั่นน้ำมันและก๊าซ</td><td>ใช้ทำกรดกำมะถันในขั้นผลิตปุ๋ยฟอสเฟตด้วย</td></tr>
+      <tr><th>ปุ๋ยอินทรีย์</th><td>มูลสัตว์ ปุ๋ยหมักจากเศษพืช กากน้ำตาล น้ำหมักปลา กระดูกป่น</td><td>ธาตุอาหารต่ำกว่าแต่เพิ่มอินทรียวัตถุและจุลินทรีย์ในดิน ผลิตได้ในชุมชนน่านเอง</td></tr>
+    </tbody>
+  </table></div>
+  <p>ไทยนำเข้าปุ๋ยเคมีหรือวัตถุดิบเกือบทั้งหมด ปุ๋ยที่ขายในประเทศส่วนใหญ่จึงเป็นการนำแม่ปุ๋ยมาผสมหรืออัดเม็ดใหม่ในโรงงานในประเทศ <span class="noref">ไม่มีอ้างอิง</span> ตัวอย่างการพึ่งพาการนำเข้าคือในเดือนเมษายน 2026 ไทยขอโควตาซื้อยูเรียจากรัสเซีย 1–2 ล้านตันต่อปี<sup><a href="#r15">15</a></sup></p>
+
+  <h3>ปุ๋ยเม็ดกับปุ๋ยน้ำต่างกันอย่างไร</h3>
+  <p><b>ปุ๋ยเม็ด</b> ราคาต่อกิโลกรัมธาตุอาหารถูกกว่า หว่านครั้งละมากๆ เหมาะกับพืชไร่และนาข้าว แต่สูญเสียไปกับน้ำและอากาศได้มาก <b>ปุ๋ยน้ำหรือปุ๋ยละลายน้ำ</b> ต้องบริสุทธิ์และละลายได้หมด เช่น แคลเซียมไนเตรต โพแทสเซียมไนเตรต และจุลธาตุแบบคีเลต ใช้กับการให้ปุ๋ยไปพร้อมน้ำและไฮโดรโปนิกส์ ราคาแพงกว่าแต่ให้ทีละน้อยตรงความต้องการ สารละลายไฮโดรโปนิกส์แยกเป็นถัง A และ B เพื่อไม่ให้แคลเซียมจับกับฟอสเฟตหรือซัลเฟตจนตกตะกอน <span class="noref">ไม่มีอ้างอิง</span></p>
+
+  <h3>พืชแต่ละกลุ่มต้องการต่างกันอย่างไร <span class="noref">ไม่มีอ้างอิง</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>กลุ่มพืช</th><th>เน้นธาตุ</th><th>เหตุผลและข้อควรระวัง</th></tr></thead>
+    <tbody>
+      <tr><th>ข้าว</th><td>N ปานกลางถึงสูง P และ K ปานกลาง</td><td>ไนโตรเจนมากเกินทำให้ล้มและเพลี้ยระบาด ควรใส่ตามค่าวิเคราะห์ดิน</td></tr>
+      <tr><th>ข้าวโพด</th><td>N สูง และสังกะสี</td><td>ดูดไนโตรเจนมากช่วงก่อนออกดอก เป็นแหล่งไนตรัสออกไซด์ใหญ่ถ้าใส่เกิน</td></tr>
+      <tr><th>มันสำปะหลัง อ้อย</th><td>K สูง</td><td>โพแทสเซียมช่วยสะสมแป้งและน้ำตาล</td></tr>
+      <tr><th>ผักใบ</th><td>N สูง</td><td>โตเร็ว ตัดขายทั้งต้น ต้องระวังไนเตรตตกค้างในใบถ้าใส่ใกล้วันเก็บ</td></tr>
+      <tr><th>ผักกินผล</th><td>K และ Ca สูง</td><td>มะเขือเทศและพริกขาดแคลเซียมจะเกิดอาการก้นผลเน่า</td></tr>
+      <tr><th>ไม้ผล เช่น ลำไย ทุเรียน มะม่วง</th><td>เปลี่ยนตามระยะ</td><td>ช่วงสร้างใบเน้น N ช่วงสะสมอาหารก่อนออกดอกเน้น P และ K ช่วงขยายผลเน้น K เพื่อความหวานและสีผิว</td></tr>
+      <tr><th>พืชตระกูลถั่ว</th><td>P และโมลิบดีนัม N น้อย</td><td>ตรึงไนโตรเจนเองได้ผ่านแบคทีเรียไรโซเบียมในปมราก</td></tr>
+      <tr><th>กาแฟ ชา</th><td>N และ K</td><td>ชอบดินเป็นกรดเล็กน้อย เหมาะกับพื้นที่สูงต้นน้ำน่าน</td></tr>
+    </tbody>
+  </table></div>
+  <p>ตลาดปลายทางก็กำหนดความต้องการด้วย ผู้ซื้อผลไม้ส่งออกต้องการความหวานและสีผิว จึงใส่โพแทสเซียมสูงช่วงท้าย ส่วนโรงงานอาหารสัตว์ต้องการน้ำหนักเมล็ดข้าวโพด จึงใส่ไนโตรเจนสูง ทั้งสองแบบส่งผลต่อดินและก๊าซเรือนกระจกในหัวข้อที่ 6 <span class="inf">อนุมาน</span></p>
+
+  <h2>9. สัตว์ที่ช่วยพืช กับสัตว์ที่เป็นลูกค้า</h2>
+  <div class="answer">
+    <p><strong>คำตอบสั้น:</strong> สัตว์ในแปลงส่วนใหญ่เป็นผู้ช่วยหรือไม่มีผลอะไร มีเพียงส่วนน้อยที่กินพืชจนเสียหาย แต่ส่วนน้อยนั้นระบาดได้รุนแรงเมื่อศัตรูธรรมชาติของมันถูกทำลาย <span class="inf">อนุมาน</span> พืชอาหารราว 3 ใน 4 ของชนิดที่ปลูกมากในโลกได้ประโยชน์จากสัตว์ผสมเกสร<sup><a href="#r18">18</a></sup></p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>บทบาท</th><th>สัตว์</th><th>ช่วยพืชอย่างไร (ช่องที่ไม่มีเลขอ้างอิง <span class="noref">ไม่มีอ้างอิง</span>)</th></tr></thead>
+    <tbody>
+      <tr><th><span class="ok">ผสมเกสร</span></th><td>ผึ้ง ชันโรง ผีเสื้อ แมลงวันดอกไม้ ด้วง ค้างคาวกินน้ำหวาน นกกินปลี</td><td>ทำให้ติดผล เช่น ลำไย ลิ้นจี่ มะม่วง ฟักทอง กาแฟ ทุเรียนในไทยอาศัยค้างคาวกินน้ำหวาน โดยเฉพาะค้างคาวเล็บกุด (<i>Eonycteris spelaea</i>) เป็นผู้ผสมเกสรหลัก<sup><a href="#r19">19</a></sup></td></tr>
+      <tr><th><span class="ok">ศัตรูธรรมชาติ</span></th><td>แมงมุม ด้วงเต่า แมลงช้างปีกใส แตนเบียน มวนเขียวดูดไข่ แมลงปอ กบ คางคก จิ้งจก นกกินแมลง ค้างคาวกินแมลง</td><td>กินหรือเบียนเพลี้ย หนอน และไข่แมลงศัตรู เป็นเหตุผลที่การพ่นยาแบบไม่เลือกทำให้แมลงศัตรูกลับมาระบาด (หัวข้อที่ 1)</td></tr>
+      <tr><th><span class="ok">คุมหนู</span></th><td>นกแสก งู พังพอน</td><td>นกแสกหนึ่งครอบครัวกินหนูได้จำนวนมากต่อปี หลายพื้นที่ทำรังนกแสกในนาข้าวและสวนปาล์ม</td></tr>
+      <tr><th><span class="ok">สร้างดิน</span></th><td>ไส้เดือน ด้วงมูลสัตว์ ตัวสองหาง ไรดิน</td><td>พรวนดิน ย่อยเศษพืชเป็นอินทรียวัตถุ ทำให้น้ำซึมลงดินได้ดี</td></tr>
+      <tr><th><span class="ok">กระจายเมล็ด</span></th><td>นก ค้างคาวกินผลไม้ ชะมด</td><td>ฟื้นป่าและวนเกษตรบนพื้นที่ต้นน้ำ</td></tr>
+      <tr><th><span class="ok">สัตว์เลี้ยงในระบบ</span></th><td>เป็ดและปลาในนาข้าว ไก่ในสวน วัวควาย</td><td>กินแมลงและวัชพืช มูลเป็นปุ๋ย เพิ่มรายได้จากแปลงเดียวกัน</td></tr>
+      <tr><th><span class="mid">สองหน้า</span></th><td>มด ปลวก นก ค้างคาวกินผลไม้</td><td>มดแดงช่วยไล่แมลงศัตรูในสวนมะม่วงและส้ม<sup><a href="#r20">20</a></sup> แต่มดบางชนิดเลี้ยงเพลี้ยแป้งและเพลี้ยอ่อนไว้กินน้ำหวาน ปลวกย่อยเศษไม้แต่กัดกินรากอ้อยและต้นกล้า นกกินแมลงแต่ก็กินเมล็ดข้าว</td></tr>
+      <tr><th><span class="no">ลูกค้า (ศัตรูพืช)</span></th><td>หนู เพลี้ยกระโดด เพลี้ยอ่อน แมลงหวี่ขาว เพลี้ยไฟ แมลงวันผลไม้ หนอนเจาะลำต้น หนอนกระทู้ข้าวโพดลายจุด หอยเชอรี่ ไส้เดือนฝอยรากปม</td><td>กินหรือดูดน้ำเลี้ยงพืชโดยตรง และหลายชนิดเป็นพาหะนำไวรัส หนอนกระทู้ข้าวโพดลายจุดเป็นศัตรูต่างถิ่น พบครั้งแรกในไทยเมื่อ 14 ธ.ค. 2561 ในไร่ข้าวโพดที่กาญจนบุรีและตาก<sup><a href="#r22">22</a></sup></td></tr>
+    </tbody>
+  </table></div>
+  <h3>ทำให้ผู้ช่วยมีมากกว่าลูกค้า <span class="noref">ไม่มีอ้างอิง</span></h3>
+  <ul>
+    <li><b>เลิกพ่นยาฆ่าแมลงแบบออกฤทธิ์กว้าง</b> ถ้าจำเป็นต้องใช้ ให้เลือกชนิดที่จำเพาะ และพ่นเฉพาะจุดที่สำรวจพบว่าแมลงเกินระดับเศรษฐกิจ</li>
+    <li><b>ปลูกดอกไม้ไว้ที่คันนาและขอบแปลง</b> เป็นที่อยู่และแหล่งน้ำหวานให้แตนเบียนและผึ้ง</li>
+    <li><b>เลี้ยงชันโรงในสวนลำไยและไม้ผล</b> ช่วยผสมเกสรและได้น้ำผึ้งชันโรงเป็นรายได้เสริม</li>
+    <li><b>ทำรังนกแสก ทำนาเป็ดหรือนาปลา</b> คุมหนู หอยเชอรี่ และแมลงไปพร้อมกัน</li>
+    <li><b>เพิ่มอินทรียวัตถุ</b> ไส้เดือนและสัตว์ในดินจะเพิ่มขึ้นตาม (หัวข้อที่ 3)</li>
+  </ul>
+  <p>สำหรับน่าน ต้นน้ำที่เปลี่ยนจากข้าวโพดเป็นวนเกษตรจะได้ทั้งผู้ผสมเกสรและผู้กระจายเมล็ดกลับมา ส่วนกลางน้ำที่เป็นนาข้าวได้ประโยชน์มากที่สุดจากศัตรูธรรมชาติและนาเป็ดหรือนาปลา <span class="inf">อนุมาน</span> ภาพรวมของบริการจากสัตว์ผสมเกสรดูได้จากรายงานของ IPBES<sup><a href="#r21">21</a></sup></p>
+
+
+  <h2 id="lab">10. ห้องทดลองเคมีราก: สภาพแวดล้อมเปลี่ยน ปฏิกิริยาเปลี่ยน</h2>
+  <p>ปรับระบบปลูก ความเป็นกรดด่าง น้ำ และปุ๋ยที่ให้ แล้วดูว่าพืชดูดธาตุอาหารได้จริงเท่าไร ปฏิกิริยาเคมีอะไรเกิดขึ้นในดินหรือสารละลาย และใบแสดงอาการอย่างไร รูปแบบความเป็นประโยชน์ของธาตุตาม pH อิงแผนภาพคลาสสิกของ Truog<sup><a href="#r24">24</a></sup> และตำราโภชนาการพืช<sup><a href="#r25">25</a></sup> ส่วนปฏิกิริยาในดินขังน้ำอิง Ponnamperuma<sup><a href="#r26">26</a></sup> ตัวเลขในห้องทดลองเป็นแบบจำลองสัมพัทธ์ <span class="inf">อนุมาน</span> ไม่ใช่ค่าวัดจริง</p>
+  <div class="lab2">
+    <div class="lab2-ctl">
+      <div class="seg2" id="cEnv" role="group" aria-label="ระบบปลูก"><button data-v="soil" aria-pressed="true">ดิน</button><button data-v="hydro" aria-pressed="false">ไฮโดรโปนิกส์</button><button data-v="closed" aria-pressed="false">ระบบปิด</button></div>
+      <div class="seg2" id="cCrop" role="group" aria-label="พืช"><button data-v="rice" aria-pressed="false">ข้าว</button><button data-v="lettuce" aria-pressed="true">ผักกาดหอม</button><button data-v="tomato" aria-pressed="false">มะเขือเทศ</button></div>
+      <label class="rng">pH <b id="vPH"></b><input id="cPH" type="range" min="4" max="9" step="0.1" value="6.3"></label>
+      <label class="rng"><span id="lW">น้ำในดิน</span> <b id="vW"></b><input id="cW" type="range" min="0" max="100" value="55"></label>
+      <label class="rng">อุณหภูมิ <b id="vT"></b><input id="cT" type="range" min="12" max="42" value="22"></label>
+      <div class="nut" id="cNut"></div>
+    </div>
+    <div class="lab2-out">
+      <div class="plantbox"><svg id="plant" viewBox="0 0 220 260" role="img" aria-label="ภาพพืชแสดงอาการ"></svg>
+        <div><div class="grow"><span>การเติบโตสัมพัทธ์</span><b id="vGrow"></b></div><div class="gbar"><i id="gGrow"></i></div><p class="mini" id="limit"></p></div></div>
+      <div class="avail" id="avail"></div>
+    </div>
+  </div>
+  <h3>ปฏิกิริยาที่เกิดขึ้นตอนนี้</h3>
+  <div class="rx" id="rx"></div>
+  <h3>อาการที่ใบและผลบอก</h3>
+  <ul id="sym"></ul>
+
+  <h2 id="pest">11. จำลองแมลงศัตรูพืชกับศัตรูธรรมชาติในนาข้าว</h2>
+  <p>แบบจำลองนี้ใช้เพลี้ยกระโดดสีน้ำตาลกับแมงมุมและมวนที่กินเพลี้ยเป็นตัวอย่าง ลองพ่นยาฆ่าแมลงแบบออกฤทธิ์กว้างหลายรอบ แล้วเทียบกับปลูกดอกไม้ขอบแปลงและใช้พันธุ์ต้านทาน จะเห็นว่าการพ่นยาฆ่าศัตรูธรรมชาติไปด้วย ทำให้เพลี้ยกลับมาระบาดหนักกว่าเดิม ตรงกับที่พบในเอเชีย<sup><a href="#r2">2</a></sup> ค่าในกราฟเป็นแบบจำลองเชิงสัมพัทธ์ <span class="inf">อนุมาน</span></p>
+  <div class="lab2">
+    <div class="lab2-ctl">
+      <div class="seg2" id="pN" role="group" aria-label="ปุ๋ยไนโตรเจน"><button data-v="0.8" aria-pressed="false">N ต่ำ</button><button data-v="1" aria-pressed="true">N ตามค่าดิน</button><button data-v="1.35" aria-pressed="false">N สูงเกิน</button></div>
+      <label class="rng">พ่นยาออกฤทธิ์กว้าง <b id="vSpray"></b><input id="pSpray" type="range" min="0" max="4" value="0"></label>
+      <label class="chk2"><input type="checkbox" id="pFlower"> ปลูกดอกไม้คันนา (ที่อยู่ศัตรูธรรมชาติ)</label>
+      <label class="chk2"><input type="checkbox" id="pResist"> ใช้พันธุ์ต้านทานเพลี้ย</label>
+      <label class="chk2"><input type="checkbox" id="pBio"> ใช้เชื้อราบิวเวอเรีย (เฉพาะแมลงเป้าหมาย)</label>
+      <label class="rng">ดูแปลงวันที่ <b id="vDay"></b><input id="pDay" type="range" min="0" max="110" value="80"></label>
+    </div>
+    <div class="lab2-out">
+      <canvas id="pChart" height="220" aria-label="กราฟจำนวนเพลี้ยและศัตรูธรรมชาติ"></canvas>
+      <div class="legend2"><span><i style="background:var(--warn)"></i>เพลี้ยกระโดด</span><span><i style="background:var(--leaf)"></i>แมงมุม มวน (×4 ให้เห็นชัด)</span><span><i style="background:var(--muted)"></i>วันที่พ่นยา</span></div>
+      <div class="field" id="field" aria-label="สภาพต้นข้าวในแปลง"></div>
+      <div class="kpi" id="pKpi"></div>
+    </div>
+  </div>
+
+  <h2 id="cycle">12. วงจรการเพาะปลูก จากแบบดั้งเดิมถึงอัตโนมัติ</h2>
+  <p>ขั้นตอนพื้นฐานของการปลูกยังเหมือนเดิมทุกยุค คือ เตรียมพันธุ์ เตรียมดิน ปลูก ดูแลน้ำและปุ๋ย จัดการศัตรูพืช เก็บเกี่ยว และขาย สิ่งที่เปลี่ยนคือเครื่องมือ ใครตัดสินใจ และข้อมูลที่ใช้ตัดสินใจ เลือกยุคแล้วกดเล่นฤดูปลูกเพื่อดูทีละขั้น <span class="noref">ไม่มีอ้างอิง</span></p>
+  <div class="tabs2" id="eraTabs"></div>
+  <div class="cyc">
+    <svg id="wheel" viewBox="0 0 320 320" role="img" aria-label="วงจรการเพาะปลูก"></svg>
+    <div class="cyc-txt">
+      <p class="mini" id="eraYears"></p>
+      <h3 id="stepName" style="margin-top:4px"></h3>
+      <p id="stepTxt"></p>
+      <button class="btn2" id="playBtn">▶ เล่นฤดูปลูก</button>
+      <div class="avail" id="eraBars" style="margin-top:14px"></div>
+      <p class="mini">แถบเป็นค่าเปรียบเทียบโดยประมาณสำหรับนาข้าวไทย <span class="inf">อนุมาน</span></p>
+    </div>
+  </div>
+
+  <h3>การพัฒนาพันธุ์พืช: ใช้เวลากี่ปีกว่าจะได้พันธุ์ใหม่</h3>
+  <p>เลือกวิธีปรับปรุงพันธุ์เพื่อดูหลักการ เวลาที่ใช้โดยประมาณ และตัวอย่างในไทย <span class="noref">ไม่มีอ้างอิง</span></p>
+  <div class="tabs2" id="brTabs"></div>
+  <div class="answer" id="brBox"></div>
+
+  <h2 id="time">13. ระยะเวลาการเติบโต: ปลูกจนเก็บเกี่ยวใช้เวลาเท่าไร</h2>
+  <p>พืชแต่ละชนิดใช้เวลาต่างกันมาก ตั้งแต่ผักบุ้งไม่ถึงเดือน ไปจนถึงไม้สักที่ใช้เวลาหลายสิบปี ตัวเลขด้านล่างเป็นช่วงที่พบทั่วไปในไทย ขึ้นกับพันธุ์ ฤดู และการจัดการ <span class="noref">ไม่มีอ้างอิง</span> ช่วงเวลาที่ต้องใช้วางแผนลงทุนควรตรวจกับคำแนะนำของกรมวิชาการเกษตรและกรมการข้าว</p>
+  <div class="tabs2" id="gTabs"><button data-v="d" aria-pressed="true">พืชอายุสั้น (วัน)</button><button data-v="m" aria-pressed="false">พืชไร่อายุยาว (เดือน)</button><button data-v="y" aria-pressed="false">ไม้ยืนต้น (ปี)</button></div>
+  <div class="tbl gtl" id="gChart"></div>
+  <div class="legend2" id="gLeg"></div>
+
+  <h3>ข้าวไวแสงกับข้าวไม่ไวแสง: ปลูกช้าแล้วเก็บเกี่ยวเมื่อไร</h3>
+  <p>ข้าวหอมมะลิ 105 เป็นข้าวไวต่อช่วงแสง จะออกดอกเมื่อกลางวันสั้นลงช่วงปลายเดือนตุลาคมไม่ว่าจะปลูกเมื่อไร ส่วนข้าวไม่ไวแสงนับอายุจากวันปลูก เลื่อนวันปลูกเพื่อเทียบ <span class="noref">ไม่มีอ้างอิง</span></p>
+  <label class="rng" style="max-width:520px">วันตกกล้า <b id="vPlant"></b><input id="cPlant" type="range" min="0" max="105" value="45"></label>
+  <div class="tbl" style="padding:12px 14px"><svg id="photo" viewBox="0 0 640 168" role="img" aria-label="เทียบเวลาออกดอกและเก็บเกี่ยวของข้าวไวแสงและไม่ไวแสง"></svg></div>
+  <p id="photoTxt"></p>
+
+  <h3>ผักกาดหอมในสามระบบ</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>ระบบ</th><th>เพาะเมล็ดถึงเก็บเกี่ยว</th><th>ทำไมเร็วหรือช้า</th></tr></thead>
+    <tbody>
+      <tr><th>ดิน แปลงเปิด</th><td>ราว 55–65 วัน</td><td>ขึ้นกับฝน อุณหภูมิ และแมลง รากต้องหาน้ำและธาตุอาหารเอง</td></tr>
+      <tr><th>ไฮโดรโปนิกส์ (NFT) ในโรงเรือน</th><td>ราว 35–45 วัน</td><td>ธาตุอาหารอยู่ในน้ำพร้อมดูด รากไม่ต้องขยายไกล แต่อากาศร้อนในไทยทำให้ช้าลงหรือผักขม</td></tr>
+      <tr><th>ระบบปิดใช้แสงไฟ</th><td>ราว 30–35 วัน</td><td>คุมแสง อุณหภูมิ และเพิ่ม CO₂ ได้ตลอด 24 ชั่วโมงตามที่ตั้ง ปลูกได้ 10 รอบขึ้นไปต่อปี<sup><a href="#r8">8</a></sup></td></tr>
+    </tbody>
+  </table></div>
+  <p class="refs">ช่วงวันในตารางเป็นค่าทั่วไปที่พบในการปลูกเชิงพาณิชย์ <span class="inf">อนุมาน</span></p>
+
+  <h2>แหล่งที่มา</h2>
+  <ol class="refs">
+    <li id="r1"><span class="chk">✓ ตรวจแล้ว</span>Agrios, G.N. (2005). <i>Plant Pathology</i>, 5th ed. Elsevier Academic Press. บทแนวคิดสามเหลี่ยมโรคพืช <a href="https://shop.elsevier.com/books/plant-pathology/agrios/9780120445653" target="_blank" rel="noopener">elsevier.com</a></li>
+    <li id="r2"><span class="chk">✓ แก้แล้ว</span>Heong, K.L., Wong, L. &amp; Delos Reyes, J.H. (2015). Addressing planthopper threats to Asian rice farming and food security: fixing insecticide misuse. ใน Heong, Cheng &amp; Escalada (eds.) <i>Rice Planthoppers</i>, Springer, หน้า 65–76. <a href="https://doi.org/10.1007/978-94-017-9535-7_3" target="_blank" rel="noopener">doi.org/10.1007/978-94-017-9535-7_3</a> (บทนี้พูดเรื่องการใช้ยาฆ่าแมลงผิดวิธี ไม่ได้พูดเรื่องปุ๋ยไนโตรเจน จึงย้ายออกจากประโยคเรื่องไนโตรเจนแล้ว)</li>
+    <li id="r3"><span class="chk">✓ ตรวจแล้ว</span>FAO &amp; ITPS (2015). <i>Status of the World's Soil Resources: Main Report</i>. <a href="https://openknowledge.fao.org/server/api/core/bitstreams/c0991a62-d870-4c95-8f33-3ed0516abff6/content" target="_blank" rel="noopener">openknowledge.fao.org</a></li>
+    <li id="r4"><span class="chk">✓ ตรวจแล้ว</span>Harman, G.E. et al. (2004). <i>Trichoderma</i> species: opportunistic, avirulent plant symbionts. <i>Nature Reviews Microbiology</i> 2, 43–56. <a href="https://doi.org/10.1038/nrmicro797" target="_blank" rel="noopener">doi.org/10.1038/nrmicro797</a></li>
+    <li id="r5"><span class="chk">✓ แก้แล้ว</span>Charoenrak, P. &amp; Chamswarng, C. (2016). Efficacies of wettable pellet and fresh culture of <i>Trichoderma asperellum</i> biocontrol products in growth promoting and reducing dirty panicles of rice. <i>Agriculture and Natural Resources</i> 50(4), 243–249. <a href="https://li01.tci-thaijo.org/index.php/anres/article/view/244037" target="_blank" rel="noopener">tci-thaijo.org</a> (เดิมอ้างแค่ชื่อหน่วยงาน ไม่มีเอกสาร)</li>
+    <li id="r6"><span class="chk">✓ ตรวจแล้ว</span>USDA NRCS. Soil Health. <a href="https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health" target="_blank" rel="noopener">nrcs.usda.gov</a> (หน้าเว็บระบุ: ลดการรบกวนดิน คลุมดิน เพิ่มความหลากหลาย และรักษารากพืชมีชีวิต)</li>
+    <li id="r7"><span class="chk warn">⚠ ยังยืนยันไม่ได้</span>กรมพัฒนาที่ดิน. บริการวิเคราะห์ดินและผลิตภัณฑ์สารเร่ง พด. <a href="https://www.ldd.go.th" target="_blank" rel="noopener">ldd.go.th</a> (เปิดหน้าข้อมูลบริการโดยตรงไม่ได้)</li>
+    <li id="r8"><span class="chk">✓ แก้แล้ว</span>Kozai, T., Niu, G. &amp; Takagaki, M. (eds.) (2019). <i>Plant Factory: An Indoor Vertical Farming System for Efficient Quality Food Production</i>, 2nd ed. Academic Press. (เดิมเขียนปี 2020 ฉบับพิมพ์ครั้งที่ 2 ออก พ.ย. 2019)</li>
+    <li id="r9"><span class="chk">✓ ตรวจแล้ว</span>Barbosa, G.L. et al. (2015). Comparison of land, water, and energy requirements of lettuce grown using hydroponic vs. conventional agricultural methods. <i>IJERPH</i> 12(6), 6879–6891. <a href="https://doi.org/10.3390/ijerph120606879" target="_blank" rel="noopener">doi.org/10.3390/ijerph120606879</a></li>
+    <li id="r10"><span class="chk">✓ แก้แล้ว</span>สวทช. (NSTDA). Diagnostic technology offers solutions for combating cassava mosaic disease. <a href="https://www.nstda.or.th/thaibioeconomy/195-diagnostic-technology-offers-solutions-for-combating-cassava-mosaic-disease.html" target="_blank" rel="noopener">nstda.or.th</a> (เดิมอ้างหน้าแรกของกรมวิชาการเกษตร ซึ่งไม่ได้ระบุข้อมูลนี้)</li>
+    <li id="r11"><span class="chk">✓ ตรวจแล้ว</span>IPCC (2019). <i>2019 Refinement to the 2006 IPCC Guidelines for National Greenhouse Gas Inventories</i>, Vol. 4 (AFOLU), Ch. 5 และ 11. <a href="https://www.ipcc-nggip.iges.or.jp/public/2019rf/" target="_blank" rel="noopener">ipcc-nggip.iges.or.jp</a></li>
+    <li id="r12"><span class="chk">✓ แก้แล้ว</span>อบก. ฐานข้อมูลโครงการ T-VER: Sustainable Rice for Methane Reduction by AWD in Suphan Buri Province (ขึ้นทะเบียน 23 ก.ย. 2025). <a href="https://ghgreduction.tgo.or.th/en/database-and-statistics/single-and-bundled-projects/item/6456-sustainable-rice-for-methane-reduction-by-alternate-wetting-and-drying-awd-in-suphan-buri-province.html" target="_blank" rel="noopener">ghgreduction.tgo.or.th</a></li>
+    <li id="r13"><span class="chk">✓ แก้แล้ว</span>Richards, M. &amp; Sander, B.O. (2014). Alternate wetting and drying in irrigated rice. Climate-Smart Agriculture Practice Brief, CCAFS. <a href="https://ccafs.cgiar.org/publications/alternate-wetting-and-drying-irrigated-rice" target="_blank" rel="noopener">ccafs.cgiar.org</a> (เดิมเขียนว่าลด 30–50% ต้นฉบับระบุ 48%)</li>
+    <li id="r14"><span class="chk">✓ แก้แล้ว</span>U.S. Geological Survey (2026). <i>Mineral Commodity Summaries 2026</i>: <a href="https://pubs.usgs.gov/periodicals/mcs2026/mcs2026-phosphate.pdf" target="_blank" rel="noopener">Phosphate Rock</a> และ <a href="https://pubs.usgs.gov/periodicals/mcs2026/mcs2026-potash.pdf" target="_blank" rel="noopener">Potash</a> (เพิ่มจีนในรายชื่อผู้ผลิตโพแทช)</li>
+    <li id="r15"><span class="chk">✓ แก้แล้ว</span>มติชน (15 เม.ย. 2026). ข่าวไทยขอโควตายูเรียจากรัสเซีย. <a href="https://www.matichon.co.th/economy/news_5678234" target="_blank" rel="noopener">matichon.co.th</a> (เดิมอ้าง IFA และกรมวิชาการเกษตรแบบกว้าง ๆ ซึ่งยืนยันตัวเลขไม่ได้)</li>
+    <li id="r16"><span class="chk warn">⚠ ยังยืนยันไม่ได้</span>Evenson, R.E. &amp; Gollin, D. (2003). Assessing the impact of the Green Revolution, 1960 to 2000. <i>Science</i> 300, 758–762. <a href="https://doi.org/10.1126/science.1078710" target="_blank" rel="noopener">doi.org/10.1126/science.1078710</a> (ยืนยันว่ามีบทความนี้ แต่เปิดเนื้อหาเรื่องพันธุ์ IR8 ไม่ได้)</li>
+    <li id="r17"><span class="chk warn">⚠ ยังยืนยันไม่ได้</span>กรมการข้าว. คำแนะนำการใช้ปุ๋ยข้าวตามค่าวิเคราะห์ดิน (หาเอกสารต้นฉบับไม่พบ จึงเอาออกจากเนื้อหาแล้ว)</li>
+    <li id="r18"><span class="chk">✓ ตรวจแล้ว</span>Klein, A.-M. et al. (2007). Importance of pollinators in changing landscapes for world crops. <i>Proc. R. Soc. B</i> 274, 303–313. <a href="https://doi.org/10.1098/rspb.2006.3721" target="_blank" rel="noopener">doi.org/10.1098/rspb.2006.3721</a> (พืชอาหารหลัก 87 จาก 115 ชนิด)</li>
+    <li id="r19"><span class="chk">✓ ตรวจแล้ว</span>Bumrungsri, S., Sripaoraya, E., Chongsiri, T., Siridith, K. &amp; Racey, P.A. (2009). The pollination ecology of durian (<i>Durio zibethinus</i>, Bombacaceae) in southern Thailand. <i>Journal of Tropical Ecology</i> 25, 85–92. (ยืนยันผ่านบทความอื่นที่อ้างถึง เปิดต้นฉบับไม่ได้)</li>
+    <li id="r20"><span class="chk">✓ ตรวจแล้ว</span>Van Mele, P. (2008). A historical review of research on the weaver ant <i>Oecophylla</i> in biological control. <i>Agricultural and Forest Entomology</i> 10, 13–22. <a href="https://doi.org/10.1111/j.1461-9563.2007.00350.x" target="_blank" rel="noopener">doi.org/10.1111/j.1461-9563.2007.00350.x</a></li>
+    <li id="r21"><span class="chk">✓ ตรวจแล้ว</span>IPBES (2016). <i>Assessment Report on Pollinators, Pollination and Food Production</i>. <a href="https://ipbes.net/deliverables/pollination-assessment" target="_blank" rel="noopener">ipbes.net</a></li>
+    <li id="r22"><span class="chk">✓ แก้แล้ว</span>IPPC (19 ธ.ค. 2018). First detection of fall army worm on the border of Thailand. <a href="https://ippc.int/en/countries/Thailand/pestreports/2018/12/first-detection-of-fall-army-worm-on-the-border-of-Thailand" target="_blank" rel="noopener">ippc.int</a> (เดิมอ้างหน้าทั่วไปของ FAO)</li>
+    <li id="r23"><span class="chk">✓ ตรวจแล้ว</span>อินทรทิพย์ ฤ., สีระสาร น. และ ดิษฐกิจ ป. (2025). การประเมินความรู้และการใช้เชื้อราไตรโคเดอร์มาในการปลูกพริกของเกษตรกรในตำบลยม อำเภอท่าวังผา จังหวัดน่าน. <i>วารสารเกษตรนเรศวร</i> 22(1), e0220101. <a href="https://li01.tci-thaijo.org/index.php/aginujournal/article/view/264936" target="_blank" rel="noopener">tci-thaijo.org</a></li>
+  <li id="r24"><span class="chk warn">⚠ ยังไม่ได้ตรวจกับต้นฉบับ</span>Truog, E. (1946). Soil reaction influence on availability of plant nutrients. <i>Soil Science Society of America Proceedings</i> 11, 305–308. (เพิ่ม 30 ต.ค. 2026 สำหรับรูปแบบความเป็นประโยชน์ของธาตุตาม pH ในหัวข้อ 10)</li>
+    <li id="r25"><span class="chk warn">⚠ ยังไม่ได้ตรวจกับต้นฉบับ</span>Marschner, P. (ed.) (2012). <i>Marschner's Mineral Nutrition of Higher Plants</i>, 3rd ed. Academic Press. (อาการขาดธาตุและการเคลื่อนย้ายธาตุในพืช หัวข้อ 10)</li>
+    <li id="r26"><span class="chk warn">⚠ ยังไม่ได้ตรวจกับต้นฉบับ</span>Ponnamperuma, F.N. (1972). The chemistry of submerged soils. <i>Advances in Agronomy</i> 24, 29–96. (ปฏิกิริยารีดักชันในดินขังน้ำ หัวข้อ 10)</li>
+  </ol>
+  <p class="refs">หัวข้อ 10–13 เพิ่มเมื่อ 30 ต.ค. 2026 แหล่งที่มาหมายเลข 24–26 ยังไม่ได้ตรวจกับต้นฉบับเหมือนรายการ 1–23</p>
+  <p class="refs">ตัวเลขที่ต้องใช้ตัดสินใจลงทุน เช่น ผลผลิตต่อไร่ ต้นทุนโรงเรือน และค่าเครดิตคาร์บอน ควรตรวจกับข้อมูลล่าสุดของหน่วยงานในจังหวัดน่านก่อนใช้</p>
+</div>
+
+<script src="assets/soil-lab.js"></script>
+</body>
+</html>

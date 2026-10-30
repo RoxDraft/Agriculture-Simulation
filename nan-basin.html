@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ลุ่มน้ำน่าน · Agriculture Simulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Noto+Serif+Thai:wght@600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a field-survey sheet. Basin map on the left, zone dossier on the right; then the 3D test plot, season grid, and partner/market ledgers. */
+:root{
+  --bg:#f3f5f1; --paper:#ffffff; --ink:#1d2a24; --muted:#5b6b63; --line:#d5ddd6;
+  --river:#2b78a8; --forest:#2f6b45; --soil:#a8642f; --crop:#c9a227; --flood:#5aa6d6;
+  --sel:#0f4c6e;
+  --r0:#eef2ee; --r1:#f6e2a8; --r2:#efb36b; --r3:#d4613a;
+  --f-display:"Noto Serif Thai","Noto Serif",Georgia,serif;
+  --f-body:"IBM Plex Sans Thai","Noto Sans Thai",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111814; --paper:#18221d; --ink:#e3ece6; --muted:#9db0a5; --line:#2c3a33;
+  --river:#5fb0e0; --forest:#5fae7a; --soil:#d48b55; --crop:#e0bd4a; --flood:#6fb8e6; --sel:#8fd0f5;
+  --r0:#1f2a24; --r1:#5a4d21; --r2:#8a5a26; --r3:#b2462a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111814; --paper:#18221d; --ink:#e3ece6; --muted:#9db0a5; --line:#2c3a33;
+  --river:#5fb0e0; --forest:#5fae7a; --soil:#d48b55; --crop:#e0bd4a; --flood:#6fb8e6; --sel:#8fd0f5;
+  --r0:#1f2a24; --r1:#5a4d21; --r2:#8a5a26; --r3:#b2462a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.65;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:clamp(28px,4.4vw,44px);font-weight:800}
+h2{font-size:24px;font-weight:800}
+h3{font-size:17px;font-weight:600}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lede{max-width:68ch;color:var(--muted)}
+header{display:flex;flex-direction:column;gap:10px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:16px}
+.note{font-size:12.5px;color:var(--muted)}
+.tag{display:inline-block;font-family:var(--f-mono);font-size:11px;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted);vertical-align:2px}
+.inf{border-style:dashed}
+
+/* map + dossier */
+.mapgrid{display:grid;grid-template-columns:minmax(280px,380px) 1fr;gap:24px;align-items:start}
+@media (max-width:820px){.mapgrid{grid-template-columns:1fr}}
+.mapbox{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:12px}
+.mapbox svg{width:100%;height:auto;display:block}
+.zone{cursor:pointer;outline:none}
+.zone path{transition:fill-opacity .2s}
+.zone:hover path,.zone:focus path{fill-opacity:.55}
+.zone.on path{fill-opacity:.7;stroke:var(--sel);stroke-width:2.5}
+.lbl{font-family:var(--f-body);font-size:11px;fill:var(--ink)}
+.lbl.s{font-size:9.5px;fill:var(--muted)}
+.dossier{display:flex;flex-direction:column;gap:18px;min-width:0}
+.ztitle{display:flex;flex-direction:column;gap:4px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.blk{display:flex;flex-direction:column;gap:6px;min-width:0}
+.blk ul{margin:0;padding-left:18px}
+.blk li{margin:2px 0}
+.fit{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:13px;padding:2px 10px;border-radius:999px;background:var(--r0);border:1px solid var(--line)}
+.chip.good{border-color:var(--forest);color:var(--forest)}
+.chip.bad{border-color:var(--r3);color:var(--r3);text-decoration:line-through;text-decoration-thickness:1px}
+.stats{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--f-mono);font-size:12.5px}
+.stats b{font-weight:500;color:var(--ink)}
+.stats span{color:var(--muted)}
+
+/* 3D lab */
+.lab{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
+@media (max-width:900px){.lab{grid-template-columns:1fr}}
+.stage{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:6px;overflow:hidden;aspect-ratio:16/10;max-width:100%;touch-action:none}
+.stage canvas{display:block;width:100%;height:100%;cursor:grab}
+.stage .hint{position:absolute;left:10px;bottom:8px;font-size:11.5px;color:var(--muted);background:var(--paper);padding:2px 8px;border-radius:4px;opacity:.9}
+.controls{display:flex;flex-direction:column;gap:16px}
+.seg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{flex:1;font:inherit;font-size:13px;padding:7px 6px;background:var(--paper);color:var(--ink);border:0;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--sel);color:var(--paper)}
+button:focus-visible,input:focus-visible,.zone:focus-visible{outline:2px solid var(--sel);outline-offset:2px}
+label.ctl{display:flex;flex-direction:column;gap:4px;font-size:13px}
+input[type=range]{width:100%;accent-color:var(--sel)}
+.meter{display:flex;flex-direction:column;gap:8px}
+.mrow{display:grid;grid-template-columns:120px 1fr 44px;gap:8px;align-items:center;font-size:12.5px}
+.bar{height:8px;background:var(--r0);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--forest);transition:width .3s}
+.bar.neg i{background:var(--r3)}
+.mrow .v{font-family:var(--f-mono);text-align:right;font-variant-numeric:tabular-nums}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+/* calendar */
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
+table.cal{border-collapse:collapse;width:100%;min-width:720px;font-size:13px}
+.cal th,.cal td{padding:6px 4px;text-align:center;border-bottom:1px solid var(--line)}
+.cal th:first-child,.cal td:first-child{text-align:left;padding-left:12px;white-space:nowrap;width:220px}
+.cal thead th{font-family:var(--f-mono);font-weight:500;font-size:11.5px;color:var(--muted)}
+.cal td.c{width:6.5%}
+.cal td.c span{display:block;height:20px;border-radius:3px}
+.l0{background:var(--r0)}.l1{background:var(--r1)}.l2{background:var(--r2)}.l3{background:var(--r3)}
+.cal tr.grp td{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);background:var(--bg);letter-spacing:.05em}
+
+/* ledgers */
+.ledger{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card ul{margin:0;padding-left:18px}
+.card li{margin:3px 0}
+.chain{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
+.chain>div{padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.chain>div+div{border-left:1px solid var(--line)}
+@media (max-width:640px){.chain>div+div{border-left:0;border-top:1px solid var(--line)}}
+.intl{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.intl .card h3 small{font-family:var(--f-mono);font-size:11px;color:var(--muted);font-weight:400;display:block}
+.src{font-size:12.5px;color:var(--muted)}
+.src ol{padding-left:20px;margin:6px 0 0}
+.src a{color:var(--river)}
+</style>
+
+<style>
+.topnav{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:4px 18px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:13.5px;font-family:var(--f-body)}
+.topnav a{color:var(--muted);text-decoration:none}.topnav a:hover{text-decoration:underline}
+.topnav a[aria-current="page"]{color:inherit;font-weight:600}
+body{margin:0}
+</style>
+</head>
+<body>
+<nav class="topnav"><a href="index.html">หน้าแรก</a><a href="thailand.html">แผนที่ภูมิภาคไทย</a><a href="nan-basin.html" aria-current="page">ลุ่มน้ำน่าน</a><a href="soil.html">ดิน น้ำ หรือระบบปิด</a></nav>
+<div class="wrap">
+<header>
+  <span class="eyebrow">โครงการนำร่อง · ลุ่มน้ำน่าน · ต้นน้ำถึงปลายน้ำ</span>
+  <h1>ห้องทดลองออกแบบเกษตรลุ่มน้ำน่าน</h1>
+  <p class="lede">แม่น้ำน่านไหลจากดอยภูคา จ.น่าน ผ่านเขื่อนสิริกิติ์ จ.อุตรดิตถ์ ลงทุ่งราบพิษณุโลกและพิจิตร ไปรวมกับแม่น้ำปิงที่ปากน้ำโพ จ.นครสวรรค์ กลายเป็นเจ้าพระยา ลุ่มน้ำเดียวมีปัญหาครบทั้งสาย ต้นน้ำเสียป่าให้ข้าวโพด กลางน้ำพึ่งน้ำเขื่อน ปลายน้ำท่วมทุกปี หน้านี้ใช้คลิกดูทีละโซน ทดลองออกแบบแปลงในมุม 3D แล้วดูว่าใครควรร่วมมือ เงินทุนมาจากไหน และขายให้ใคร</p>
+  <div class="meta"><span>ความยาวแม่น้ำ ~740 กม.</span><span>พื้นที่ลุ่มน้ำ ~34,000 ตร.กม.</span><span>5 จังหวัดหลัก</span><span>แผนที่เป็นแผนภาพเชิงอธิบาย ไม่ใช่มาตราส่วนจริง</span></div>
+  <p class="note">ภาพรวมทั้งประเทศ 6 ภูมิภาค ดูที่ <a href="thailand.html" style="color:var(--river)">แผนที่ภูมิภาคไทย</a></p>
+  <p class="note"><span class="tag">ข้อมูล</span> = อ้างอิงแหล่งข้อมูลสาธารณะท้ายหน้า &nbsp; <span class="tag inf">อนุมาน</span> = ข้อเสนอหรือค่าประมาณเพื่อการออกแบบ ต้องตรวจในพื้นที่จริง</p>
+</header>
+
+<section id="map">
+  <div><span class="eyebrow">1 · แผนที่ภาพรวม 2D</span><h2>เลือกโซนตามแนวแม่น้ำ</h2></div>
+  <div class="mapgrid">
+    <div class="mapbox">
+      <svg viewBox="0 0 340 600" role="group" aria-label="แผนภาพลุ่มน้ำน่าน แบ่ง 5 โซน">
+        <g id="zones"></g>
+        <path id="riv" d="M196 22 C186 70 214 100 200 140 C186 180 168 200 176 240 C182 270 150 300 160 330 C170 360 196 380 186 420 C178 450 160 470 168 505 C174 535 160 560 152 585" fill="none" stroke="var(--river)" stroke-width="4" stroke-linecap="round"/>
+        <ellipse cx="166" cy="280" rx="22" ry="34" fill="var(--river)" fill-opacity=".45" stroke="var(--river)"/>
+        <text class="lbl s" x="196" y="284">เขื่อนสิริกิติ์</text>
+        <text class="lbl s" x="208" y="44">ดอยภูคา</text>
+        <path d="M160 585 L120 590" stroke="var(--river)" stroke-width="3"/>
+        <text class="lbl s" x="40" y="594">แม่น้ำปิง →</text>
+        <text class="lbl s" x="168" y="598">เจ้าพระยา ↓</text>
+        <text class="lbl s" x="8" y="14">N ↑</text>
+      </svg>
+    </div>
+    <div class="dossier" id="dossier" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="lab">
+  <div><span class="eyebrow">2 · แปลงโฟกัส 3D</span><h2>ลองออกแบบแปลงแล้วดูผล</h2>
+  <p class="lede">เลือกแปลงตัวอย่าง สลับระหว่างแบบเดิมกับแบบที่ออกแบบใหม่ แล้วเลื่อนเดือนเพื่อดูน้ำขึ้นลงตามฤดู ลากเพื่อหมุนมุมมอง ตัวชี้วัดด้านขวาเป็นค่าเปรียบเทียบเชิงสัมพัทธ์ <span class="tag inf">อนุมาน</span> ไม่ใช่ผลวัดจริง</p></div>
+  <div class="lab">
+    <div class="stage" id="stage"><canvas id="cv" aria-label="มุมมองสามมิติของแปลง"></canvas><span class="hint">ลากเพื่อหมุน · เลื่อนล้อเพื่อซูม</span></div>
+    <div class="controls">
+      <div class="blk"><span class="eyebrow">แปลง</span>
+        <div class="seg" id="plotSeg"><button id="pA" aria-pressed="true" data-v="A">ไหล่เขา อ.ปัว</button><button id="pB" aria-pressed="false" data-v="B">ทุ่งบางระกำ</button></div></div>
+      <div class="blk"><span class="eyebrow">รูปแบบ</span>
+        <div class="seg" id="modeSeg"><button id="mOld" aria-pressed="true" data-v="old">แบบเดิม</button><button id="mNew" aria-pressed="false" data-v="new">ออกแบบใหม่</button></div></div>
+      <label class="ctl" for="month">เดือน: <b id="mlab">ส.ค.</b><input id="month" type="range" min="0" max="11" value="7"></label>
+      <div class="legend" id="legend"></div>
+      <div class="meter" id="meter"></div>
+      <p class="note" id="plotNote"></p>
+    </div>
+  </div>
+</section>
+
+<section id="season">
+  <div><span class="eyebrow">3 · ปฏิทินความเสี่ยง</span><h2>ปัญหาที่มากับแต่ละฤดู</h2>
+  <p class="lede">ความเข้มของสีคือระดับความเสี่ยงโดยทั่วไป แถวจัดกลุ่มตามโซน ใช้เป็นจุดเริ่มวางปฏิทินเพาะปลูกใหม่ เช่น เกี่ยวข้าวให้เสร็จก่อนน้ำหลากเดือนสิงหาคม</p></div>
+  <div class="legend"><span><i class="l0"></i>ต่ำ</span><span><i class="l1"></i>ปานกลาง</span><span><i class="l2"></i>สูง</span><span><i class="l3"></i>วิกฤต</span></div>
+  <div class="scroll"><table class="cal" id="cal"></table></div>
+</section>
+
+<section id="partners">
+  <div><span class="eyebrow">4 · ภาคี ทุน เทคโนโลยี</span><h2>ใครร่วมเควสนี้ได้บ้าง</h2></div>
+  <div class="ledger">
+    <div class="card"><h3>หน่วยงานรัฐ</h3><ul>
+      <li>สำนักงานทรัพยากรน้ำแห่งชาติ (สทนช.) แผนลุ่มน้ำและผังน้ำ</li>
+      <li>กรมชลประทาน บริหารน้ำเขื่อนสิริกิติ์และทุ่งหน่วงน้ำ</li>
+      <li>กรมพัฒนาที่ดิน แผนที่ความเหมาะสมดิน (Agri-Map) หญ้าแฝก</li>
+      <li>กรมส่งเสริมการเกษตร แปลงใหญ่ Smart Farmer</li>
+      <li>กรมป่าไม้ / กรมอุทยานฯ ป่าชุมชน ที่ดินทำกินในเขตป่า</li>
+      <li>ส.ป.ก. และกรมโยธาธิการและผังเมือง ผังเมืองรวมจังหวัด</li>
+      <li>GISTDA ภาพดาวเทียมติดตามน้ำท่วมและจุดความร้อน</li>
+    </ul></div>
+    <div class="card"><h3>ชุมชน เอกชน วิชาการ</h3><ul>
+      <li>สหกรณ์การเกษตรและวิสาหกิจชุมชนในแต่ละอำเภอ</li>
+      <li>มูลนิธิรักษ์ป่าน่าน, โครงการน่านแซนด์บ็อกซ์</li>
+      <li>สถาบันปิดทองหลังพระฯ ต้นแบบพัฒนาแหล่งน้ำชุมชน</li>
+      <li>RECOFTC ป่าชุมชนและระดมทุนฟื้นฟู</li>
+      <li>ม.นเรศวร, ม.แม่โจ้, ม.เกษตรศาสตร์ ข้อมูลพันธุ์และโรคพืช</li>
+      <li>ภาคเอกชนที่ซื้อผลผลิตและทำโครงการปลูกป่า (CSR/ESG)</li>
+    </ul></div>
+    <div class="card"><h3>แหล่งทุน</h3><ul>
+      <li>ธ.ก.ส. สินเชื่อเกษตรยั่งยืน สินเชื่อเพื่อปลูกไม้มีค่า</li>
+      <li>สำนักงานนวัตกรรมแห่งชาติ (NIA) ทุนนวัตกรรมเกษตร</li>
+      <li>depa ทุน Smart Farming และ Digital Village</li>
+      <li>คาร์บอนเครดิต T-VER (อบก.) จากการปลูกป่าและวนเกษตร</li>
+      <li>กองทุนหมู่บ้าน, กองทุนพัฒนาสหกรณ์</li>
+      <li>ทุนต่างประเทศด้านภูมิอากาศ เช่น GCF, GIZ (ผ่านหน่วยงานรัฐ) <span class="tag inf">อนุมาน</span></li>
+    </ul></div>
+    <div class="card"><h3>เทคโนโลยีต้นแบบ</h3><ul>
+      <li>เซนเซอร์ระดับน้ำ + แจ้งเตือนผ่าน LINE ระดับตำบล</li>
+      <li>โดรนพ่นชีวภัณฑ์และสำรวจโรค (ลดสารเคมี)</li>
+      <li>เครื่องอบแห้งพลังแสงอาทิตย์สำหรับกาแฟ ผลไม้ สมุนไพร</li>
+      <li>โรงเรือนโซลาร์ + ระบบน้ำหยดสำหรับผักคุณภาพสูง</li>
+      <li>ระบบตรวจสอบย้อนกลับ QR ต่อแปลง (เชื่อม GAP/อินทรีย์)</li>
+      <li>แผนที่จุดความร้อน GISTDA เฝ้าระวังการเผา</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="market">
+  <div><span class="eyebrow">5 · เชื่อมตลาด</span><h2>จากแปลงถึงผู้ซื้อ</h2>
+  <p class="lede">แต่ละโซนมีของขายต่างกัน จึงควรมีจุดรวบรวมและแปรรูปร่วมกันกลางลุ่มน้ำ แทนที่ทุกแปลงจะต้องหาตลาดเอง <span class="tag inf">อนุมาน</span></p></div>
+  <div class="chain">
+    <div><span class="eyebrow">ผลผลิต</span><h3>ต้นน้ำถึงปลายน้ำ</h3><p>กาแฟ ชา อะโวคาโด สมุนไพร (ต้นน้ำ) · ทุเรียนหลงลับแล ลางสาด (กลางน้ำ) · ข้าว ปลา ผัก (ปลายน้ำ)</p></div>
+    <div><span class="eyebrow">B2B</span><h3>ขายส่งและสัญญาซื้อ</h3><p>โรงคั่วกาแฟ โรงแรมและร้านอาหาร ห้างค้าปลีก ผู้ส่งออกผลไม้ โรงงานสมุนไพรและเครื่องสำอาง โรงพยาบาลการแพทย์แผนไทย</p></div>
+    <div><span class="eyebrow">B2C</span><h3>ขายตรงผู้บริโภค</h3><p>ตลาดเขียวในเมือง ร้านออนไลน์ กล่องผักสมาชิก (CSA) ท่องเที่ยวเกษตรและโฮมสเตย์ ร้านในสถานีเกษตรริมทาง</p></div>
+    <div><span class="eyebrow">มูลค่าเพิ่ม</span><h3>แปรรูปและเรื่องเล่า</h3><p>สิ่งบ่งชี้ทางภูมิศาสตร์ (GI) กาแฟ specialty ผลไม้อบแห้ง ข้าวพันธุ์พื้นเมือง ปลาแปรรูป คาร์บอนเครดิต ฉลาก "ปลูกคืนป่าต้นน้ำ"</p></div>
+  </div>
+</section>
+
+<section id="intl">
+  <div><span class="eyebrow">6 · เรียนรู้จากต่างประเทศ</span><h2>สวนผสมแบบสิงคโปร์ ญี่ปุ่น จีน</h2></div>
+  <div class="intl">
+    <div class="card"><h3>สิงคโปร์<small>ฟาร์มแนวตั้ง · ที่ดินน้อย ผลผลิตสูง</small></h3>
+      <p>รัฐกำหนดเป้าความมั่นคงอาหาร (เดิม "30 by 30" ปรับเป้าใหม่ในปี 2025 เป็นรายหมวดอาหาร) จัดที่ดินเกษตรให้ผู้ประกอบการหลายรายเช่าระยะยาว และให้ทุนเทคโนโลยี</p>
+      <p><b>ใช้กับน่าน:</b> โรงเรือนผักคุณภาพสูงใกล้เมืองน่านและพิษณุโลก ป้อนโรงแรมและโรงพยาบาล โดยให้หลายวิสาหกิจเช่าโรงเรือนร่วมกัน <span class="tag inf">อนุมาน</span></p></div>
+    <div class="card"><h3>ญี่ปุ่น<small>ซาโตยามะ · สหกรณ์ JA · มิจิโนะเอกิ</small></h3>
+      <p>ภูมิทัศน์ป่า นา บ่อ หมู่บ้านต่อเนื่องกัน สหกรณ์ช่วยรวบรวมและคัดเกรด สถานีริมทาง (Michi-no-Eki) ให้เกษตรกรวางขายเองพร้อมชื่อผู้ปลูก และนโยบาย "อุตสาหกรรมขั้นที่ 6" ให้ผลิต แปรรูป ขาย ในชุมชนเดียว</p>
+      <p><b>ใช้กับน่าน:</b> สถานีเกษตรริมทางหลวง 101 และ 11 ขายของทั้งลุ่มน้ำ <span class="tag inf">อนุมาน</span></p></div>
+    <div class="card"><h3>จีน<small>นาข้าวร่วมปลา · หมู่บ้านอีคอมเมิร์ซ</small></h3>
+      <p>นาข้าวร่วมปลาที่ชิงเถียน มณฑลเจ้อเจียง เป็นมรดกระบบเกษตร GIAHS ของ FAO และ "หมู่บ้านเถาเป่า" ที่ขายผลผลิตชุมชนออนไลน์ด้วยกันทั้งหมู่บ้าน</p>
+      <p><b>ใช้กับน่าน:</b> ทุ่งบางระกำเลี้ยงปลาในนาช่วงน้ำหลาก และทำร้านออนไลน์ร่วมของตำบล <span class="tag inf">อนุมาน</span></p></div>
+  </div>
+</section>
+
+<section class="src">
+  <span class="eyebrow">แหล่งข้อมูล</span>
+  <ol>
+    <li><a href="https://www.onep.go.th/?p=6662" target="_blank" rel="noopener">สผ. — ชูบางระกำโมเดล ฝ่าวิกฤติแล้งปี 2563</a></li>
+    <li><a href="https://www.thaipbs.or.th/news/content/343575" target="_blank" rel="noopener">Thai PBS — ปล่อยน้ำเข้าทุ่งบางระกำ</a></li>
+    <li><a href="https://www.cpgroupglobal.com/en/projects/518/public-private-partnership-project-for-development-and-restoration-of-nan-watershed-forests" target="_blank" rel="noopener">โครงการรัฐร่วมเอกชนฟื้นฟูป่าต้นน้ำน่าน</a></li>
+    <li><a href="https://www.pattayamail.com/thailandnews/nan-sandbox-uses-medicinal-plants-to-drive-sustainable-regional-development-562537" target="_blank" rel="noopener">Nan Sandbox กับพืชสมุนไพร</a></li>
+    <li><a href="https://www.recoftc.org/annual-report-2022-2023/crowdfunding-campaign-supports-restoration-degraded-land" target="_blank" rel="noopener">RECOFTC — ระดมทุนฟื้นฟูที่ดินเสื่อมโทรม</a></li>
+    <li><a href="https://ghgreduction.tgo.or.th/en/tver-database-and-statistics/t-ver-registered-project/item/975-nan-reforestation-project.html" target="_blank" rel="noopener">อบก. — โครงการปลูกป่าน่าน T-VER</a></li>
+    <li><a href="https://nextcity.org/urbanist-news/singapore-shows-what-serious-urban-farming-looks-like" target="_blank" rel="noopener">Next City — Singapore urban farming</a></li>
+    <li><a href="https://www.verticalfarmdaily.com/article/9668298/local-international-collaborations-drive-singapore-s-30-for-30-program/" target="_blank" rel="noopener">Vertical Farm Daily — Singapore 30 by 30</a></li>
+  </ol>
+  <p style="margin-top:8px">ข้อมูลพืช โรค แมลง และช่วงฤดู มาจากความรู้ทั่วไปด้านเกษตรไทย ควรตรวจกับกรมวิชาการเกษตรและเกษตรอำเภอก่อนลงมือ</p>
+</section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const Z=[
+ {id:'up',name:'ต้นน้ำ: ดอยภูคา ปัว บ่อเกลือ',prov:'จ.น่าน (เหนือ)',color:'var(--forest)',d:'M150 20 L250 16 L262 120 L130 128 Z',lx:150,ly:80,
+  stat:{'ความสูง':'600–1,900 ม.','ฝนเฉลี่ย':'~1,300–1,600 มม./ปี','ใช้ที่ดินเด่น':'ป่า, ข้าวโพด, ข้าวไร่'},
+  issue:'ป่าต้นน้ำถูกแผ้วถางปลูกข้าวโพดเลี้ยงสัตว์บนที่ลาดชัน ทำให้ดินพังทลาย น้ำหลากเร็วขึ้น และเกิดหมอกควันจากการเผาช่วงกุมภาพันธ์ถึงเมษายน',
+  good:['กาแฟอะราบิกาใต้ร่มไม้','ชาเมี่ยง','อะโวคาโด','มะแขว่น','สมุนไพร (ขมิ้นชัน ไพล)','ไผ่','ไม้ป่าท้องถิ่น'],bad:['ข้าวโพดเชิงเดี่ยวบนที่ชัน >35%','พืชที่ต้องเผาเตรียมแปลง'],
+  pest:['หนอนกระทู้ข้าวโพดลายจุด (ข้าวโพด)','โรคราสนิมกาแฟ','มอดเจาะผลกาแฟ'],
+  design:['ป่าอนุรักษ์บนยอด เส้นชั้นความสูงทำแนวหญ้าแฝก','วนเกษตร 3 ชั้น: ไม้ใหญ่ ไม้ผล กาแฟ','ฝายชะลอน้ำในร่องห้วย','จุดรวบรวมและอบแห้งกาแฟระดับตำบล'],
+  who:'ชุมชนชาติพันธุ์ (ลัวะ ม้ง เมี่ยน) กรมป่าไม้ มูลนิธิรักษ์ป่าน่าน น่านแซนด์บ็อกซ์'},
+ {id:'mid',name:'กลางน้ำบน: แอ่งเมืองน่าน',prov:'จ.น่าน (กลาง–ใต้)',color:'var(--crop)',d:'M130 128 L262 120 L258 236 L118 240 Z',lx:132,ly:186,
+  stat:{'ความสูง':'180–300 ม.','ใช้ที่ดินเด่น':'นาข้าว, สวนผลไม้, ชุมชนเมือง','จุดเด่น':'เมืองเก่า ท่องเที่ยว'},
+  issue:'นาและสวนริมน้ำถูกน้ำล้นตลิ่งช่วงสิงหาคมถึงกันยายน ที่ดินว่างรอบเมืองไม่มีแผนพื้นที่สีเขียวชัด และแรงงานเกษตรสูงวัย',
+  good:['ข้าวเหนียวพันธุ์พื้นเมือง','ส้มสีทอง','ผักอินทรีย์ใกล้เมือง','ไม้ผลบนที่ดอน'],bad:['ปลูกพืชผักริมตลิ่งช่วงน้ำหลาก'],
+  pest:['เพลี้ยกระโดดสีน้ำตาล','โรคไหม้ข้าว','โรคกรีนนิ่งในส้ม'],
+  design:['แนวกันชนสีเขียวริมน้ำ (ไผ่ ไม้ยืนต้น)','ตลาดเกษตรและศูนย์แปรรูปในเมือง','โรงเรือนผักคุณภาพสูงเช่าร่วมหลายราย'],
+  who:'เทศบาลเมืองน่าน เกษตรจังหวัด ผู้ประกอบการท่องเที่ยว สหกรณ์'},
+ {id:'dam',name:'กลางน้ำล่าง: เขื่อนสิริกิติ์ ลับแล',prov:'จ.อุตรดิตถ์',color:'var(--river)',d:'M118 240 L258 236 L250 340 L104 344 Z',lx:120,ly:322,
+  stat:{'ความจุเขื่อน':'~9,510 ล้าน ลบ.ม.','ใช้ที่ดินเด่น':'สวนผลไม้ไหล่เขา, นาเขตชลประทาน','จุดเด่น':'ทุเรียนหลงลับแล, หลินลับแล'},
+  issue:'สวนผลไม้บนที่ลาดเสี่ยงดินถล่มในฝนหนัก (เคยเกิดปี 2549) ราคาผลไม้ผันผวนช่วงผลผลิตออกพร้อมกัน และขาดห้องเย็น',
+  good:['ทุเรียนหลงลับแล หลินลับแล','ลางสาด ลองกอง','มังคุด','ปลาในอ่างเก็บน้ำ'],bad:['ปลูกทุเรียนในที่น้ำขัง'],
+  pest:['โรครากเน่าโคนเน่าทุเรียน (ไฟทอปธอรา)','หนอนเจาะเมล็ดทุเรียน','เพลี้ยไฟ'],
+  design:['ขั้นบันไดดินและแนวไม้ยึดดินในสวน','ห้องเย็นและโรงคัดเกรดร่วม','ขายผ่านระบบจองล่วงหน้าออนไลน์'],
+  who:'กฟผ. (เขื่อน) กรมชลประทาน กลุ่มผู้ปลูกทุเรียน GI กรมทรัพย์สินทางปัญญา'},
+ {id:'low',name:'ปลายน้ำ: ทุ่งบางระกำ',prov:'จ.พิษณุโลก',color:'var(--flood)',d:'M104 344 L250 340 L246 470 L92 474 Z',lx:104,ly:420,
+  stat:{'ทุ่งหน่วงน้ำ':'~265,000 ไร่ (บางระกำโมเดล)','ใช้ที่ดินเด่น':'นาข้าว 2–3 รอบ','จุดเด่น':'ปลูกข้าวเร็ว เกี่ยวก่อนน้ำหลาก'},
+  issue:'น้ำจากแม่น้ำยมและน่านท่วมทุ่งเป็นประจำช่วงสิงหาคมถึงตุลาคม รัฐปรับปฏิทินให้เริ่มทำนาเมษายน เกี่ยวเสร็จกรกฎาคม แล้วใช้ทุ่งเป็นแก้มลิงหน่วงน้ำ แต่ช่วงแล้งกลับขาดน้ำ',
+  good:['ข้าวอายุสั้น (ปลูก เม.ย. เกี่ยว ก.ค.)','ปลาในนาช่วงน้ำหลาก','ผักบนคันนายกสูง','บัวและพืชน้ำ'],bad:['ข้าวนาปีปลูกช้าที่เกี่ยวหลัง ส.ค.','ไม้ผลในที่ลุ่มต่ำ'],
+  pest:['เพลี้ยกระโดดสีน้ำตาล','หนอนห่อใบข้าว','โรคขอบใบแห้ง'],
+  design:['โคก หนอง นา: ยกโคกปลูกผักไม้ผล ขุดหนองเก็บน้ำแล้ง','นาข้าวร่วมปลาช่วงน้ำหลาก','จุดจับปลาและแปรรูปปลาของชุมชน'],
+  who:'กรมชลประทาน สทนช. ม.นเรศวร สหกรณ์การเกษตร อบต. ในทุ่ง'},
+ {id:'conf',name:'จุดบรรจบ: ปากน้ำโพ',prov:'จ.พิจิตร–นครสวรรค์',color:'var(--soil)',d:'M92 474 L246 470 L236 586 L84 588 Z',lx:96,ly:536,
+  stat:{'ใช้ที่ดินเด่น':'นาข้าว, บึงบอระเพ็ด','จุดเด่น':'ต้นแม่น้ำเจ้าพระยา','บทบาท':'ศูนย์ขนส่งและตลาดกลาง'},
+  issue:'รับน้ำจากทั้งปิงและน่าน น้ำท่วมนานในบางปี (2554) และเป็นจุดที่ผลกระทบจากต้นน้ำสะสมมาถึง',
+  good:['ข้าวหอมมะลิ/ข้าวพื้นนุ่ม','ประมงบึง','อ้อยบนที่ดอน'],bad:['ปลูกพืชไร่ในที่ลุ่มน้ำท่วมซ้ำ'],
+  pest:['เพลี้ยกระโดดสีน้ำตาล','หนูนา','โรคไหม้ข้าว'],
+  design:['ศูนย์รวบรวม คัดแยก และกระจายสินค้าของลุ่มน้ำ','เชื่อมรถไฟและทางหลวงสายเอเชียสู่กรุงเทพฯ'],
+  who:'ตลาดกลางสินค้าเกษตร ผู้ค้าส่ง กรมประมง (บึงบอระเพ็ด)'}
+];
+const zg=document.getElementById('zones'),dos=document.getElementById('dossier');
+Z.forEach((z,i)=>{
+  const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.setAttribute('class','zone');g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label',z.name);
+  g.innerHTML=`<path d="${z.d}" fill="${z.color}" fill-opacity=".28" stroke="var(--line)" stroke-width="1.2"/><text class="lbl" x="${z.lx}" y="${z.ly}">${i+1}. ${z.name.split(':')[0]}</text><text class="lbl s" x="${z.lx}" y="${z.ly+14}">${z.prov}</text>`;
+  g.addEventListener('click',()=>pick(i));
+  g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(i)}});
+  zg.appendChild(g);
+});
+function pick(i){
+  const z=Z[i];
+  [...zg.children].forEach((g,j)=>g.classList.toggle('on',j===i));
+  dos.innerHTML=`<div class="ztitle"><span class="eyebrow">โซน ${i+1} จาก 5 · ${z.prov}</span><h2>${z.name}</h2></div>
+  <div class="stats">${Object.entries(z.stat).map(([k,v])=>`<span>${k} <b>${v}</b></span>`).join('')}</div>
+  <div class="blk"><h3>ปัญหาหลัก <span class="tag">ข้อมูล</span></h3><p>${z.issue}</p></div>
+  <div class="cols">
+   <div class="blk"><h3>พืชที่เหมาะ / ไม่เหมาะ</h3><div class="fit">${z.good.map(c=>`<span class="chip good">${c}</span>`).join('')}${z.bad.map(c=>`<span class="chip bad">${c}</span>`).join('')}</div></div>
+   <div class="blk"><h3>โรคและแมลงที่พบบ่อย</h3><ul>${z.pest.map(p=>`<li>${p}</li>`).join('')}</ul></div>
+  </div>
+  <div class="cols">
+   <div class="blk"><h3>แนวออกแบบที่เสนอ <span class="tag inf">อนุมาน</span></h3><ul>${z.design.map(p=>`<li>${p}</li>`).join('')}</ul></div>
+   <div class="blk"><h3>คนในพื้นที่และภาคี</h3><p>${z.who}</p></div>
+  </div>`;
+  try{localStorage.setItem('nanZone',i)}catch(e){}
+}
+let z0=0;try{z0=+(localStorage.getItem('nanZone')||0)||0}catch(e){}
+pick(Math.min(z0,4));
+
+/* season calendar */
+const M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const CAL=[
+ ['ต้นน้ำ',null],
+ ['หมอกควันและไฟป่า',[1,3,3,2,0,0,0,0,0,0,0,1]],
+ ['ดินถล่ม/น้ำป่า',[0,0,0,0,1,1,2,3,3,1,0,0]],
+ ['หนอนกระทู้ข้าวโพด',[0,0,0,0,2,3,3,2,1,0,0,0]],
+ ['ราสนิมกาแฟ',[1,0,0,0,1,2,2,3,3,2,1,1]],
+ ['กลางน้ำ',null],
+ ['น้ำล้นตลิ่ง',[0,0,0,0,0,1,2,3,3,1,0,0]],
+ ['รากเน่าทุเรียน',[0,0,0,0,1,2,3,3,3,2,1,0]],
+ ['ผลไม้ล้นตลาด',[0,0,0,0,1,2,3,2,0,0,0,0]],
+ ['ปลายน้ำ',null],
+ ['น้ำท่วมทุ่ง',[0,0,0,0,0,0,1,3,3,3,1,0]],
+ ['ภัยแล้ง/ขาดน้ำ',[2,2,3,3,1,0,0,0,0,0,0,1]],
+ ['เพลี้ยกระโดดสีน้ำตาล',[1,1,2,2,1,1,2,2,2,2,1,1]],
+ ['โรคไหม้ข้าว',[1,1,0,0,0,1,2,2,1,1,2,2]]
+];
+const cal=document.getElementById('cal');
+cal.innerHTML=`<thead><tr><th>ความเสี่ยง</th>${M.map(m=>`<th>${m}</th>`).join('')}</tr></thead><tbody>${CAL.map(([n,v])=>v?`<tr><td>${n}</td>${v.map((x,k)=>`<td class="c" title="${n} · ${M[k]}"><span class="l${x}"></span></td>`).join('')}</tr>`:`<tr class="grp"><td colspan="13">${n}</td></tr>`).join('')}</tbody>`;
+
+/* 3D lab */
+const S={plot:'A',mode:'old',month:7};
+const NOTES={
+ A:{old:'ไหล่เขาปลูกข้าวโพดเต็มพื้นที่ ดินเปิดโล่งช่วงต้นฝน น้ำไหลบ่าเร็วและพาตะกอนลงห้วย',new:'ยอดเขาเป็นป่า กลางเขาเป็นวนเกษตรกาแฟใต้ร่มไม้ตามแนวระดับ มีแนวหญ้าแฝก และบ่อพักน้ำที่ตีนเขา'},
+ B:{old:'นาข้าวทั้งทุ่ง ปลูกตามฤดูปกติ ถ้าเกี่ยวไม่ทันจะเสียหายเมื่อน้ำหลากเดือนสิงหาคม',new:'โคก หนอง นา: โคกสูงปลูกผักและไม้ผล หนองเก็บน้ำไว้หน้าแล้ง นาปลูกข้าวเร็วแล้วเลี้ยงปลาเมื่อน้ำเข้า'}
+};
+const IND={
+ A:{old:{'น้ำไหลบ่า':85,'ดินสูญเสีย':80,'รายได้หลากหลาย':20,'คาร์บอนกักเก็บ':15},new:{'น้ำไหลบ่า':35,'ดินสูญเสีย':20,'รายได้หลากหลาย':75,'คาร์บอนกักเก็บ':70}},
+ B:{old:{'ความเสียหายน้ำท่วม':80,'น้ำสำรองหน้าแล้ง':10,'รายได้หลากหลาย':20,'แรงงานตลอดปี':30},new:{'ความเสียหายน้ำท่วม':20,'น้ำสำรองหน้าแล้ง':70,'รายได้หลากหลาย':75,'แรงงานตลอดปี':70}}
+};
+const NEG={'น้ำไหลบ่า':1,'ดินสูญเสีย':1,'ความเสียหายน้ำท่วม':1};
+const FLOOD=[0.05,0.03,0.0,0.0,0.05,0.15,0.35,0.75,0.95,0.85,0.4,0.12];
+const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const stage=document.getElementById('stage'),cv=document.getElementById('cv');
+let renderer,scene,cam,mesh,water,trees=[],rot=0.7,tilt=0.75,dist=26;
+const N=64,SZ=20;
+function hA(x,z){return (z+10)*0.45+Math.sin(x*0.35)*0.8+Math.cos(z*0.5+x*0.2)*0.5}
+function hB(x,z){
+  let h=Math.sin(x*0.3)*0.08+Math.cos(z*0.27)*0.08;
+  if(x<-6.5) h-=0.9; // river channel
+  if(S.mode==='new'){
+    const dk=Math.hypot(x-3,z+4); if(dk<3.2) h+=1.6*(1-dk/3.2)+0.3; // โคก
+    const dp=Math.hypot(x-4,z-4.5); if(dp<2.6) h-=1.1*(1-dp/2.6)+0.2; // หนอง
+  }
+  return h;
+}
+function colA(x,z,h){
+  if(S.mode==='old') return h>1? '--crop':'--soil';
+  if(h>6.2) return '--forest';
+  if(h>2.2) return (Math.floor((h)*1.6)%2===0)?'--forest':'--crop';
+  if(Math.hypot(x+5,z+8)<2.2) return '--river';
+  return '--crop';
+}
+function colB(x,z,h){
+  if(x<-6.5) return '--river';
+  if(S.mode==='old') return '--crop';
+  if(Math.hypot(x-3,z+4)<3.2) return '--forest';
+  if(Math.hypot(x-4,z-4.5)<2.6) return '--river';
+  return '--crop';
+}
+function build(){
+  if(!window.THREE){cv.replaceWith(Object.assign(document.createElement('p'),{className:'note',textContent:'โหลดไลบรารี 3D ไม่สำเร็จ ลองรีเฟรชหน้าอีกครั้ง'}));return}
+  if(!renderer){
+    renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true});
+    renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
+    scene=new THREE.Scene();
+    cam=new THREE.PerspectiveCamera(40,1.6,0.1,200);
+    scene.add(new THREE.HemisphereLight(0xffffff,0x445544,0.9));
+    const d=new THREE.DirectionalLight(0xffffff,0.6);d.position.set(10,20,8);scene.add(d);
+  }
+  if(mesh){scene.remove(mesh);mesh.geometry.dispose()}
+  trees.forEach(t=>scene.remove(t));trees=[];
+  if(water){scene.remove(water);water=null}
+  scene.background=new THREE.Color(cssv('--paper'));
+  const g=new THREE.PlaneGeometry(SZ,SZ,N,N);g.rotateX(-Math.PI/2);
+  const p=g.attributes.position,cols=[],c=new THREE.Color();
+  const hf=S.plot==='A'?hA:hB,cf=S.plot==='A'?colA:colB;
+  for(let i=0;i<p.count;i++){
+    const x=p.getX(i),z=p.getZ(i),h=hf(x,z);p.setY(i,h);
+    c.set(cssv(cf(x,z,h)));const v=0.88+0.12*Math.sin(x*3.1+z*2.3);cols.push(c.r*v,c.g*v,c.b*v);
+  }
+  g.setAttribute('color',new THREE.Float32BufferAttribute(cols,3));g.computeVertexNormals();
+  mesh=new THREE.Mesh(g,new THREE.MeshLambertMaterial({vertexColors:true,flatShading:true}));scene.add(mesh);
+  // trees
+  const tg=new THREE.ConeGeometry(0.35,1.1,6),tm=new THREE.MeshLambertMaterial({color:new THREE.Color(cssv('--forest')).multiplyScalar(0.8)});
+  const sg=new THREE.SphereGeometry(0.28,6,5),sm=new THREE.MeshLambertMaterial({color:new THREE.Color(cssv('--soil'))});
+  if(S.mode==='new'){
+    for(let k=0;k<160;k++){
+      const x=(Math.random()-.5)*SZ*0.95,z=(Math.random()-.5)*SZ*0.95,h=hf(x,z),col=cf(x,z,h);
+      if(col==='--forest'){const t=new THREE.Mesh(S.plot==='A'&&h<6.2?sg:tg,S.plot==='A'&&h<6.2?sm:tm);t.position.set(x,h+0.5,z);scene.add(t);trees.push(t)}
+    }
+  }
+  if(S.plot==='B'){
+    const wg=new THREE.PlaneGeometry(SZ,SZ);wg.rotateX(-Math.PI/2);
+    water=new THREE.Mesh(wg,new THREE.MeshLambertMaterial({color:new THREE.Color(cssv('--flood')),transparent:true,opacity:0.55}));
+    scene.add(water);
+  }
+  setWater();renderUI();resize();
+}
+function setWater(){
+  if(!water) return;
+  const f=FLOOD[S.month];
+  water.position.y=-0.9+f*(S.mode==='new'?1.15:1.15);
+  water.visible=true;
+}
+function renderUI(){
+  document.getElementById('mlab').textContent=M[S.month];
+  document.getElementById('plotNote').textContent=NOTES[S.plot][S.mode];
+  const ind=IND[S.plot][S.mode];
+  let extra='';
+  if(S.plot==='B'){const f=FLOOD[S.month];extra=`<div class="mrow"><span>ระดับน้ำเดือนนี้</span><div class="bar"><i style="width:${f*100}%;background:var(--flood)"></i></div><span class="v">${Math.round(f*100)}</span></div>`}
+  if(S.plot==='A'){const r=[0,0,0,0,.3,.6,.7,.9,1,.5,.1,0][S.month];const ro=Math.round(r*ind['น้ำไหลบ่า']);extra=`<div class="mrow"><span>น้ำไหลบ่าเดือนนี้</span><div class="bar neg"><i style="width:${ro}%"></i></div><span class="v">${ro}</span></div>`}
+  document.getElementById('meter').innerHTML=Object.entries(ind).map(([k,v])=>`<div class="mrow"><span>${k}</span><div class="bar${NEG[k]?' neg':''}"><i style="width:${v}%"></i></div><span class="v">${v}</span></div>`).join('')+extra;
+  const L=S.plot==='A'?(S.mode==='old'?[['--crop','ข้าวโพด'],['--soil','ดินเปิด']]:[['--forest','ป่า/ไม้ใหญ่'],['--crop','กาแฟ ไม้ผล แนวแฝก'],['--river','บ่อพักน้ำ']]):(S.mode==='old'?[['--crop','นาข้าว'],['--river','แม่น้ำ'],['--flood','น้ำหลาก']]:[['--forest','โคก'],['--river','หนอง/แม่น้ำ'],['--crop','นา'],['--flood','น้ำหลาก']]);
+  document.getElementById('legend').innerHTML=L.map(([v,t])=>`<span><i style="background:var(${v})"></i>${t}</span>`).join('');
+}
+function resize(){if(!renderer)return;const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();draw()}
+function draw(){
+  const cy=S.plot==='A'?3:0;
+  cam.position.set(Math.sin(rot)*Math.cos(tilt)*dist,cy+Math.sin(tilt)*dist,Math.cos(rot)*Math.cos(tilt)*dist);
+  cam.lookAt(0,cy,0);renderer.render(scene,cam);
+}
+let drag=null;
+cv.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY};cv.setPointerCapture(e.pointerId)});
+cv.addEventListener('pointermove',e=>{if(!drag)return;rot-=(e.clientX-drag.x)*0.01;tilt=Math.max(0.15,Math.min(1.4,tilt+(e.clientY-drag.y)*0.01));drag={x:e.clientX,y:e.clientY};draw()});
+cv.addEventListener('pointerup',()=>drag=null);
+cv.addEventListener('wheel',e=>{e.preventDefault();dist=Math.max(12,Math.min(45,dist+e.deltaY*0.02));draw()},{passive:false});
+function seg(id,key){document.getElementById(id).addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S[key]=b.dataset.v;[...e.currentTarget.children].forEach(x=>x.setAttribute('aria-pressed',x===b));if(key==='plot')S.month=S.plot==='B'?7:6,document.getElementById('month').value=S.month;build()})}
+seg('plotSeg','plot');seg('modeSeg','mode');
+document.getElementById('month').addEventListener('input',e=>{S.month=+e.target.value;setWater();renderUI();draw()});
+window.addEventListener('resize',resize);
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',build);
+new MutationObserver(build).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+build();
+</script>
+
+</body>
+</html>

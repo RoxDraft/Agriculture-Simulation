@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agriculture Simulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Noto+Serif+Thai:wght@600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.cards a{text-decoration:none;color:inherit}
+.cards .card{height:100%;transition:border-color .15s}
+.cards a:hover .card,.cards a:focus-visible .card{border-color:var(--sel)}
+.cards ul{font-size:13.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<nav class="topnav"><a href="index.html" aria-current="page">หน้าแรก</a><a href="thailand.html">แผนที่ภูมิภาคไทย</a><a href="nan-basin.html">ลุ่มน้ำน่าน</a><a href="soil.html">ดิน น้ำ หรือระบบปิด</a></nav>
+<div class="wrap">
+<header>
+  <span class="eyebrow">Agriculture Simulation · ต้นน้ำถึงปลายน้ำ</span>
+  <h1>จำลองและออกแบบพื้นที่เกษตร</h1>
+  <p class="lede">ชุดหน้าเว็บสำหรับออกแบบพื้นที่เกษตรตั้งแต่ระดับประเทศ ลงไปถึงลุ่มน้ำ แปลง และรากพืช อธิบายโครงสร้างของพืช ความสัมพันธ์กับคนในพื้นที่ และสิ่งแวดล้อม ทุกหน้าเป็นไฟล์ HTML ธรรมดา เปิดได้ทันทีหรือรันบน GitHub Pages</p>
+</header>
+<div class="cards">
+  <a href="thailand.html"><div class="card"><span class="eyebrow">ระดับประเทศ</span><h2>แผนที่ภูมิภาคไทย</h2>
+    <ul><li>6 ภูมิภาค พร้อมสีความสูงจากระดับทะเล</li><li>แม่น้ำสายหลักถึงสายย่อย อ่างเก็บน้ำ อ่าว</li><li>สัดส่วนที่ดิน อุตสาหกรรม ที่อยู่อาศัย</li><li>คำนวณส่งน้ำ ส่งไฟ และขนส่งทางถนน ราง เรือ อากาศ</li></ul></div></a>
+  <a href="nan-basin.html"><div class="card"><span class="eyebrow">ระดับลุ่มน้ำและแปลง</span><h2>ห้องทดลองลุ่มน้ำน่าน</h2>
+    <ul><li>5 โซนจากดอยภูคาถึงปากน้ำโพ</li><li>แปลงทดลอง 3 มิติ แบบเดิมกับแบบใหม่</li><li>ปฏิทินความเสี่ยง ภาคี ทุน ตลาด</li></ul></div></a>
+  <a href="soil.html"><div class="card"><span class="eyebrow">ระดับพืชและราก</span><h2>ดิน น้ำ หรือระบบปิด</h2>
+    <ul><li>เทียบดิน ไฮโดรโปนิกส์ ระบบปิด ปุ๋ย ก๊าซเรือนกระจก</li><li>ห้องทดลองเคมีราก และจำลองแมลงกับศัตรูธรรมชาติ</li><li>วงจรเพาะปลูกจากดั้งเดิมถึงอัตโนมัติ การพัฒนาพันธุ์</li><li>ระยะเวลาการเติบโตของพืชแต่ละชนิด</li></ul></div></a>
+</div>
+<p class="note">ข้อมูลในทุกหน้ามีป้ายบอกสถานะ: ข้อมูลที่มีแหล่งอ้างอิง ข้อสรุปที่เป็นการอนุมาน และข้อเท็จจริงทั่วไปที่ยังไม่มีอ้างอิง ตัวเลขที่ใช้ตัดสินใจลงทุนควรตรวจกับหน่วยงานในพื้นที่ก่อนใช้</p>
+</div>
+</body>
+</html>
