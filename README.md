@@ -34,6 +34,8 @@ index.html, thailand.html, nan-basin.html, soil.html
 assets/
   site.css            สไตล์ร่วมของหน้าแรกและแผนที่ภูมิภาค
   thailand-data.js    พิกัดแม่น้ำ อ่าง เมือง ถนน ราง สายส่ง และข้อมูลภูมิภาค
+  thailand-en.js      คำแปลอังกฤษของชื่อและข้อความใน thailand-data.js
+  nan-en.js           คำแปลอังกฤษของข้อมูลโซนและปฏิทินในหน้าลุ่มน้ำน่าน
   thailand.js         วาดแผนที่ ความสูง และตัวคำนวณ
   nav.css             แถบเมนูบนร่วมทุกหน้า
   i18n.js             ปุ่มสลับภาษาไทย/อังกฤษ (ข้อความคู่ <span class="th"> / <span class="en">, จำค่าไว้ในเบราว์เซอร์, เปิดด้วย ?lang=en ได้)
