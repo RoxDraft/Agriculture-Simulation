@@ -39,3 +39,6 @@ html{scroll-padding-top:84px}
   .nv small{display:none}
   .langsw{margin-left:auto}
 }
+.nv-chain{--c:var(--nv-chain,#6d4fa0)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--nv-chain:#b59ae0}}
+:root[data-theme="dark"]{--nv-chain:#b59ae0}
