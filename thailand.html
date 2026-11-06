@@ -11,7 +11,7 @@
 /* Layout: big map on the left (sticky on desktop), region dossier + planner on the right. */
 .tgrid{display:grid;grid-template-columns:minmax(300px,480px) 1fr;gap:24px;align-items:start}
 @media (max-width:900px){.tgrid{grid-template-columns:1fr}}
-.mapcol{position:sticky;top:12px}
+.mapcol{position:sticky;top:76px}
 @media (max-width:900px){.mapcol{position:static}}
 .mapbox{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:10px;position:relative}
 .mapbox svg{width:100%;height:auto;display:block;touch-action:manipulation}
@@ -55,9 +55,20 @@ table.modes{border-collapse:collapse;width:100%;font-size:13px;min-width:520px}
 .modes tr.na td{color:var(--muted)}
 .modes tr.best td:first-child{font-weight:600;color:var(--forest)}
 </style>
+<link rel="stylesheet" href="assets/nav.css">
+<script src="assets/i18n.js"></script>
 </head>
 <body>
-<nav class="topnav"><a href="index.html">หน้าแรก</a><a href="thailand.html" aria-current="page">แผนที่ภูมิภาคไทย</a><a href="nan-basin.html">ลุ่มน้ำน่าน</a><a href="soil.html">ดิน น้ำ หรือระบบปิด</a></nav>
+<header class="sitebar"><div class="sitebar-in">
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#2f6b45"/><path d="M16 25V13M16 17c-5 0-8-3-8-8 5 0 8 3 8 8zm0-2c0-5 3-8 8-8 0 5-3 8-8 8z" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Agriculture Simulation</span></a>
+  <nav class="mainnav" aria-label="เมนูหลัก" data-en-aria-label="Main menu">
+    <a class="nv nv-home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span><b><span class="th">หน้าแรก</span><span class="en">Home</span></b><small><span class="th">ทุกหน้า</span><span class="en">All pages</span></small></span></a>
+    <a class="nv nv-map" href="thailand.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg><span><b><span class="th">แผนที่ภูมิภาคไทย</span><span class="en">Thailand regions</span></b><small><span class="th">ระดับประเทศ</span><span class="en">National scale</span></small></span></a>
+    <a class="nv nv-basin" href="nan-basin.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 18l5-9 4 6 3-4 6 7z"/><path d="M14 4c-2 3 2 4 0 7" /></svg><span><b><span class="th">ลุ่มน้ำน่าน</span><span class="en">Nan River basin</span></b><small><span class="th">ระดับลุ่มน้ำและแปลง</span><span class="en">Basin and plot scale</span></small></span></a>
+    <a class="nv nv-soil" href="soil.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 13V5M12 9c-3 0-5-2-5-5 3 0 5 2 5 5zm0 0c0-3 2-5 5-5 0 3-2 5-5 5z"/><path d="M3 15h18M5 19h3M11 19h2M16 19h3"/></svg><span><b><span class="th">ดิน · น้ำ · ระบบปิด</span><span class="en">Soil · Water · Closed</span></b><small><span class="th">ระดับพืชและราก</span><span class="en">Plant and root scale</span></small></span></a>
+  </nav>
+  <div class="langsw" role="group" aria-label="ภาษา" data-en-aria-label="Language"><button type="button" data-lang-btn="th" aria-pressed="true">ไทย</button><button type="button" data-lang-btn="en" aria-pressed="false">EN</button></div>
+</div></header>
 <div class="wrap">
 <header>
   <span class="eyebrow">ภาพรวมประเทศ · 6 ภูมิภาค · ต้นน้ำถึงทะเล</span>

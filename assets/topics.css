@@ -1,0 +1,68 @@
+/* Simulations for soil-page topics 1–9 and the grouped topic menu. Uses the soil page's tokens. */
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-top:22px}
+.toc-g{--c:var(--soil);background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.toc-g>b{font-family:var(--display);font-size:1rem;color:var(--c)}
+.toc-g>small{font-size:.75rem;color:var(--muted);line-height:1.4}
+.toc-g>div{display:flex;flex-direction:column;gap:2px;margin-top:6px}
+.toc-g a{display:flex;gap:8px;align-items:center;text-decoration:none;color:var(--fg);font-size:.86rem;padding:3px 4px;border-radius:4px;line-height:1.35}
+.toc-g a:hover{background:var(--tag)}
+.toc-g a i{font-style:normal;font-family:var(--mono);font-size:.72rem;min-width:1.7rem;height:1.25rem;display:grid;place-items:center;border-radius:999px;border:1px solid var(--c);color:var(--c);flex:none}
+.g-water{--c:var(--water)} .g-fert{--c:var(--leaf)} .g-lab{--c:var(--warn)}
+.topic{scroll-margin-top:84px}
+
+.sim{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:14px;max-width:none}
+.sim:empty{display:none}
+.sim-h{display:flex;flex-direction:column;gap:4px}
+.sim-h h3{margin:0;font-size:1.08rem}
+.sim-h p{margin:0;font-size:.88rem;color:var(--muted);max-width:none}
+.sim-tag{align-self:flex-start;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--surface);background:var(--water);padding:1px 8px;border-radius:999px}
+.sim .lab2{margin-top:0}
+.sim svg{display:block;width:100%;height:auto}
+.sim .pane{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px}
+.sim .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sim .ctlrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.sim .btn2[aria-pressed="true"]{background:var(--water);color:var(--surface)}
+.sim .note{font-size:.78rem;color:var(--muted);line-height:1.5;margin:0;max-width:none}
+.sim .kpi div{background:var(--bg)}
+.sim .msg{border-left:3px solid var(--water);background:var(--bg);padding:8px 12px;border-radius:4px;font-size:.88rem;line-height:1.55;max-width:none;margin:0}
+.sim .msg.bad{border-left-color:var(--warn)} .sim .msg.good{border-left-color:var(--leaf)}
+.cards2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.cards2>div{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:.83rem;line-height:1.5;display:flex;flex-direction:column;gap:4px;cursor:default}
+.cards2>div.on{border-color:var(--water);box-shadow:0 0 0 1px var(--water)}
+.cards2 h4{margin:0;font-size:.92rem;font-family:var(--display)}
+.cards2 dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 8px}
+.cards2 dt{color:var(--muted);font-size:.76rem}
+.cards2 dd{margin:0}
+.cards2 svg{background:var(--surface);border-radius:6px;border:1px solid var(--line)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:640px){.two{grid-template-columns:1fr}}
+.two>div{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;font-size:.86rem;line-height:1.55;min-width:0}
+.two h4{margin:0;font-size:.95rem;font-family:var(--display)}
+.two ul{margin:0;padding-left:18px}
+.two li{max-width:none}
+.mtab{width:100%;border-collapse:collapse;font-size:.84rem;min-width:520px}
+.mtab th,.mtab td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;vertical-align:middle}
+.mtab th:first-child,.mtab td:first-child{text-align:left;color:var(--muted);font-weight:400;width:auto}
+.mtab thead th{font-weight:600;font-size:.8rem}
+.mtab td b{font-family:var(--mono);font-weight:500}
+.mtab .bar{display:block;height:5px;border-radius:3px;margin-top:3px;margin-left:auto}
+.mtab tr.best td b{color:var(--leaf)}
+.flowp{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch}
+.flowp button{font:inherit;font-size:.8rem;text-align:left;line-height:1.35;padding:6px 9px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg);cursor:pointer;max-width:170px}
+.flowp button small{display:block;font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+.flowp button[aria-pressed="true"]{border-color:var(--water);background:color-mix(in srgb,var(--water) 14%,var(--surface))}
+.flowp button.done{border-color:var(--leaf)}
+.eq{font-family:var(--mono);font-size:.82rem;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 10px;overflow-x:auto;white-space:nowrap}
+.legend3{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.78rem;color:var(--muted)}
+.legend3 i{display:inline-block;width:12px;height:4px;border-radius:2px;margin-right:5px;vertical-align:3px}
+@media (prefers-reduced-motion: reduce){.sim *{transition:none!important}}
+.flowanim{stroke-dasharray:6 8;animation:flowdash 1.2s linear infinite}
+@keyframes flowdash{to{stroke-dashoffset:-28}}
+.unit{cursor:pointer}
+.unit rect{transition:fill .2s,stroke .2s}
+.unit:focus-visible{outline:none}
+.unit:focus-visible rect{stroke-width:3}
+.ions circle{animation:ionmove 4s linear infinite}
+@keyframes ionmove{from{offset-distance:0%}to{offset-distance:100%}}
+.fieldcv{width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+@media (prefers-reduced-motion: reduce){.flowanim,.ions circle{animation:none}}

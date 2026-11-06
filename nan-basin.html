@@ -27,8 +27,8 @@
   --r0:#1f2a24; --r1:#5a4d21; --r2:#8a5a26; --r3:#b2462a; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.65;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
-.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px;--nv-pad:16px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:40px;padding-top:24px}
 h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
 h1{font-size:clamp(28px,4.4vw,44px);font-weight:800}
 h2{font-size:24px;font-weight:800}
@@ -119,14 +119,22 @@ table.cal{border-collapse:collapse;width:100%;min-width:720px;font-size:13px}
 </style>
 
 <style>
-.topnav{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:4px 18px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:13.5px;font-family:var(--f-body)}
-.topnav a{color:var(--muted);text-decoration:none}.topnav a:hover{text-decoration:underline}
-.topnav a[aria-current="page"]{color:inherit;font-weight:600}
 body{margin:0}
 </style>
+<link rel="stylesheet" href="assets/nav.css">
+<script src="assets/i18n.js"></script>
 </head>
 <body>
-<nav class="topnav"><a href="index.html">หน้าแรก</a><a href="thailand.html">แผนที่ภูมิภาคไทย</a><a href="nan-basin.html" aria-current="page">ลุ่มน้ำน่าน</a><a href="soil.html">ดิน น้ำ หรือระบบปิด</a></nav>
+<header class="sitebar"><div class="sitebar-in">
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#2f6b45"/><path d="M16 25V13M16 17c-5 0-8-3-8-8 5 0 8 3 8 8zm0-2c0-5 3-8 8-8 0 5-3 8-8 8z" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Agriculture Simulation</span></a>
+  <nav class="mainnav" aria-label="เมนูหลัก" data-en-aria-label="Main menu">
+    <a class="nv nv-home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span><b><span class="th">หน้าแรก</span><span class="en">Home</span></b><small><span class="th">ทุกหน้า</span><span class="en">All pages</span></small></span></a>
+    <a class="nv nv-map" href="thailand.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg><span><b><span class="th">แผนที่ภูมิภาคไทย</span><span class="en">Thailand regions</span></b><small><span class="th">ระดับประเทศ</span><span class="en">National scale</span></small></span></a>
+    <a class="nv nv-basin" href="nan-basin.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 18l5-9 4 6 3-4 6 7z"/><path d="M14 4c-2 3 2 4 0 7" /></svg><span><b><span class="th">ลุ่มน้ำน่าน</span><span class="en">Nan River basin</span></b><small><span class="th">ระดับลุ่มน้ำและแปลง</span><span class="en">Basin and plot scale</span></small></span></a>
+    <a class="nv nv-soil" href="soil.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 13V5M12 9c-3 0-5-2-5-5 3 0 5 2 5 5zm0 0c0-3 2-5 5-5 0 3-2 5-5 5z"/><path d="M3 15h18M5 19h3M11 19h2M16 19h3"/></svg><span><b><span class="th">ดิน · น้ำ · ระบบปิด</span><span class="en">Soil · Water · Closed</span></b><small><span class="th">ระดับพืชและราก</span><span class="en">Plant and root scale</span></small></span></a>
+  </nav>
+  <div class="langsw" role="group" aria-label="ภาษา" data-en-aria-label="Language"><button type="button" data-lang-btn="th" aria-pressed="true">ไทย</button><button type="button" data-lang-btn="en" aria-pressed="false">EN</button></div>
+</div></header>
 <div class="wrap">
 <header>
   <span class="eyebrow">โครงการนำร่อง · ลุ่มน้ำน่าน · ต้นน้ำถึงปลายน้ำ</span>
