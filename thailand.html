@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>แผนที่ภูมิภาคไทย · Agriculture Simulation</title>
+<meta name="title-en" content="Thailand regional map · Agriculture Simulation">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Noto+Serif+Thai:wght@600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="assets/site.css">
@@ -71,17 +72,17 @@ table.modes{border-collapse:collapse;width:100%;font-size:13px;min-width:520px}
 </div></header>
 <div class="wrap">
 <header>
-  <span class="eyebrow">ภาพรวมประเทศ · 6 ภูมิภาค · ต้นน้ำถึงทะเล</span>
-  <h1>แผนที่วางแผนภูมิภาคไทย</h1>
-  <p class="lede">ดูความสูงของพื้นที่ แม่น้ำสายหลักถึงสายย่อย อ่างเก็บน้ำ อ่าว และโครงข่ายถนน ราง ท่าเรือ สนามบิน โรงไฟฟ้า แยกตามภูมิภาค แล้วเลือกเมืองต้นทางกับปลายทางเพื่อคำนวณคร่าวๆ ว่าการส่งน้ำ ส่งไฟฟ้า และขนสินค้าระหว่างสองจุดใช้พลังงานและต้นทุนเท่าไร</p>
-  <p class="note"><span class="tag">ข้อมูล</span> = ตัวเลขสาธารณะที่ปัดเศษ ควรตรวจกับหน่วยงานก่อนใช้จริง &nbsp; <span class="tag inf">อนุมาน</span> = ค่าประมาณเพื่อการออกแบบ &nbsp; แผนที่เป็นแผนภาพเชิงอธิบาย เส้นเขตและความสูงเป็นค่าโดยประมาณ ไม่ใช่แผนที่สำรวจ</p>
+  <span class="eyebrow"><span class="th">ภาพรวมประเทศ · 6 ภูมิภาค · ต้นน้ำถึงทะเล</span><span class="en">Country overview · 6 regions · headwaters to sea</span></span>
+  <h1><span class="th">แผนที่วางแผนภูมิภาคไทย</span><span class="en">Thailand regional planning map</span></h1>
+  <p class="lede"><span class="th">ดูความสูงของพื้นที่ แม่น้ำสายหลักถึงสายย่อย อ่างเก็บน้ำ อ่าว และโครงข่ายถนน ราง ท่าเรือ สนามบิน โรงไฟฟ้า แยกตามภูมิภาค แล้วเลือกเมืองต้นทางกับปลายทางเพื่อคำนวณคร่าวๆ ว่าการส่งน้ำ ส่งไฟฟ้า และขนสินค้าระหว่างสองจุดใช้พลังงานและต้นทุนเท่าไร</span><span class="en">See elevation, main and minor rivers, reservoirs, bays, and the road, rail, port, airport and power networks by region. Then pick an origin and a destination city for a rough estimate of the energy and cost of moving water, power and freight between them.</span></p>
+  <p class="note"><span class="th"><span class="tag">ข้อมูล</span> = ตัวเลขสาธารณะที่ปัดเศษ ควรตรวจกับหน่วยงานก่อนใช้จริง &nbsp; <span class="tag inf">อนุมาน</span> = ค่าประมาณเพื่อการออกแบบ &nbsp; แผนที่เป็นแผนภาพเชิงอธิบาย เส้นเขตและความสูงเป็นค่าโดยประมาณ ไม่ใช่แผนที่สำรวจ</span><span class="en"><span class="tag">data</span> = rounded public figures; check with the agency before real use &nbsp; <span class="tag inf">inferred</span> = design estimate &nbsp; The map is an explanatory diagram. Boundaries and elevations are approximate, not survey grade.</span></p>
 </header>
 
 <section>
 <div class="tgrid">
   <div class="mapcol">
     <div class="mapbox">
-      <svg id="map" viewBox="0 0 580 1050" role="img" aria-label="แผนที่ประเทศไทยแสดงความสูง แม่น้ำ และโครงสร้างพื้นฐาน">
+      <svg id="map" viewBox="0 0 580 1050" role="img" aria-label="แผนที่ประเทศไทยแสดงความสูง แม่น้ำ และโครงสร้างพื้นฐาน" data-en-aria-label="Map of Thailand showing elevation, rivers and infrastructure">
         <rect x="0" y="0" width="580" height="1050" fill="var(--sea)"/>
         <image id="relief" x="0" y="0" width="580" height="1050" preserveAspectRatio="none"/>
         <path id="outline" fill="none" stroke="var(--ink)" stroke-width="1" stroke-opacity=".55"/>
@@ -97,7 +98,7 @@ table.modes{border-collapse:collapse;width:100%;font-size:13px;min-width:520px}
         <g id="gCity"></g>
         <g id="gSea"></g>
       </svg>
-      <div class="readout" id="readout">ชี้บนแผนที่เพื่อดูความสูงโดยประมาณ · แตะเมืองเพื่อตั้งจุด A และ B</div>
+      <div class="readout" id="readout"><span class="th">ชี้บนแผนที่เพื่อดูความสูงโดยประมาณ · แตะเมืองเพื่อตั้งจุด A และ B</span><span class="en">Point at the map to see approximate elevation · tap a city to set A and B</span></div>
       <div class="hyps" id="hyps"></div>
       <div class="layers" id="layers"></div>
     </div>
@@ -105,49 +106,50 @@ table.modes{border-collapse:collapse;width:100%;font-size:13px;min-width:520px}
 
   <div class="stackcol" style="display:flex;flex-direction:column;gap:28px;min-width:0">
     <section>
-      <div><span class="eyebrow">1 · ภูมิภาค</span><h2>เลือกภูมิภาค</h2></div>
+      <div><span class="eyebrow">1 · <span class="th">ภูมิภาค</span><span class="en">Regions</span></span><h2><span class="th">เลือกภูมิภาค</span><span class="en">Pick a region</span></h2></div>
       <div class="tabs" id="regTabs"></div>
       <div id="regBox" aria-live="polite" style="display:flex;flex-direction:column;gap:14px"></div>
     </section>
 
     <section>
-      <div><span class="eyebrow">2 · วางแผนเชื่อมสองจุด</span><h2>ส่งน้ำ ส่งไฟ ขนส่ง</h2>
-      <p class="note">เลือกเมือง A และ B (หรือแตะจุดเมืองบนแผนที่) ระบบจะวาดหน้าตัดความสูงตามแนวเส้นตรง แล้วประมาณพลังงานสูบน้ำ การสูญเสียในสายส่ง และต้นทุนขนส่งแต่ละแบบ <span class="tag inf">อนุมาน</span></p></div>
+      <div><span class="eyebrow">2 · <span class="th">วางแผนเชื่อมสองจุด</span><span class="en">Link two points</span></span><h2><span class="th">ส่งน้ำ ส่งไฟ ขนส่ง</span><span class="en">Water, power, freight</span></h2>
+      <p class="note"><span class="th">เลือกเมือง A และ B (หรือแตะจุดเมืองบนแผนที่) ระบบจะวาดหน้าตัดความสูงตามแนวเส้นตรง แล้วประมาณพลังงานสูบน้ำ การสูญเสียในสายส่ง และต้นทุนขนส่งแต่ละแบบ <span class="tag inf">อนุมาน</span></span><span class="en">Pick cities A and B (or tap cities on the map). The page draws the elevation profile along the straight line, then estimates pumping energy, transmission loss and the cost of each freight mode. <span class="tag inf">inferred</span></span></p></div>
       <div class="planner">
-        <label class="ctl">ต้นทาง A<select id="selA"></select></label>
-        <label class="ctl">ปลายทาง B<select id="selB"></select></label>
-        <label class="ctl">ปริมาณน้ำที่ส่ง (ล้าน ลบ.ม./ปี)<input id="inV" type="number" min="0.1" step="0.5" value="10"></label>
-        <label class="ctl">กำลังไฟที่ส่ง (เมกะวัตต์)<input id="inP" type="number" min="1" step="10" value="300"></label>
-        <label class="ctl">สินค้าที่ขน (ตัน)<input id="inT" type="number" min="1" step="100" value="1000"></label>
-        <label class="ctl">ระดับแรงดันสายส่ง<select id="selKV"><option value="500">500 kV</option><option value="230" selected>230 kV</option><option value="115">115 kV</option></select></label>
+        <label class="ctl"><span class="th">ต้นทาง A</span><span class="en">Origin A</span><select id="selA"></select></label>
+        <label class="ctl"><span class="th">ปลายทาง B</span><span class="en">Destination B</span><select id="selB"></select></label>
+        <label class="ctl"><span class="th">ปริมาณน้ำที่ส่ง (ล้าน ลบ.ม./ปี)</span><span class="en">Water moved (million m³/yr)</span><input id="inV" type="number" min="0.1" step="0.5" value="10"></label>
+        <label class="ctl"><span class="th">กำลังไฟที่ส่ง (เมกะวัตต์)</span><span class="en">Power sent (MW)</span><input id="inP" type="number" min="1" step="10" value="300"></label>
+        <label class="ctl"><span class="th">สินค้าที่ขน (ตัน)</span><span class="en">Freight (tonnes)</span><input id="inT" type="number" min="1" step="100" value="1000"></label>
+        <label class="ctl"><span class="th">ระดับแรงดันสายส่ง</span><span class="en">Line voltage</span><select id="selKV"><option value="500">500 kV</option><option value="230" selected>230 kV</option><option value="115">115 kV</option></select></label>
       </div>
-      <div class="prof"><svg id="prof" viewBox="0 0 600 170" role="img" aria-label="หน้าตัดความสูงระหว่าง A และ B"></svg></div>
+      <div class="prof"><svg id="prof" viewBox="0 0 600 170" role="img" aria-label="หน้าตัดความสูงระหว่าง A และ B" data-en-aria-label="Elevation profile between A and B"></svg></div>
       <div class="res" id="res"></div>
       <div class="scroll"><table class="modes" id="modes"></table></div>
-      <p class="note">สมมติฐาน: แรงเสียดทานในท่อหรือคลองส่งน้ำ 0.6 ม. ต่อ กม. ประสิทธิภาพปั๊ม 75% ค่าไฟ 4 บาทต่อหน่วย ระยะทางจริงของถนน ราง และเรือ คูณจากเส้นตรง 1.3, 1.4 และ 1.6 เท่า ต้นทุนต่อตัน-กม. ใช้ค่าที่มักอ้างในไทย ถนน 1.72 ราง 0.93 น้ำ 0.64 บาท และอากาศประมาณ 12 บาท ทั้งหมดเป็นค่าประมาณ <span class="tag inf">อนุมาน</span></p>
+      <p class="note"><span class="th">สมมติฐาน: แรงเสียดทานในท่อหรือคลองส่งน้ำ 0.6 ม. ต่อ กม. ประสิทธิภาพปั๊ม 75% ค่าไฟ 4 บาทต่อหน่วย ระยะทางจริงของถนน ราง และเรือ คูณจากเส้นตรง 1.3, 1.4 และ 1.6 เท่า ต้นทุนต่อตัน-กม. ใช้ค่าที่มักอ้างในไทย ถนน 1.72 ราง 0.93 น้ำ 0.64 บาท และอากาศประมาณ 12 บาท ทั้งหมดเป็นค่าประมาณ <span class="tag inf">อนุมาน</span></span><span class="en">Assumptions: friction in the pipe or canal 0.6 m per km, pump efficiency 75%, power 4 baht per kWh. Real road, rail and water distances are the straight line times 1.3, 1.4 and 1.6. Cost per tonne-km uses figures often quoted in Thailand: road 1.72, rail 0.93, water 0.64 baht, and air about 12 baht. All values are estimates. <span class="tag inf">inferred</span></span></p>
     </section>
   </div>
 </div>
 </section>
 
 <section>
-  <div><span class="eyebrow">3 · เทียบทุกภูมิภาค</span><h2>สัดส่วนการใช้ที่ดินและโครงสร้างเศรษฐกิจ</h2>
-  <p class="lede">แถบบนคือสัดส่วนพื้นที่ แถบล่างคือสัดส่วนมูลค่าเศรษฐกิจของภูมิภาค (เกษตร อุตสาหกรรม บริการ) ใช้ดูว่าภูมิภาคไหนพื้นที่ส่วนใหญ่เป็นเกษตรแต่รายได้มาจากอุตสาหกรรม ตัวเลขปัดเป็นค่าประมาณ <span class="tag inf">อนุมาน</span> ควรตรวจกับข้อมูลการใช้ที่ดินของกรมพัฒนาที่ดินและผลิตภัณฑ์ภาคของ สศช. ก่อนใช้</p></div>
+  <div><span class="eyebrow">3 · <span class="th">เทียบทุกภูมิภาค</span><span class="en">Compare all regions</span></span><h2><span class="th">สัดส่วนการใช้ที่ดินและโครงสร้างเศรษฐกิจ</span><span class="en">Land use and economic structure</span></h2>
+  <p class="lede"><span class="th">แถบบนคือสัดส่วนพื้นที่ แถบล่างคือสัดส่วนมูลค่าเศรษฐกิจของภูมิภาค (เกษตร อุตสาหกรรม บริการ) ใช้ดูว่าภูมิภาคไหนพื้นที่ส่วนใหญ่เป็นเกษตรแต่รายได้มาจากอุตสาหกรรม ตัวเลขปัดเป็นค่าประมาณ <span class="tag inf">อนุมาน</span> ควรตรวจกับข้อมูลการใช้ที่ดินของกรมพัฒนาที่ดินและผลิตภัณฑ์ภาคของ สศช. ก่อนใช้</span><span class="en">The upper bar is the share of land area; the lower bar is the share of regional economic output (agriculture, industry, services). It shows which regions are mostly farmland but earn mostly from industry. Figures are rounded estimates <span class="tag inf">inferred</span>; check against Land Development Department land-use data and NESDC gross regional product before use.</span></p></div>
   <div class="card" id="cmp"></div>
 </section>
 
 <section class="src">
-  <span class="eyebrow">ที่มาและข้อจำกัด</span>
+  <span class="eyebrow"><span class="th">ที่มาและข้อจำกัด</span><span class="en">Sources and limits</span></span>
   <ul>
-    <li>การแบ่ง 6 ภูมิภาคตามคณะกรรมการภูมิศาสตร์แห่งชาติ: เหนือ 9 จังหวัด อีสาน 20 กลาง 22 (รวมกรุงเทพฯ) ตะวันออก 7 ตะวันตก 5 ใต้ 14</li>
-    <li>ความสูงคำนวณจากแบบจำลองแนวเทือกเขาหลัก ไม่ใช่ข้อมูลแบบจำลองความสูงเชิงเลข (DEM) จริง ถ้าจะออกแบบระบบส่งน้ำจริงให้ใช้ DEM ของ GISTDA หรือ SRTM 30 ม.</li>
-    <li>ความจุอ่างเก็บน้ำเป็นตัวเลขปัดเศษจาก กฟผ. และกรมชลประทาน ตำแหน่งโครงสร้างพื้นฐานเป็นตำแหน่งโดยประมาณ</li>
-    <li>ต้องการระดับลุ่มน้ำและแปลง ดูต่อที่ <a href="nan-basin.html">ห้องทดลองลุ่มน้ำน่าน</a></li>
+    <li><span class="th">การแบ่ง 6 ภูมิภาคตามคณะกรรมการภูมิศาสตร์แห่งชาติ: เหนือ 9 จังหวัด อีสาน 20 กลาง 22 (รวมกรุงเทพฯ) ตะวันออก 7 ตะวันตก 5 ใต้ 14</span><span class="en">Six-region split of the National Geographical Committee: North 9 provinces, Northeast 20, Central 22 (including Bangkok), East 7, West 5, South 14</span></li>
+    <li><span class="th">ความสูงคำนวณจากแบบจำลองแนวเทือกเขาหลัก ไม่ใช่ข้อมูลแบบจำลองความสูงเชิงเลข (DEM) จริง ถ้าจะออกแบบระบบส่งน้ำจริงให้ใช้ DEM ของ GISTDA หรือ SRTM 30 ม.</span><span class="en">Elevation is computed from a model of the main mountain ranges, not a real digital elevation model (DEM). For real water-transfer design, use the GISTDA DEM or SRTM 30 m.</span></li>
+    <li><span class="th">ความจุอ่างเก็บน้ำเป็นตัวเลขปัดเศษจาก กฟผ. และกรมชลประทาน ตำแหน่งโครงสร้างพื้นฐานเป็นตำแหน่งโดยประมาณ</span><span class="en">Reservoir capacities are rounded figures from EGAT and the Royal Irrigation Department. Infrastructure positions are approximate.</span></li>
+    <li><span class="th">ต้องการระดับลุ่มน้ำและแปลง ดูต่อที่ <a href="nan-basin.html">ห้องทดลองลุ่มน้ำน่าน</a></span><span class="en">For basin and plot level detail, see the <a href="nan-basin.html">Nan basin lab</a></span></li>
   </ul>
 </section>
 </div>
 
 <script src="assets/thailand-data.js"></script>
+<script src="assets/thailand-en.js"></script>
 <script src="assets/thailand.js"></script>
 </body>
 </html>
