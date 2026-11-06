@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ลุ่มน้ำน่าน · Agriculture Simulation</title>
+<meta name="title-en" content="Nan basin · Agriculture Simulation">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Noto+Serif+Thai:wght@600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -27,8 +28,8 @@
   --r0:#1f2a24; --r1:#5a4d21; --r2:#8a5a26; --r3:#b2462a; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.65;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
-.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px;--nv-pad:16px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:40px;padding-top:24px}
 h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3}
 h1{font-size:clamp(28px,4.4vw,44px);font-weight:800}
 h2{font-size:24px;font-weight:800}
@@ -119,37 +120,45 @@ table.cal{border-collapse:collapse;width:100%;min-width:720px;font-size:13px}
 </style>
 
 <style>
-.topnav{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:4px 18px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:13.5px;font-family:var(--f-body)}
-.topnav a{color:var(--muted);text-decoration:none}.topnav a:hover{text-decoration:underline}
-.topnav a[aria-current="page"]{color:inherit;font-weight:600}
 body{margin:0}
 </style>
+<link rel="stylesheet" href="assets/nav.css">
+<script src="assets/i18n.js"></script>
 </head>
 <body>
-<nav class="topnav"><a href="index.html">หน้าแรก</a><a href="thailand.html">แผนที่ภูมิภาคไทย</a><a href="nan-basin.html" aria-current="page">ลุ่มน้ำน่าน</a><a href="soil.html">ดิน น้ำ หรือระบบปิด</a></nav>
+<header class="sitebar"><div class="sitebar-in">
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#2f6b45"/><path d="M16 25V13M16 17c-5 0-8-3-8-8 5 0 8 3 8 8zm0-2c0-5 3-8 8-8 0 5-3 8-8 8z" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Agriculture Simulation</span></a>
+  <nav class="mainnav" aria-label="เมนูหลัก" data-en-aria-label="Main menu">
+    <a class="nv nv-home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span><b><span class="th">หน้าแรก</span><span class="en">Home</span></b><small><span class="th">ทุกหน้า</span><span class="en">All pages</span></small></span></a>
+    <a class="nv nv-map" href="thailand.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg><span><b><span class="th">แผนที่ภูมิภาคไทย</span><span class="en">Thailand regions</span></b><small><span class="th">ระดับประเทศ</span><span class="en">National scale</span></small></span></a>
+    <a class="nv nv-basin" href="nan-basin.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 18l5-9 4 6 3-4 6 7z"/><path d="M14 4c-2 3 2 4 0 7" /></svg><span><b><span class="th">ลุ่มน้ำน่าน</span><span class="en">Nan River basin</span></b><small><span class="th">ระดับลุ่มน้ำและแปลง</span><span class="en">Basin and plot scale</span></small></span></a>
+    <a class="nv nv-soil" href="soil.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 13V5M12 9c-3 0-5-2-5-5 3 0 5 2 5 5zm0 0c0-3 2-5 5-5 0 3-2 5-5 5z"/><path d="M3 15h18M5 19h3M11 19h2M16 19h3"/></svg><span><b><span class="th">ดิน · น้ำ · ระบบปิด</span><span class="en">Soil · Water · Closed</span></b><small><span class="th">ระดับพืชและราก</span><span class="en">Plant and root scale</span></small></span></a>
+  </nav>
+  <div class="langsw" role="group" aria-label="ภาษา" data-en-aria-label="Language"><button type="button" data-lang-btn="th" aria-pressed="true">ไทย</button><button type="button" data-lang-btn="en" aria-pressed="false">EN</button></div>
+</div></header>
 <div class="wrap">
 <header>
-  <span class="eyebrow">โครงการนำร่อง · ลุ่มน้ำน่าน · ต้นน้ำถึงปลายน้ำ</span>
-  <h1>ห้องทดลองออกแบบเกษตรลุ่มน้ำน่าน</h1>
-  <p class="lede">แม่น้ำน่านไหลจากดอยภูคา จ.น่าน ผ่านเขื่อนสิริกิติ์ จ.อุตรดิตถ์ ลงทุ่งราบพิษณุโลกและพิจิตร ไปรวมกับแม่น้ำปิงที่ปากน้ำโพ จ.นครสวรรค์ กลายเป็นเจ้าพระยา ลุ่มน้ำเดียวมีปัญหาครบทั้งสาย ต้นน้ำเสียป่าให้ข้าวโพด กลางน้ำพึ่งน้ำเขื่อน ปลายน้ำท่วมทุกปี หน้านี้ใช้คลิกดูทีละโซน ทดลองออกแบบแปลงในมุม 3D แล้วดูว่าใครควรร่วมมือ เงินทุนมาจากไหน และขายให้ใคร</p>
-  <div class="meta"><span>ความยาวแม่น้ำ ~740 กม.</span><span>พื้นที่ลุ่มน้ำ ~34,000 ตร.กม.</span><span>5 จังหวัดหลัก</span><span>แผนที่เป็นแผนภาพเชิงอธิบาย ไม่ใช่มาตราส่วนจริง</span></div>
-  <p class="note">ภาพรวมทั้งประเทศ 6 ภูมิภาค ดูที่ <a href="thailand.html" style="color:var(--river)">แผนที่ภูมิภาคไทย</a></p>
-  <p class="note"><span class="tag">ข้อมูล</span> = อ้างอิงแหล่งข้อมูลสาธารณะท้ายหน้า &nbsp; <span class="tag inf">อนุมาน</span> = ข้อเสนอหรือค่าประมาณเพื่อการออกแบบ ต้องตรวจในพื้นที่จริง</p>
+  <span class="eyebrow"><span class="th">โครงการนำร่อง · ลุ่มน้ำน่าน · ต้นน้ำถึงปลายน้ำ</span><span class="en">Pilot project · Nan basin · headwaters to lowlands</span></span>
+  <h1><span class="th">ห้องทดลองออกแบบเกษตรลุ่มน้ำน่าน</span><span class="en">Nan basin farm design lab</span></h1>
+  <p class="lede"><span class="th">แม่น้ำน่านไหลจากดอยภูคา จ.น่าน ผ่านเขื่อนสิริกิติ์ จ.อุตรดิตถ์ ลงทุ่งราบพิษณุโลกและพิจิตร ไปรวมกับแม่น้ำปิงที่ปากน้ำโพ จ.นครสวรรค์ กลายเป็นเจ้าพระยา ลุ่มน้ำเดียวมีปัญหาครบทั้งสาย ต้นน้ำเสียป่าให้ข้าวโพด กลางน้ำพึ่งน้ำเขื่อน ปลายน้ำท่วมทุกปี หน้านี้ใช้คลิกดูทีละโซน ทดลองออกแบบแปลงในมุม 3D แล้วดูว่าใครควรร่วมมือ เงินทุนมาจากไหน และขายให้ใคร</span><span class="en">The Nan River flows from Doi Phu Kha in Nan, through Sirikit Dam in Uttaradit, across the Phitsanulok and Phichit plains, and joins the Ping at Pak Nam Pho in Nakhon Sawan to become the Chao Phraya. This one basin has every problem along its length: the headwaters lose forest to maize, the middle depends on dam water, and the lowlands flood every year. Click through the zones, try designing a plot in 3D, then see who should work together, where funding comes from, and who to sell to.</span></p>
+  <div class="meta"><span><span class="th">ความยาวแม่น้ำ ~740 กม.</span><span class="en">River length ~740 km</span></span><span><span class="th">พื้นที่ลุ่มน้ำ ~34,000 ตร.กม.</span><span class="en">Basin area ~34,000 km²</span></span><span><span class="th">5 จังหวัดหลัก</span><span class="en">5 main provinces</span></span><span><span class="th">แผนที่เป็นแผนภาพเชิงอธิบาย ไม่ใช่มาตราส่วนจริง</span><span class="en">The map is an explanatory diagram, not to scale</span></span></div>
+  <p class="note"><span class="th">ภาพรวมทั้งประเทศ 6 ภูมิภาค ดูที่</span><span class="en">For the whole country's 6 regions, see the</span> <a href="thailand.html" style="color:var(--river)"><span class="th">แผนที่ภูมิภาคไทย</span><span class="en">Thailand regional map</span></a></p>
+  <p class="note"><span class="tag"><span class="th">ข้อมูล</span><span class="en">data</span></span> <span class="th">= อ้างอิงแหล่งข้อมูลสาธารณะท้ายหน้า &nbsp;</span><span class="en">= cites the public sources at the end of the page &nbsp;</span> <span class="tag inf"><span class="th">อนุมาน</span><span class="en">inferred</span></span> <span class="th">= ข้อเสนอหรือค่าประมาณเพื่อการออกแบบ ต้องตรวจในพื้นที่จริง</span><span class="en">= a proposal or design estimate; check on the ground</span></p>
 </header>
 
 <section id="map">
-  <div><span class="eyebrow">1 · แผนที่ภาพรวม 2D</span><h2>เลือกโซนตามแนวแม่น้ำ</h2></div>
+  <div><span class="eyebrow"><span class="th">1 · แผนที่ภาพรวม 2D</span><span class="en">1 · 2D overview map</span></span><h2><span class="th">เลือกโซนตามแนวแม่น้ำ</span><span class="en">Pick a zone along the river</span></h2></div>
   <div class="mapgrid">
     <div class="mapbox">
-      <svg viewBox="0 0 340 600" role="group" aria-label="แผนภาพลุ่มน้ำน่าน แบ่ง 5 โซน">
+      <svg viewBox="0 0 340 600" role="group" aria-label="แผนภาพลุ่มน้ำน่าน แบ่ง 5 โซน" data-en-aria-label="Diagram of the Nan basin in 5 zones">
         <g id="zones"></g>
         <path id="riv" d="M196 22 C186 70 214 100 200 140 C186 180 168 200 176 240 C182 270 150 300 160 330 C170 360 196 380 186 420 C178 450 160 470 168 505 C174 535 160 560 152 585" fill="none" stroke="var(--river)" stroke-width="4" stroke-linecap="round"/>
         <ellipse cx="166" cy="280" rx="22" ry="34" fill="var(--river)" fill-opacity=".45" stroke="var(--river)"/>
-        <text class="lbl s" x="196" y="284">เขื่อนสิริกิติ์</text>
-        <text class="lbl s" x="208" y="44">ดอยภูคา</text>
+        <text class="lbl s" x="196" y="284"><tspan class="th">เขื่อนสิริกิติ์</tspan><tspan class="en">Sirikit Dam</tspan></text>
+        <text class="lbl s" x="208" y="44"><tspan class="th">ดอยภูคา</tspan><tspan class="en">Doi Phu Kha</tspan></text>
         <path d="M160 585 L120 590" stroke="var(--river)" stroke-width="3"/>
-        <text class="lbl s" x="40" y="594">แม่น้ำปิง →</text>
-        <text class="lbl s" x="168" y="598">เจ้าพระยา ↓</text>
+        <text class="lbl s" x="40" y="594"><tspan class="th">แม่น้ำปิง →</tspan><tspan class="en">Ping River →</tspan></text>
+        <text class="lbl s" x="168" y="598"><tspan class="th">เจ้าพระยา ↓</tspan><tspan class="en">Chao Phraya ↓</tspan></text>
         <text class="lbl s" x="8" y="14">N ↑</text>
       </svg>
     </div>
@@ -158,16 +167,16 @@ body{margin:0}
 </section>
 
 <section id="lab">
-  <div><span class="eyebrow">2 · แปลงโฟกัส 3D</span><h2>ลองออกแบบแปลงแล้วดูผล</h2>
-  <p class="lede">เลือกแปลงตัวอย่าง สลับระหว่างแบบเดิมกับแบบที่ออกแบบใหม่ แล้วเลื่อนเดือนเพื่อดูน้ำขึ้นลงตามฤดู ลากเพื่อหมุนมุมมอง ตัวชี้วัดด้านขวาเป็นค่าเปรียบเทียบเชิงสัมพัทธ์ <span class="tag inf">อนุมาน</span> ไม่ใช่ผลวัดจริง</p></div>
+  <div><span class="eyebrow"><span class="th">2 · แปลงโฟกัส 3D</span><span class="en">2 · Focus plot in 3D</span></span><h2><span class="th">ลองออกแบบแปลงแล้วดูผล</span><span class="en">Design a plot and see the result</span></h2>
+  <p class="lede"><span class="th">เลือกแปลงตัวอย่าง สลับระหว่างแบบเดิมกับแบบที่ออกแบบใหม่ แล้วเลื่อนเดือนเพื่อดูน้ำขึ้นลงตามฤดู ลากเพื่อหมุนมุมมอง ตัวชี้วัดด้านขวาเป็นค่าเปรียบเทียบเชิงสัมพัทธ์</span><span class="en">Pick a sample plot, switch between the old layout and the new design, then move the month slider to see water rise and fall with the seasons. Drag to rotate. The indicators on the right are relative comparisons</span> <span class="tag inf"><span class="th">อนุมาน</span><span class="en">inferred</span></span> <span class="th">ไม่ใช่ผลวัดจริง</span><span class="en">not field measurements</span></p></div>
   <div class="lab">
-    <div class="stage" id="stage"><canvas id="cv" aria-label="มุมมองสามมิติของแปลง"></canvas><span class="hint">ลากเพื่อหมุน · เลื่อนล้อเพื่อซูม</span></div>
+    <div class="stage" id="stage"><canvas id="cv" aria-label="มุมมองสามมิติของแปลง" data-en-aria-label="3D view of the plot"></canvas><span class="hint"><span class="th">ลากเพื่อหมุน · เลื่อนล้อเพื่อซูม</span><span class="en">Drag to rotate · scroll to zoom</span></span></div>
     <div class="controls">
-      <div class="blk"><span class="eyebrow">แปลง</span>
-        <div class="seg" id="plotSeg"><button id="pA" aria-pressed="true" data-v="A">ไหล่เขา อ.ปัว</button><button id="pB" aria-pressed="false" data-v="B">ทุ่งบางระกำ</button></div></div>
-      <div class="blk"><span class="eyebrow">รูปแบบ</span>
-        <div class="seg" id="modeSeg"><button id="mOld" aria-pressed="true" data-v="old">แบบเดิม</button><button id="mNew" aria-pressed="false" data-v="new">ออกแบบใหม่</button></div></div>
-      <label class="ctl" for="month">เดือน: <b id="mlab">ส.ค.</b><input id="month" type="range" min="0" max="11" value="7"></label>
+      <div class="blk"><span class="eyebrow"><span class="th">แปลง</span><span class="en">Plot</span></span>
+        <div class="seg" id="plotSeg"><button id="pA" aria-pressed="true" data-v="A"><span class="th">ไหล่เขา อ.ปัว</span><span class="en">Hillside, Pua district</span></button><button id="pB" aria-pressed="false" data-v="B"><span class="th">ทุ่งบางระกำ</span><span class="en">Bang Rakam fields</span></button></div></div>
+      <div class="blk"><span class="eyebrow"><span class="th">รูปแบบ</span><span class="en">Layout</span></span>
+        <div class="seg" id="modeSeg"><button id="mOld" aria-pressed="true" data-v="old"><span class="th">แบบเดิม</span><span class="en">Old layout</span></button><button id="mNew" aria-pressed="false" data-v="new"><span class="th">ออกแบบใหม่</span><span class="en">New design</span></button></div></div>
+      <label class="ctl" for="month"><span class="th">เดือน:</span><span class="en">Month:</span> <b id="mlab">ส.ค.</b><input id="month" type="range" min="0" max="11" value="7"></label>
       <div class="legend" id="legend"></div>
       <div class="meter" id="meter"></div>
       <p class="note" id="plotNote"></p>
@@ -176,95 +185,97 @@ body{margin:0}
 </section>
 
 <section id="season">
-  <div><span class="eyebrow">3 · ปฏิทินความเสี่ยง</span><h2>ปัญหาที่มากับแต่ละฤดู</h2>
-  <p class="lede">ความเข้มของสีคือระดับความเสี่ยงโดยทั่วไป แถวจัดกลุ่มตามโซน ใช้เป็นจุดเริ่มวางปฏิทินเพาะปลูกใหม่ เช่น เกี่ยวข้าวให้เสร็จก่อนน้ำหลากเดือนสิงหาคม</p></div>
-  <div class="legend"><span><i class="l0"></i>ต่ำ</span><span><i class="l1"></i>ปานกลาง</span><span><i class="l2"></i>สูง</span><span><i class="l3"></i>วิกฤต</span></div>
+  <div><span class="eyebrow"><span class="th">3 · ปฏิทินความเสี่ยง</span><span class="en">3 · Risk calendar</span></span><h2><span class="th">ปัญหาที่มากับแต่ละฤดู</span><span class="en">Problems each season brings</span></h2>
+  <p class="lede"><span class="th">ความเข้มของสีคือระดับความเสี่ยงโดยทั่วไป แถวจัดกลุ่มตามโซน ใช้เป็นจุดเริ่มวางปฏิทินเพาะปลูกใหม่ เช่น เกี่ยวข้าวให้เสร็จก่อนน้ำหลากเดือนสิงหาคม</span><span class="en">Color strength is the typical risk level, with rows grouped by zone. Use it as a starting point for a new crop calendar, for example finishing the rice harvest before the August flood.</span></p></div>
+  <div class="legend"><span><i class="l0"></i><span class="th">ต่ำ</span><span class="en">Low</span></span><span><i class="l1"></i><span class="th">ปานกลาง</span><span class="en">Medium</span></span><span><i class="l2"></i><span class="th">สูง</span><span class="en">High</span></span><span><i class="l3"></i><span class="th">วิกฤต</span><span class="en">Critical</span></span></div>
   <div class="scroll"><table class="cal" id="cal"></table></div>
 </section>
 
 <section id="partners">
-  <div><span class="eyebrow">4 · ภาคี ทุน เทคโนโลยี</span><h2>ใครร่วมเควสนี้ได้บ้าง</h2></div>
+  <div><span class="eyebrow"><span class="th">4 · ภาคี ทุน เทคโนโลยี</span><span class="en">4 · Partners, funding, technology</span></span><h2><span class="th">ใครร่วมเควสนี้ได้บ้าง</span><span class="en">Who can join this quest</span></h2></div>
   <div class="ledger">
-    <div class="card"><h3>หน่วยงานรัฐ</h3><ul>
-      <li>สำนักงานทรัพยากรน้ำแห่งชาติ (สทนช.) แผนลุ่มน้ำและผังน้ำ</li>
-      <li>กรมชลประทาน บริหารน้ำเขื่อนสิริกิติ์และทุ่งหน่วงน้ำ</li>
-      <li>กรมพัฒนาที่ดิน แผนที่ความเหมาะสมดิน (Agri-Map) หญ้าแฝก</li>
-      <li>กรมส่งเสริมการเกษตร แปลงใหญ่ Smart Farmer</li>
-      <li>กรมป่าไม้ / กรมอุทยานฯ ป่าชุมชน ที่ดินทำกินในเขตป่า</li>
-      <li>ส.ป.ก. และกรมโยธาธิการและผังเมือง ผังเมืองรวมจังหวัด</li>
-      <li>GISTDA ภาพดาวเทียมติดตามน้ำท่วมและจุดความร้อน</li>
+    <div class="card"><h3><span class="th">หน่วยงานรัฐ</span><span class="en">Government agencies</span></h3><ul>
+      <li><span class="th">สำนักงานทรัพยากรน้ำแห่งชาติ (สทนช.) แผนลุ่มน้ำและผังน้ำ</span><span class="en">Office of the National Water Resources (ONWR): basin and water plans</span></li>
+      <li><span class="th">กรมชลประทาน บริหารน้ำเขื่อนสิริกิติ์และทุ่งหน่วงน้ำ</span><span class="en">Royal Irrigation Department: Sirikit Dam water and flood-retention fields</span></li>
+      <li><span class="th">กรมพัฒนาที่ดิน แผนที่ความเหมาะสมดิน (Agri-Map) หญ้าแฝก</span><span class="en">Land Development Department: soil suitability maps (Agri-Map), vetiver</span></li>
+      <li><span class="th">กรมส่งเสริมการเกษตร แปลงใหญ่ Smart Farmer</span><span class="en">Department of Agricultural Extension: large-plot farming, Smart Farmer</span></li>
+      <li><span class="th">กรมป่าไม้ / กรมอุทยานฯ ป่าชุมชน ที่ดินทำกินในเขตป่า</span><span class="en">Royal Forest Department / National Parks: community forests, farmland inside forest zones</span></li>
+      <li><span class="th">ส.ป.ก. และกรมโยธาธิการและผังเมือง ผังเมืองรวมจังหวัด</span><span class="en">ALRO and the Department of Public Works and Town & Country Planning: provincial land-use plans</span></li>
+      <li><span class="th">GISTDA ภาพดาวเทียมติดตามน้ำท่วมและจุดความร้อน</span><span class="en">GISTDA: satellite imagery for flood and hotspot tracking</span></li>
     </ul></div>
-    <div class="card"><h3>ชุมชน เอกชน วิชาการ</h3><ul>
-      <li>สหกรณ์การเกษตรและวิสาหกิจชุมชนในแต่ละอำเภอ</li>
-      <li>มูลนิธิรักษ์ป่าน่าน, โครงการน่านแซนด์บ็อกซ์</li>
-      <li>สถาบันปิดทองหลังพระฯ ต้นแบบพัฒนาแหล่งน้ำชุมชน</li>
-      <li>RECOFTC ป่าชุมชนและระดมทุนฟื้นฟู</li>
-      <li>ม.นเรศวร, ม.แม่โจ้, ม.เกษตรศาสตร์ ข้อมูลพันธุ์และโรคพืช</li>
-      <li>ภาคเอกชนที่ซื้อผลผลิตและทำโครงการปลูกป่า (CSR/ESG)</li>
+    <div class="card"><h3><span class="th">ชุมชน เอกชน วิชาการ</span><span class="en">Communities, private sector, academia</span></h3><ul>
+      <li><span class="th">สหกรณ์การเกษตรและวิสาหกิจชุมชนในแต่ละอำเภอ</span><span class="en">Farm cooperatives and community enterprises in each district</span></li>
+      <li><span class="th">มูลนิธิรักษ์ป่าน่าน, โครงการน่านแซนด์บ็อกซ์</span><span class="en">Rak Pa Nan Foundation, Nan Sandbox project</span></li>
+      <li><span class="th">สถาบันปิดทองหลังพระฯ ต้นแบบพัฒนาแหล่งน้ำชุมชน</span><span class="en">Pidthong Institute: community water development models</span></li>
+      <li><span class="th">RECOFTC ป่าชุมชนและระดมทุนฟื้นฟู</span><span class="en">RECOFTC: community forestry and restoration fundraising</span></li>
+      <li><span class="th">ม.นเรศวร, ม.แม่โจ้, ม.เกษตรศาสตร์ ข้อมูลพันธุ์และโรคพืช</span><span class="en">Naresuan, Maejo and Kasetsart universities: variety and plant disease data</span></li>
+      <li><span class="th">ภาคเอกชนที่ซื้อผลผลิตและทำโครงการปลูกป่า (CSR/ESG)</span><span class="en">Companies that buy the produce and run reforestation projects (CSR/ESG)</span></li>
     </ul></div>
-    <div class="card"><h3>แหล่งทุน</h3><ul>
-      <li>ธ.ก.ส. สินเชื่อเกษตรยั่งยืน สินเชื่อเพื่อปลูกไม้มีค่า</li>
-      <li>สำนักงานนวัตกรรมแห่งชาติ (NIA) ทุนนวัตกรรมเกษตร</li>
-      <li>depa ทุน Smart Farming และ Digital Village</li>
-      <li>คาร์บอนเครดิต T-VER (อบก.) จากการปลูกป่าและวนเกษตร</li>
-      <li>กองทุนหมู่บ้าน, กองทุนพัฒนาสหกรณ์</li>
-      <li>ทุนต่างประเทศด้านภูมิอากาศ เช่น GCF, GIZ (ผ่านหน่วยงานรัฐ) <span class="tag inf">อนุมาน</span></li>
+    <div class="card"><h3><span class="th">แหล่งทุน</span><span class="en">Funding</span></h3><ul>
+      <li><span class="th">ธ.ก.ส. สินเชื่อเกษตรยั่งยืน สินเชื่อเพื่อปลูกไม้มีค่า</span><span class="en">BAAC: sustainable farming loans, loans for planting valuable timber</span></li>
+      <li><span class="th">สำนักงานนวัตกรรมแห่งชาติ (NIA) ทุนนวัตกรรมเกษตร</span><span class="en">National Innovation Agency (NIA): agri-innovation grants</span></li>
+      <li><span class="th">depa ทุน Smart Farming และ Digital Village</span><span class="en">depa: Smart Farming and Digital Village grants</span></li>
+      <li><span class="th">คาร์บอนเครดิต T-VER (อบก.) จากการปลูกป่าและวนเกษตร</span><span class="en">T-VER carbon credits (TGO) from reforestation and agroforestry</span></li>
+      <li><span class="th">กองทุนหมู่บ้าน, กองทุนพัฒนาสหกรณ์</span><span class="en">Village funds, cooperative development fund</span></li>
+      <li><span class="th">ทุนต่างประเทศด้านภูมิอากาศ เช่น GCF, GIZ (ผ่านหน่วยงานรัฐ)</span><span class="en">International climate funds such as GCF, GIZ (through government agencies)</span> <span class="tag inf"><span class="th">อนุมาน</span><span class="en">inferred</span></span></li>
     </ul></div>
-    <div class="card"><h3>เทคโนโลยีต้นแบบ</h3><ul>
-      <li>เซนเซอร์ระดับน้ำ + แจ้งเตือนผ่าน LINE ระดับตำบล</li>
-      <li>โดรนพ่นชีวภัณฑ์และสำรวจโรค (ลดสารเคมี)</li>
-      <li>เครื่องอบแห้งพลังแสงอาทิตย์สำหรับกาแฟ ผลไม้ สมุนไพร</li>
-      <li>โรงเรือนโซลาร์ + ระบบน้ำหยดสำหรับผักคุณภาพสูง</li>
-      <li>ระบบตรวจสอบย้อนกลับ QR ต่อแปลง (เชื่อม GAP/อินทรีย์)</li>
-      <li>แผนที่จุดความร้อน GISTDA เฝ้าระวังการเผา</li>
+    <div class="card"><h3><span class="th">เทคโนโลยีต้นแบบ</span><span class="en">Pilot technology</span></h3><ul>
+      <li><span class="th">เซนเซอร์ระดับน้ำ + แจ้งเตือนผ่าน LINE ระดับตำบล</span><span class="en">Water-level sensors with LINE alerts at subdistrict level</span></li>
+      <li><span class="th">โดรนพ่นชีวภัณฑ์และสำรวจโรค (ลดสารเคมี)</span><span class="en">Drones for spraying biologicals and scouting disease (less chemicals)</span></li>
+      <li><span class="th">เครื่องอบแห้งพลังแสงอาทิตย์สำหรับกาแฟ ผลไม้ สมุนไพร</span><span class="en">Solar dryers for coffee, fruit and herbs</span></li>
+      <li><span class="th">โรงเรือนโซลาร์ + ระบบน้ำหยดสำหรับผักคุณภาพสูง</span><span class="en">Solar greenhouses with drip irrigation for high-value vegetables</span></li>
+      <li><span class="th">ระบบตรวจสอบย้อนกลับ QR ต่อแปลง (เชื่อม GAP/อินทรีย์)</span><span class="en">QR traceability per plot (linked to GAP/organic)</span></li>
+      <li><span class="th">แผนที่จุดความร้อน GISTDA เฝ้าระวังการเผา</span><span class="en">GISTDA hotspot maps to watch for burning</span></li>
     </ul></div>
   </div>
 </section>
 
 <section id="market">
-  <div><span class="eyebrow">5 · เชื่อมตลาด</span><h2>จากแปลงถึงผู้ซื้อ</h2>
-  <p class="lede">แต่ละโซนมีของขายต่างกัน จึงควรมีจุดรวบรวมและแปรรูปร่วมกันกลางลุ่มน้ำ แทนที่ทุกแปลงจะต้องหาตลาดเอง <span class="tag inf">อนุมาน</span></p></div>
+  <div><span class="eyebrow"><span class="th">5 · เชื่อมตลาด</span><span class="en">5 · Market links</span></span><h2><span class="th">จากแปลงถึงผู้ซื้อ</span><span class="en">From plot to buyer</span></h2>
+  <p class="lede"><span class="th">แต่ละโซนมีของขายต่างกัน จึงควรมีจุดรวบรวมและแปรรูปร่วมกันกลางลุ่มน้ำ แทนที่ทุกแปลงจะต้องหาตลาดเอง</span><span class="en">Each zone has different things to sell, so the basin should share collection and processing points in the middle instead of every plot finding its own market</span> <span class="tag inf"><span class="th">อนุมาน</span><span class="en">inferred</span></span></p></div>
   <div class="chain">
-    <div><span class="eyebrow">ผลผลิต</span><h3>ต้นน้ำถึงปลายน้ำ</h3><p>กาแฟ ชา อะโวคาโด สมุนไพร (ต้นน้ำ) · ทุเรียนหลงลับแล ลางสาด (กลางน้ำ) · ข้าว ปลา ผัก (ปลายน้ำ)</p></div>
-    <div><span class="eyebrow">B2B</span><h3>ขายส่งและสัญญาซื้อ</h3><p>โรงคั่วกาแฟ โรงแรมและร้านอาหาร ห้างค้าปลีก ผู้ส่งออกผลไม้ โรงงานสมุนไพรและเครื่องสำอาง โรงพยาบาลการแพทย์แผนไทย</p></div>
-    <div><span class="eyebrow">B2C</span><h3>ขายตรงผู้บริโภค</h3><p>ตลาดเขียวในเมือง ร้านออนไลน์ กล่องผักสมาชิก (CSA) ท่องเที่ยวเกษตรและโฮมสเตย์ ร้านในสถานีเกษตรริมทาง</p></div>
-    <div><span class="eyebrow">มูลค่าเพิ่ม</span><h3>แปรรูปและเรื่องเล่า</h3><p>สิ่งบ่งชี้ทางภูมิศาสตร์ (GI) กาแฟ specialty ผลไม้อบแห้ง ข้าวพันธุ์พื้นเมือง ปลาแปรรูป คาร์บอนเครดิต ฉลาก "ปลูกคืนป่าต้นน้ำ"</p></div>
+    <div><span class="eyebrow"><span class="th">ผลผลิต</span><span class="en">Produce</span></span><h3><span class="th">ต้นน้ำถึงปลายน้ำ</span><span class="en">Headwaters to lowlands</span></h3><p><span class="th">กาแฟ ชา อะโวคาโด สมุนไพร (ต้นน้ำ) · ทุเรียนหลงลับแล ลางสาด (กลางน้ำ) · ข้าว ปลา ผัก (ปลายน้ำ)</span><span class="en">Coffee, tea, avocado, herbs (upstream) · Long Laplae durian, langsat (midstream) · rice, fish, vegetables (downstream)</span></p></div>
+    <div><span class="eyebrow">B2B</span><h3><span class="th">ขายส่งและสัญญาซื้อ</span><span class="en">Wholesale and purchase contracts</span></h3><p><span class="th">โรงคั่วกาแฟ โรงแรมและร้านอาหาร ห้างค้าปลีก ผู้ส่งออกผลไม้ โรงงานสมุนไพรและเครื่องสำอาง โรงพยาบาลการแพทย์แผนไทย</span><span class="en">Coffee roasters, hotels and restaurants, retail chains, fruit exporters, herbal and cosmetics factories, Thai traditional medicine hospitals</span></p></div>
+    <div><span class="eyebrow">B2C</span><h3><span class="th">ขายตรงผู้บริโภค</span><span class="en">Direct to consumers</span></h3><p><span class="th">ตลาดเขียวในเมือง ร้านออนไลน์ กล่องผักสมาชิก (CSA) ท่องเที่ยวเกษตรและโฮมสเตย์ ร้านในสถานีเกษตรริมทาง</span><span class="en">Green markets in town, online shops, vegetable box subscriptions (CSA), farm tourism and homestays, roadside farm-station shops</span></p></div>
+    <div><span class="eyebrow"><span class="th">มูลค่าเพิ่ม</span><span class="en">Added value</span></span><h3><span class="th">แปรรูปและเรื่องเล่า</span><span class="en">Processing and storytelling</span></h3><p><span class="th">สิ่งบ่งชี้ทางภูมิศาสตร์ (GI) กาแฟ specialty ผลไม้อบแห้ง ข้าวพันธุ์พื้นเมือง ปลาแปรรูป คาร์บอนเครดิต ฉลาก "ปลูกคืนป่าต้นน้ำ"</span><span class="en">Geographical indications (GI), specialty coffee, dried fruit, native rice, processed fish, carbon credits, a "replanting the headwater forest" label</span></p></div>
   </div>
 </section>
 
 <section id="intl">
-  <div><span class="eyebrow">6 · เรียนรู้จากต่างประเทศ</span><h2>สวนผสมแบบสิงคโปร์ ญี่ปุ่น จีน</h2></div>
+  <div><span class="eyebrow"><span class="th">6 · เรียนรู้จากต่างประเทศ</span><span class="en">6 · Learning from abroad</span></span><h2><span class="th">สวนผสมแบบสิงคโปร์ ญี่ปุ่น จีน</span><span class="en">Mixed models from Singapore, Japan, China</span></h2></div>
   <div class="intl">
-    <div class="card"><h3>สิงคโปร์<small>ฟาร์มแนวตั้ง · ที่ดินน้อย ผลผลิตสูง</small></h3>
-      <p>รัฐกำหนดเป้าความมั่นคงอาหาร (เดิม "30 by 30" ปรับเป้าใหม่ในปี 2025 เป็นรายหมวดอาหาร) จัดที่ดินเกษตรให้ผู้ประกอบการหลายรายเช่าระยะยาว และให้ทุนเทคโนโลยี</p>
-      <p><b>ใช้กับน่าน:</b> โรงเรือนผักคุณภาพสูงใกล้เมืองน่านและพิษณุโลก ป้อนโรงแรมและโรงพยาบาล โดยให้หลายวิสาหกิจเช่าโรงเรือนร่วมกัน <span class="tag inf">อนุมาน</span></p></div>
-    <div class="card"><h3>ญี่ปุ่น<small>ซาโตยามะ · สหกรณ์ JA · มิจิโนะเอกิ</small></h3>
-      <p>ภูมิทัศน์ป่า นา บ่อ หมู่บ้านต่อเนื่องกัน สหกรณ์ช่วยรวบรวมและคัดเกรด สถานีริมทาง (Michi-no-Eki) ให้เกษตรกรวางขายเองพร้อมชื่อผู้ปลูก และนโยบาย "อุตสาหกรรมขั้นที่ 6" ให้ผลิต แปรรูป ขาย ในชุมชนเดียว</p>
-      <p><b>ใช้กับน่าน:</b> สถานีเกษตรริมทางหลวง 101 และ 11 ขายของทั้งลุ่มน้ำ <span class="tag inf">อนุมาน</span></p></div>
-    <div class="card"><h3>จีน<small>นาข้าวร่วมปลา · หมู่บ้านอีคอมเมิร์ซ</small></h3>
-      <p>นาข้าวร่วมปลาที่ชิงเถียน มณฑลเจ้อเจียง เป็นมรดกระบบเกษตร GIAHS ของ FAO และ "หมู่บ้านเถาเป่า" ที่ขายผลผลิตชุมชนออนไลน์ด้วยกันทั้งหมู่บ้าน</p>
-      <p><b>ใช้กับน่าน:</b> ทุ่งบางระกำเลี้ยงปลาในนาช่วงน้ำหลาก และทำร้านออนไลน์ร่วมของตำบล <span class="tag inf">อนุมาน</span></p></div>
+    <div class="card"><h3><span class="th">สิงคโปร์</span><span class="en">Singapore</span><small><span class="th">ฟาร์มแนวตั้ง · ที่ดินน้อย ผลผลิตสูง</span><span class="en">Vertical farms · little land, high output</span></small></h3>
+      <p><span class="th">รัฐกำหนดเป้าความมั่นคงอาหาร (เดิม "30 by 30" ปรับเป้าใหม่ในปี 2025 เป็นรายหมวดอาหาร) จัดที่ดินเกษตรให้ผู้ประกอบการหลายรายเช่าระยะยาว และให้ทุนเทคโนโลยี</span><span class="en">The state sets food security targets (originally "30 by 30", revised in 2025 into per-food-group targets), leases farmland long-term to several operators, and funds technology</span></p>
+      <p><b><span class="th">ใช้กับน่าน:</span><span class="en">For Nan:</span></b> <span class="th">โรงเรือนผักคุณภาพสูงใกล้เมืองน่านและพิษณุโลก ป้อนโรงแรมและโรงพยาบาล โดยให้หลายวิสาหกิจเช่าโรงเรือนร่วมกัน</span><span class="en">High-value vegetable greenhouses near Nan and Phitsanulok towns, supplying hotels and hospitals, with several enterprises renting the greenhouses together</span> <span class="tag inf"><span class="th">อนุมาน</span><span class="en">inferred</span></span></p></div>
+    <div class="card"><h3><span class="th">ญี่ปุ่น</span><span class="en">Japan</span><small><span class="th">ซาโตยามะ · สหกรณ์ JA · มิจิโนะเอกิ</span><span class="en">Satoyama · JA cooperatives · Michi-no-Eki</span></small></h3>
+      <p><span class="th">ภูมิทัศน์ป่า นา บ่อ หมู่บ้านต่อเนื่องกัน สหกรณ์ช่วยรวบรวมและคัดเกรด สถานีริมทาง (Michi-no-Eki) ให้เกษตรกรวางขายเองพร้อมชื่อผู้ปลูก และนโยบาย "อุตสาหกรรมขั้นที่ 6" ให้ผลิต แปรรูป ขาย ในชุมชนเดียว</span><span class="en">A continuous landscape of forest, paddy, pond and village. Cooperatives help collect and grade produce, roadside stations (Michi-no-Eki) let farmers sell directly under their own names, and the "6th industry" policy puts growing, processing and selling in one community</span></p>
+      <p><b><span class="th">ใช้กับน่าน:</span><span class="en">For Nan:</span></b> <span class="th">สถานีเกษตรริมทางหลวง 101 และ 11 ขายของทั้งลุ่มน้ำ</span><span class="en">Roadside farm stations on Highways 101 and 11 selling produce from the whole basin</span> <span class="tag inf"><span class="th">อนุมาน</span><span class="en">inferred</span></span></p></div>
+    <div class="card"><h3><span class="th">จีน</span><span class="en">China</span><small><span class="th">นาข้าวร่วมปลา · หมู่บ้านอีคอมเมิร์ซ</span><span class="en">Rice-fish paddies · e-commerce villages</span></small></h3>
+      <p><span class="th">นาข้าวร่วมปลาที่ชิงเถียน มณฑลเจ้อเจียง เป็นมรดกระบบเกษตร GIAHS ของ FAO และ "หมู่บ้านเถาเป่า" ที่ขายผลผลิตชุมชนออนไลน์ด้วยกันทั้งหมู่บ้าน</span><span class="en">The rice-fish paddies of Qingtian, Zhejiang are an FAO GIAHS agricultural heritage system, and "Taobao villages" sell community produce online as a whole village</span></p>
+      <p><b><span class="th">ใช้กับน่าน:</span><span class="en">For Nan:</span></b> <span class="th">ทุ่งบางระกำเลี้ยงปลาในนาช่วงน้ำหลาก และทำร้านออนไลน์ร่วมของตำบล</span><span class="en">Bang Rakam fields raise fish in the paddies during floods and run a shared subdistrict online shop</span> <span class="tag inf"><span class="th">อนุมาน</span><span class="en">inferred</span></span></p></div>
   </div>
 </section>
 
 <section class="src">
-  <span class="eyebrow">แหล่งข้อมูล</span>
+  <span class="eyebrow"><span class="th">แหล่งข้อมูล</span><span class="en">Sources</span></span>
   <ol>
-    <li><a href="https://www.onep.go.th/?p=6662" target="_blank" rel="noopener">สผ. — ชูบางระกำโมเดล ฝ่าวิกฤติแล้งปี 2563</a></li>
-    <li><a href="https://www.thaipbs.or.th/news/content/343575" target="_blank" rel="noopener">Thai PBS — ปล่อยน้ำเข้าทุ่งบางระกำ</a></li>
-    <li><a href="https://www.cpgroupglobal.com/en/projects/518/public-private-partnership-project-for-development-and-restoration-of-nan-watershed-forests" target="_blank" rel="noopener">โครงการรัฐร่วมเอกชนฟื้นฟูป่าต้นน้ำน่าน</a></li>
-    <li><a href="https://www.pattayamail.com/thailandnews/nan-sandbox-uses-medicinal-plants-to-drive-sustainable-regional-development-562537" target="_blank" rel="noopener">Nan Sandbox กับพืชสมุนไพร</a></li>
-    <li><a href="https://www.recoftc.org/annual-report-2022-2023/crowdfunding-campaign-supports-restoration-degraded-land" target="_blank" rel="noopener">RECOFTC — ระดมทุนฟื้นฟูที่ดินเสื่อมโทรม</a></li>
-    <li><a href="https://ghgreduction.tgo.or.th/en/tver-database-and-statistics/t-ver-registered-project/item/975-nan-reforestation-project.html" target="_blank" rel="noopener">อบก. — โครงการปลูกป่าน่าน T-VER</a></li>
+    <li><a href="https://www.onep.go.th/?p=6662" target="_blank" rel="noopener"><span class="th">สผ. — ชูบางระกำโมเดล ฝ่าวิกฤติแล้งปี 2563</span><span class="en">ONEP — Bang Rakam Model against the 2020 drought</span></a></li>
+    <li><a href="https://www.thaipbs.or.th/news/content/343575" target="_blank" rel="noopener"><span class="th">Thai PBS — ปล่อยน้ำเข้าทุ่งบางระกำ</span><span class="en">Thai PBS — releasing water into the Bang Rakam fields</span></a></li>
+    <li><a href="https://www.cpgroupglobal.com/en/projects/518/public-private-partnership-project-for-development-and-restoration-of-nan-watershed-forests" target="_blank" rel="noopener"><span class="th">โครงการรัฐร่วมเอกชนฟื้นฟูป่าต้นน้ำน่าน</span><span class="en">Public-private partnership for Nan watershed forest restoration</span></a></li>
+    <li><a href="https://www.pattayamail.com/thailandnews/nan-sandbox-uses-medicinal-plants-to-drive-sustainable-regional-development-562537" target="_blank" rel="noopener"><span class="th">Nan Sandbox กับพืชสมุนไพร</span><span class="en">Nan Sandbox and medicinal plants</span></a></li>
+    <li><a href="https://www.recoftc.org/annual-report-2022-2023/crowdfunding-campaign-supports-restoration-degraded-land" target="_blank" rel="noopener"><span class="th">RECOFTC — ระดมทุนฟื้นฟูที่ดินเสื่อมโทรม</span><span class="en">RECOFTC — crowdfunding to restore degraded land</span></a></li>
+    <li><a href="https://ghgreduction.tgo.or.th/en/tver-database-and-statistics/t-ver-registered-project/item/975-nan-reforestation-project.html" target="_blank" rel="noopener"><span class="th">อบก. — โครงการปลูกป่าน่าน T-VER</span><span class="en">TGO — Nan reforestation project under T-VER</span></a></li>
     <li><a href="https://nextcity.org/urbanist-news/singapore-shows-what-serious-urban-farming-looks-like" target="_blank" rel="noopener">Next City — Singapore urban farming</a></li>
     <li><a href="https://www.verticalfarmdaily.com/article/9668298/local-international-collaborations-drive-singapore-s-30-for-30-program/" target="_blank" rel="noopener">Vertical Farm Daily — Singapore 30 by 30</a></li>
   </ol>
-  <p style="margin-top:8px">ข้อมูลพืช โรค แมลง และช่วงฤดู มาจากความรู้ทั่วไปด้านเกษตรไทย ควรตรวจกับกรมวิชาการเกษตรและเกษตรอำเภอก่อนลงมือ</p>
+  <p style="margin-top:8px"><span class="th">ข้อมูลพืช โรค แมลง และช่วงฤดู มาจากความรู้ทั่วไปด้านเกษตรไทย ควรตรวจกับกรมวิชาการเกษตรและเกษตรอำเภอก่อนลงมือ</span><span class="en">Crop, disease, pest and season information comes from general Thai farming knowledge. Check with the Department of Agriculture and the district agriculture office before acting.</span></p>
 </section>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="assets/nan-en.js"></script>
 <script>
+const EN=window.NAN_EN||{},isEn=()=>!!(window.I18N&&I18N.lang==='en'),tr=s=>isEn()&&EN[s]!=null?EN[s]:s,TT=(a,b)=>isEn()?b:a;
 const Z=[
  {id:'up',name:'ต้นน้ำ: ดอยภูคา ปัว บ่อเกลือ',prov:'จ.น่าน (เหนือ)',color:'var(--forest)',d:'M150 20 L250 16 L262 120 L130 128 Z',lx:150,ly:80,
   stat:{'ความสูง':'600–1,900 ม.','ฝนเฉลี่ย':'~1,300–1,600 มม./ปี','ใช้ที่ดินเด่น':'ป่า, ข้าวโพด, ข้าวไร่'},
@@ -303,27 +314,30 @@ const Z=[
   who:'ตลาดกลางสินค้าเกษตร ผู้ค้าส่ง กรมประมง (บึงบอระเพ็ด)'}
 ];
 const zg=document.getElementById('zones'),dos=document.getElementById('dossier');
+let curZ=0;
+function drawZones(){zg.innerHTML='';
 Z.forEach((z,i)=>{
   const g=document.createElementNS('http://www.w3.org/2000/svg','g');
-  g.setAttribute('class','zone');g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label',z.name);
-  g.innerHTML=`<path d="${z.d}" fill="${z.color}" fill-opacity=".28" stroke="var(--line)" stroke-width="1.2"/><text class="lbl" x="${z.lx}" y="${z.ly}">${i+1}. ${z.name.split(':')[0]}</text><text class="lbl s" x="${z.lx}" y="${z.ly+14}">${z.prov}</text>`;
+  g.setAttribute('class','zone');g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label',tr(z.name));
+  g.innerHTML=`<path d="${z.d}" fill="${z.color}" fill-opacity=".28" stroke="var(--line)" stroke-width="1.2"/><text class="lbl" x="${z.lx}" y="${z.ly}">${i+1}. ${tr(z.name).split(':')[0]}</text><text class="lbl s" x="${z.lx}" y="${z.ly+14}">${tr(z.prov)}</text>`;
   g.addEventListener('click',()=>pick(i));
   g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(i)}});
   zg.appendChild(g);
-});
+});}
+drawZones();
 function pick(i){
-  const z=Z[i];
+  const z=Z[i]; curZ=i;
   [...zg.children].forEach((g,j)=>g.classList.toggle('on',j===i));
-  dos.innerHTML=`<div class="ztitle"><span class="eyebrow">โซน ${i+1} จาก 5 · ${z.prov}</span><h2>${z.name}</h2></div>
-  <div class="stats">${Object.entries(z.stat).map(([k,v])=>`<span>${k} <b>${v}</b></span>`).join('')}</div>
-  <div class="blk"><h3>ปัญหาหลัก <span class="tag">ข้อมูล</span></h3><p>${z.issue}</p></div>
+  dos.innerHTML=`<div class="ztitle"><span class="eyebrow">${TT('โซน','Zone')} ${i+1} ${TT('จาก','of')} 5 · ${tr(z.prov)}</span><h2>${tr(z.name)}</h2></div>
+  <div class="stats">${Object.entries(z.stat).map(([k,v])=>`<span>${tr(k)} <b>${tr(v)}</b></span>`).join('')}</div>
+  <div class="blk"><h3>${TT('ปัญหาหลัก','Main problem')} <span class="tag">${TT('ข้อมูล','data')}</span></h3><p>${tr(z.issue)}</p></div>
   <div class="cols">
-   <div class="blk"><h3>พืชที่เหมาะ / ไม่เหมาะ</h3><div class="fit">${z.good.map(c=>`<span class="chip good">${c}</span>`).join('')}${z.bad.map(c=>`<span class="chip bad">${c}</span>`).join('')}</div></div>
-   <div class="blk"><h3>โรคและแมลงที่พบบ่อย</h3><ul>${z.pest.map(p=>`<li>${p}</li>`).join('')}</ul></div>
+   <div class="blk"><h3>${TT('พืชที่เหมาะ / ไม่เหมาะ','Suitable / unsuitable crops')}</h3><div class="fit">${z.good.map(c=>`<span class="chip good">${tr(c)}</span>`).join('')}${z.bad.map(c=>`<span class="chip bad">${tr(c)}</span>`).join('')}</div></div>
+   <div class="blk"><h3>${TT('โรคและแมลงที่พบบ่อย','Common diseases and pests')}</h3><ul>${z.pest.map(p=>`<li>${tr(p)}</li>`).join('')}</ul></div>
   </div>
   <div class="cols">
-   <div class="blk"><h3>แนวออกแบบที่เสนอ <span class="tag inf">อนุมาน</span></h3><ul>${z.design.map(p=>`<li>${p}</li>`).join('')}</ul></div>
-   <div class="blk"><h3>คนในพื้นที่และภาคี</h3><p>${z.who}</p></div>
+   <div class="blk"><h3>${TT('แนวออกแบบที่เสนอ','Proposed design')} <span class="tag inf">${TT('อนุมาน','inferred')}</span></h3><ul>${z.design.map(p=>`<li>${tr(p)}</li>`).join('')}</ul></div>
+   <div class="blk"><h3>${TT('คนในพื้นที่และภาคี','Local people and partners')}</h3><p>${tr(z.who)}</p></div>
   </div>`;
   try{localStorage.setItem('nanZone',i)}catch(e){}
 }
@@ -331,7 +345,8 @@ let z0=0;try{z0=+(localStorage.getItem('nanZone')||0)||0}catch(e){}
 pick(Math.min(z0,4));
 
 /* season calendar */
-const M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const M_=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const M=new Proxy(M_,{get:(t,k)=>typeof t[k]==='string'?tr(t[k]):t[k]});
 const CAL=[
  ['ต้นน้ำ',null],
  ['หมอกควันและไฟป่า',[1,3,3,2,0,0,0,0,0,0,0,1]],
@@ -349,7 +364,8 @@ const CAL=[
  ['โรคไหม้ข้าว',[1,1,0,0,0,1,2,2,1,1,2,2]]
 ];
 const cal=document.getElementById('cal');
-cal.innerHTML=`<thead><tr><th>ความเสี่ยง</th>${M.map(m=>`<th>${m}</th>`).join('')}</tr></thead><tbody>${CAL.map(([n,v])=>v?`<tr><td>${n}</td>${v.map((x,k)=>`<td class="c" title="${n} · ${M[k]}"><span class="l${x}"></span></td>`).join('')}</tr>`:`<tr class="grp"><td colspan="13">${n}</td></tr>`).join('')}</tbody>`;
+function drawCal(){cal.innerHTML=`<thead><tr><th>${TT('ความเสี่ยง','Risk')}</th>${M_.map(m=>`<th>${tr(m)}</th>`).join('')}</tr></thead><tbody>${CAL.map(([n,v])=>v?`<tr><td>${tr(n)}</td>${v.map((x,k)=>`<td class="c" title="${tr(n)} · ${M[k]}"><span class="l${x}"></span></td>`).join('')}</tr>`:`<tr class="grp"><td colspan="13">${tr(n)}</td></tr>`).join('')}</tbody>`}
+drawCal();
 
 /* 3D lab */
 const S={plot:'A',mode:'old',month:7};
@@ -392,7 +408,7 @@ function colB(x,z,h){
   return '--crop';
 }
 function build(){
-  if(!window.THREE){cv.replaceWith(Object.assign(document.createElement('p'),{className:'note',textContent:'โหลดไลบรารี 3D ไม่สำเร็จ ลองรีเฟรชหน้าอีกครั้ง'}));return}
+  if(!window.THREE){if(cv.isConnected)cv.replaceWith(Object.assign(document.createElement('p'),{className:'note',innerHTML:'<span class="th">โหลดไลบรารี 3D ไม่สำเร็จ ลองรีเฟรชหน้าอีกครั้ง</span><span class="en">Could not load the 3D library. Try refreshing the page.</span>'}));renderUI();return}
   if(!renderer){
     renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true});
     renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
@@ -438,14 +454,14 @@ function setWater(){
 }
 function renderUI(){
   document.getElementById('mlab').textContent=M[S.month];
-  document.getElementById('plotNote').textContent=NOTES[S.plot][S.mode];
+  document.getElementById('plotNote').textContent=tr(NOTES[S.plot][S.mode]);
   const ind=IND[S.plot][S.mode];
   let extra='';
-  if(S.plot==='B'){const f=FLOOD[S.month];extra=`<div class="mrow"><span>ระดับน้ำเดือนนี้</span><div class="bar"><i style="width:${f*100}%;background:var(--flood)"></i></div><span class="v">${Math.round(f*100)}</span></div>`}
-  if(S.plot==='A'){const r=[0,0,0,0,.3,.6,.7,.9,1,.5,.1,0][S.month];const ro=Math.round(r*ind['น้ำไหลบ่า']);extra=`<div class="mrow"><span>น้ำไหลบ่าเดือนนี้</span><div class="bar neg"><i style="width:${ro}%"></i></div><span class="v">${ro}</span></div>`}
-  document.getElementById('meter').innerHTML=Object.entries(ind).map(([k,v])=>`<div class="mrow"><span>${k}</span><div class="bar${NEG[k]?' neg':''}"><i style="width:${v}%"></i></div><span class="v">${v}</span></div>`).join('')+extra;
+  if(S.plot==='B'){const f=FLOOD[S.month];extra=`<div class="mrow"><span>${TT('ระดับน้ำเดือนนี้','Water level this month')}</span><div class="bar"><i style="width:${f*100}%;background:var(--flood)"></i></div><span class="v">${Math.round(f*100)}</span></div>`}
+  if(S.plot==='A'){const r=[0,0,0,0,.3,.6,.7,.9,1,.5,.1,0][S.month];const ro=Math.round(r*ind['น้ำไหลบ่า']);extra=`<div class="mrow"><span>${TT('น้ำไหลบ่าเดือนนี้','Runoff this month')}</span><div class="bar neg"><i style="width:${ro}%"></i></div><span class="v">${ro}</span></div>`}
+  document.getElementById('meter').innerHTML=Object.entries(ind).map(([k,v])=>`<div class="mrow"><span>${tr(k)}</span><div class="bar${NEG[k]?' neg':''}"><i style="width:${v}%"></i></div><span class="v">${v}</span></div>`).join('')+extra;
   const L=S.plot==='A'?(S.mode==='old'?[['--crop','ข้าวโพด'],['--soil','ดินเปิด']]:[['--forest','ป่า/ไม้ใหญ่'],['--crop','กาแฟ ไม้ผล แนวแฝก'],['--river','บ่อพักน้ำ']]):(S.mode==='old'?[['--crop','นาข้าว'],['--river','แม่น้ำ'],['--flood','น้ำหลาก']]:[['--forest','โคก'],['--river','หนอง/แม่น้ำ'],['--crop','นา'],['--flood','น้ำหลาก']]);
-  document.getElementById('legend').innerHTML=L.map(([v,t])=>`<span><i style="background:var(${v})"></i>${t}</span>`).join('');
+  document.getElementById('legend').innerHTML=L.map(([v,t])=>`<span><i style="background:var(${v})"></i>${tr(t)}</span>`).join('');
 }
 function resize(){if(!renderer)return;const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();draw()}
 function draw(){
@@ -465,6 +481,7 @@ window.addEventListener('resize',resize);
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',build);
 new MutationObserver(build).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 build();
+window.addEventListener('langchange',()=>{drawZones();pick(curZ);drawCal();renderUI()});
 </script>
 
 </body>

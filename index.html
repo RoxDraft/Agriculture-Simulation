@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Agriculture Simulation</title>
+<meta name="title-en" content="Agriculture Simulation">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Noto+Serif+Thai:wght@600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="assets/site.css">
@@ -14,24 +15,40 @@
 .cards a:hover .card,.cards a:focus-visible .card{border-color:var(--sel)}
 .cards ul{font-size:13.5px;color:var(--muted)}
 </style>
+<link rel="stylesheet" href="assets/nav.css">
+<script src="assets/i18n.js"></script>
 </head>
 <body>
-<nav class="topnav"><a href="index.html" aria-current="page">หน้าแรก</a><a href="thailand.html">แผนที่ภูมิภาคไทย</a><a href="nan-basin.html">ลุ่มน้ำน่าน</a><a href="soil.html">ดิน น้ำ หรือระบบปิด</a></nav>
+<header class="sitebar"><div class="sitebar-in">
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#2f6b45"/><path d="M16 25V13M16 17c-5 0-8-3-8-8 5 0 8 3 8 8zm0-2c0-5 3-8 8-8 0 5-3 8-8 8z" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Agriculture Simulation</span></a>
+  <nav class="mainnav" aria-label="เมนูหลัก" data-en-aria-label="Main menu">
+    <a class="nv nv-home" href="index.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span><b><span class="th">หน้าแรก</span><span class="en">Home</span></b><small><span class="th">ทุกหน้า</span><span class="en">All pages</span></small></span></a>
+    <a class="nv nv-map" href="thailand.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg><span><b><span class="th">แผนที่ภูมิภาคไทย</span><span class="en">Thailand regions</span></b><small><span class="th">ระดับประเทศ</span><span class="en">National scale</span></small></span></a>
+    <a class="nv nv-basin" href="nan-basin.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 18l5-9 4 6 3-4 6 7z"/><path d="M14 4c-2 3 2 4 0 7" /></svg><span><b><span class="th">ลุ่มน้ำน่าน</span><span class="en">Nan River basin</span></b><small><span class="th">ระดับลุ่มน้ำและแปลง</span><span class="en">Basin and plot scale</span></small></span></a>
+    <a class="nv nv-soil" href="soil.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 13V5M12 9c-3 0-5-2-5-5 3 0 5 2 5 5zm0 0c0-3 2-5 5-5 0 3-2 5-5 5z"/><path d="M3 15h18M5 19h3M11 19h2M16 19h3"/></svg><span><b><span class="th">ดิน · น้ำ · ระบบปิด</span><span class="en">Soil · Water · Closed</span></b><small><span class="th">ระดับพืชและราก</span><span class="en">Plant and root scale</span></small></span></a>
+  </nav>
+  <div class="langsw" role="group" aria-label="ภาษา" data-en-aria-label="Language"><button type="button" data-lang-btn="th" aria-pressed="true">ไทย</button><button type="button" data-lang-btn="en" aria-pressed="false">EN</button></div>
+</div></header>
 <div class="wrap">
 <header>
-  <span class="eyebrow">Agriculture Simulation · ต้นน้ำถึงปลายน้ำ</span>
-  <h1>จำลองและออกแบบพื้นที่เกษตร</h1>
-  <p class="lede">ชุดหน้าเว็บสำหรับออกแบบพื้นที่เกษตรตั้งแต่ระดับประเทศ ลงไปถึงลุ่มน้ำ แปลง และรากพืช อธิบายโครงสร้างของพืช ความสัมพันธ์กับคนในพื้นที่ และสิ่งแวดล้อม ทุกหน้าเป็นไฟล์ HTML ธรรมดา เปิดได้ทันทีหรือรันบน GitHub Pages</p>
+  <span class="eyebrow">Agriculture Simulation · <span class="th">ต้นน้ำถึงปลายน้ำ</span><span class="en">upstream to downstream</span></span>
+  <h1><span class="th">จำลองและออกแบบพื้นที่เกษตร</span><span class="en">Simulating and designing farmland</span></h1>
+  <p class="lede en">A set of pages for designing farmland from the national scale down to the river basin, the plot and the plant root. They explain plant structure and how farming relates to local people and the environment. Every page is plain HTML: open it directly or run it on GitHub Pages.</p>
+  <p class="lede th">ชุดหน้าเว็บสำหรับออกแบบพื้นที่เกษตรตั้งแต่ระดับประเทศ ลงไปถึงลุ่มน้ำ แปลง และรากพืช อธิบายโครงสร้างของพืช ความสัมพันธ์กับคนในพื้นที่ และสิ่งแวดล้อม ทุกหน้าเป็นไฟล์ HTML ธรรมดา เปิดได้ทันทีหรือรันบน GitHub Pages</p>
 </header>
 <div class="cards">
-  <a href="thailand.html"><div class="card"><span class="eyebrow">ระดับประเทศ</span><h2>แผนที่ภูมิภาคไทย</h2>
-    <ul><li>6 ภูมิภาค พร้อมสีความสูงจากระดับทะเล</li><li>แม่น้ำสายหลักถึงสายย่อย อ่างเก็บน้ำ อ่าว</li><li>สัดส่วนที่ดิน อุตสาหกรรม ที่อยู่อาศัย</li><li>คำนวณส่งน้ำ ส่งไฟ และขนส่งทางถนน ราง เรือ อากาศ</li></ul></div></a>
-  <a href="nan-basin.html"><div class="card"><span class="eyebrow">ระดับลุ่มน้ำและแปลง</span><h2>ห้องทดลองลุ่มน้ำน่าน</h2>
-    <ul><li>5 โซนจากดอยภูคาถึงปากน้ำโพ</li><li>แปลงทดลอง 3 มิติ แบบเดิมกับแบบใหม่</li><li>ปฏิทินความเสี่ยง ภาคี ทุน ตลาด</li></ul></div></a>
-  <a href="soil.html"><div class="card"><span class="eyebrow">ระดับพืชและราก</span><h2>ดิน น้ำ หรือระบบปิด</h2>
-    <ul><li>เทียบดิน ไฮโดรโปนิกส์ ระบบปิด ปุ๋ย ก๊าซเรือนกระจก</li><li>ห้องทดลองเคมีราก และจำลองแมลงกับศัตรูธรรมชาติ</li><li>วงจรเพาะปลูกจากดั้งเดิมถึงอัตโนมัติ การพัฒนาพันธุ์</li><li>ระยะเวลาการเติบโตของพืชแต่ละชนิด</li></ul></div></a>
+  <a href="thailand.html"><div class="card"><span class="eyebrow"><span class="th">ระดับประเทศ</span><span class="en">National scale</span></span><h2><span class="th">แผนที่ภูมิภาคไทย</span><span class="en">Thailand regions map</span></h2>
+    <ul class="th"><li>6 ภูมิภาค พร้อมสีความสูงจากระดับทะเล</li><li>แม่น้ำสายหลักถึงสายย่อย อ่างเก็บน้ำ อ่าว</li><li>สัดส่วนที่ดิน อุตสาหกรรม ที่อยู่อาศัย</li><li>คำนวณส่งน้ำ ส่งไฟ และขนส่งทางถนน ราง เรือ อากาศ</li></ul>
+    <ul class="en"><li>6 regions with elevation colors</li><li>Main rivers to tributaries, reservoirs, the gulf</li><li>Shares of farmland, industry and housing</li><li>Calculators for moving water, power, and freight by road, rail, water and air</li></ul></div></a>
+  <a href="nan-basin.html"><div class="card"><span class="eyebrow"><span class="th">ระดับลุ่มน้ำและแปลง</span><span class="en">Basin and plot scale</span></span><h2><span class="th">ห้องทดลองลุ่มน้ำน่าน</span><span class="en">Nan River basin lab</span></h2>
+    <ul class="th"><li>5 โซนจากดอยภูคาถึงปากน้ำโพ</li><li>แปลงทดลอง 3 มิติ แบบเดิมกับแบบใหม่</li><li>ปฏิทินความเสี่ยง ภาคี ทุน ตลาด</li></ul>
+    <ul class="en"><li>5 zones from Doi Phu Kha to Pak Nam Pho</li><li>3D test plot, old way vs new way</li><li>Risk calendar, partners, funding, markets</li></ul></div></a>
+  <a href="soil.html"><div class="card"><span class="eyebrow"><span class="th">ระดับพืชและราก</span><span class="en">Plant and root scale</span></span><h2><span class="th">ดิน น้ำ หรือระบบปิด</span><span class="en">Soil, water or a closed system</span></h2>
+    <ul class="th"><li>เทียบดิน ไฮโดรโปนิกส์ ระบบปิด ปุ๋ย ก๊าซเรือนกระจก</li><li>ทุกหัวข้อ 1–9 มีภาพจำลองให้ลองปรับเอง</li><li>ห้องทดลองเคมีราก และจำลองแมลงกับศัตรูธรรมชาติ</li><li>วงจรเพาะปลูกจากดั้งเดิมถึงอัตโนมัติ การพัฒนาพันธุ์</li><li>ระยะเวลาการเติบโตของพืชแต่ละชนิด</li></ul>
+    <ul class="en"><li>Soil vs hydroponics vs closed systems, fertilizer, greenhouse gases</li><li>An interactive simulation for every topic 1–9</li><li>Root chemistry lab, pests and natural enemies</li><li>Cultivation cycle from traditional to automated, plant breeding</li><li>Growth time of each crop</li></ul></div></a>
 </div>
-<p class="note">ข้อมูลในทุกหน้ามีป้ายบอกสถานะ: ข้อมูลที่มีแหล่งอ้างอิง ข้อสรุปที่เป็นการอนุมาน และข้อเท็จจริงทั่วไปที่ยังไม่มีอ้างอิง ตัวเลขที่ใช้ตัดสินใจลงทุนควรตรวจกับหน่วยงานในพื้นที่ก่อนใช้</p>
+<p class="note en">Every page labels its information: sourced data, conclusions that are inferences, and general facts without a reference yet. Check any number used for investment decisions with local agencies first.</p>
+<p class="note th">ข้อมูลในทุกหน้ามีป้ายบอกสถานะ: ข้อมูลที่มีแหล่งอ้างอิง ข้อสรุปที่เป็นการอนุมาน และข้อเท็จจริงทั่วไปที่ยังไม่มีอ้างอิง ตัวเลขที่ใช้ตัดสินใจลงทุนควรตรวจกับหน่วยงานในพื้นที่ก่อนใช้</p>
 </div>
 </body>
 </html>

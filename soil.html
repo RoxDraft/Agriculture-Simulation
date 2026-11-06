@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ดิน น้ำ หรือระบบปิด · Agriculture Simulation</title>
+<meta name="title-en" content="Soil, water or a closed system · Agriculture Simulation">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@500;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -62,21 +63,40 @@ a:focus-visible{outline:2px solid var(--water);outline-offset:2px}
 
 <link rel="stylesheet" href="assets/soil-lab.css">
 <style>
-.topnav{max-width:860px;margin:0 auto;display:flex;flex-wrap:wrap;gap:4px 18px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:13.5px;font-family:var(--body)}
-.topnav a{color:var(--muted);text-decoration:none}.topnav a:hover{text-decoration:underline}
-.topnav a[aria-current="page"]{color:inherit;font-weight:600}
 body{margin:0}
 </style>
+<link rel="stylesheet" href="assets/nav.css">
+<link rel="stylesheet" href="assets/topics.css">
+<script src="assets/i18n.js"></script>
 </head>
 <body>
-<nav class="topnav"><a href="index.html">หน้าแรก</a><a href="thailand.html">แผนที่ภูมิภาคไทย</a><a href="nan-basin.html">ลุ่มน้ำน่าน</a><a href="soil.html" aria-current="page">ดิน น้ำ หรือระบบปิด</a></nav>
+<header class="sitebar"><div class="sitebar-in">
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#2f6b45"/><path d="M16 25V13M16 17c-5 0-8-3-8-8 5 0 8 3 8 8zm0-2c0-5 3-8 8-8 0 5-3 8-8 8z" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Agriculture Simulation</span></a>
+  <nav class="mainnav" aria-label="เมนูหลัก" data-en-aria-label="Main menu">
+    <a class="nv nv-home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span><b><span class="th">หน้าแรก</span><span class="en">Home</span></b><small><span class="th">ทุกหน้า</span><span class="en">All pages</span></small></span></a>
+    <a class="nv nv-map" href="thailand.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg><span><b><span class="th">แผนที่ภูมิภาคไทย</span><span class="en">Thailand regions</span></b><small><span class="th">ระดับประเทศ</span><span class="en">National scale</span></small></span></a>
+    <a class="nv nv-basin" href="nan-basin.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 18l5-9 4 6 3-4 6 7z"/><path d="M14 4c-2 3 2 4 0 7" /></svg><span><b><span class="th">ลุ่มน้ำน่าน</span><span class="en">Nan River basin</span></b><small><span class="th">ระดับลุ่มน้ำและแปลง</span><span class="en">Basin and plot scale</span></small></span></a>
+    <a class="nv nv-soil" href="soil.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 13V5M12 9c-3 0-5-2-5-5 3 0 5 2 5 5zm0 0c0-3 2-5 5-5 0 3-2 5-5 5z"/><path d="M3 15h18M5 19h3M11 19h2M16 19h3"/></svg><span><b><span class="th">ดิน · น้ำ · ระบบปิด</span><span class="en">Soil · Water · Closed</span></b><small><span class="th">ระดับพืชและราก</span><span class="en">Plant and root scale</span></small></span></a>
+  </nav>
+  <div class="langsw" role="group" aria-label="ภาษา" data-en-aria-label="Language"><button type="button" data-lang-btn="th" aria-pressed="true">ไทย</button><button type="button" data-lang-btn="en" aria-pressed="false">EN</button></div>
+</div></header>
 <div class="wrap">
-  <div class="eyebrow">ลุ่มน้ำน่าน · ต้นน้ำถึงปลายน้ำ</div>
-  <h1>ดิน น้ำ หรือระบบปิด</h1>
-  <p class="lede">เทียบวิธีปลูกแบบดินที่ใช้จุลินทรีย์ ไฮโดรโปนิกส์ และโรงเรือนระบบปิด รวมถึงการผลิตต้นพันธุ์จากเมล็ดและเนื้อเยื่อ การวัดก๊าซเรือนกระจกจากแปลง และเส้นทางเปลี่ยนผ่านที่ไม่ต้องหยุดการผลิตเดิม ส่วนหัวข้อ 10–13 เป็นแบบจำลองให้ลองปรับเอง ได้แก่ <a href="#lab" style="color:var(--water)">ปฏิกิริยาเคมีที่ราก</a> <a href="#pest" style="color:var(--water)">แมลงกับศัตรูธรรมชาติ</a> <a href="#cycle" style="color:var(--water)">วงจรเพาะปลูกและการพัฒนาพันธุ์</a> และ <a href="#time" style="color:var(--water)">ระยะเวลาการเติบโต</a></p>
-  <p class="refs">ข้อความที่ติดป้าย <span class="inf">อนุมาน</span> คือข้อสรุปของผู้เขียนจากหลักฐานทั่วไป ยังไม่ได้ตรวจกับข้อมูลภาคสนามของน่าน ข้อความที่ติดป้าย <span class="noref">ไม่มีอ้างอิง</span> คือข้อเท็จจริงทั่วไปที่ยังไม่มีแหล่งอ้างอิงในหน้านี้ ส่วนตัวเลขยกกำลังคือหมายเลขแหล่งที่มาท้ายหน้า ซึ่งตรวจกับต้นฉบับแล้วเมื่อ 23 ต.ค. 2026</p>
+  <div class="eyebrow"><span class="th">ลุ่มน้ำน่าน · ต้นน้ำถึงปลายน้ำ</span><span class="en">Nan River basin · upstream to downstream</span></div>
+  <h1><span class="th">ดิน น้ำ หรือระบบปิด</span><span class="en">Soil, water or a closed system</span></h1>
+  <p class="lede th">เทียบวิธีปลูกแบบดินที่ใช้จุลินทรีย์ ไฮโดรโปนิกส์ และโรงเรือนระบบปิด รวมถึงการผลิตต้นพันธุ์จากเมล็ดและเนื้อเยื่อ การวัดก๊าซเรือนกระจกจากแปลง และเส้นทางเปลี่ยนผ่านที่ไม่ต้องหยุดการผลิตเดิม ทุกหัวข้อมีภาพจำลองให้ลองปรับเอง และหัวข้อ 10–13 เป็นแบบจำลองขนาดใหญ่ ได้แก่ <a href="#lab" style="color:var(--water)">ปฏิกิริยาเคมีที่ราก</a> <a href="#pest" style="color:var(--water)">แมลงกับศัตรูธรรมชาติ</a> <a href="#cycle" style="color:var(--water)">วงจรเพาะปลูกและการพัฒนาพันธุ์</a> และ <a href="#time" style="color:var(--water)">ระยะเวลาการเติบโต</a></p>
+  <p class="lede en">Comparing soil growing with microbes, hydroponics and closed greenhouses, along with producing planting material from seed and tissue culture, measuring greenhouse gases from fields, and a transition path that does not stop existing production. Every topic now has a simulation to try, and topics 10–13 are larger models: <a href="#lab" style="color:var(--water)">root chemistry</a>, <a href="#pest" style="color:var(--water)">pests and natural enemies</a>, <a href="#cycle" style="color:var(--water)">the cultivation cycle and breeding</a>, and <a href="#time" style="color:var(--water)">growth time</a>.</p>
+  <p class="refs th">ข้อความที่ติดป้าย <span class="inf">อนุมาน</span> คือข้อสรุปของผู้เขียนจากหลักฐานทั่วไป ยังไม่ได้ตรวจกับข้อมูลภาคสนามของน่าน ข้อความที่ติดป้าย <span class="noref">ไม่มีอ้างอิง</span> คือข้อเท็จจริงทั่วไปที่ยังไม่มีแหล่งอ้างอิงในหน้านี้ ส่วนตัวเลขยกกำลังคือหมายเลขแหล่งที่มาท้ายหน้า ซึ่งตรวจกับต้นฉบับแล้วเมื่อ 23 ต.ค. 2026</p>
+  <p class="refs en">Text tagged <span class="inf">inferred</span> is the author's conclusion from general evidence, not yet checked against field data from Nan. Text tagged <span class="noref">no reference</span> is general knowledge without a source on this page yet. Superscript numbers are sources at the end of the page, checked against the originals on 23 Oct 2026. Numbers inside the simulations are relative models for learning, not field measurements.</p>
+  <nav class="toc" aria-label="หัวข้อในหน้านี้" data-en-aria-label="Topics on this page">
+    <div class="toc-g g-soil"><b><span class="th">ดิน</span><span class="en">Soil</span></b><small><span class="th">จุลินทรีย์ โรค และสัตว์ในแปลง</span><span class="en">Microbes, disease and animals in the field</span></small><div><a href="#t1"><i>1</i><span class="th">โรคสะสมจากการปลูกซ้ำ</span><span class="en">Disease build-up from replanting</span></a><a href="#t2"><i>2</i><span class="th">ไตรโคเดอร์มา</span><span class="en">Trichoderma</span></a><a href="#t3"><i>3</i><span class="th">บำรุงดิน</span><span class="en">Building soil</span></a><a href="#t9"><i>9</i><span class="th">สัตว์ผู้ช่วยกับลูกค้า</span><span class="en">Helper and customer animals</span></a></div></div>
+    <div class="toc-g g-water"><b><span class="th">ดิน · น้ำ · ระบบปิด</span><span class="en">Soil · Water · Closed</span></b><small><span class="th">เทียบสามระบบตั้งแต่ต้นกล้าถึงตลาด</span><span class="en">Three systems compared, seedling to market</span></small><div><a href="#t4"><i>4</i><span class="th">เทียบระบบปลูก</span><span class="en">Compare systems</span></a><a href="#t5"><i>5</i><span class="th">เมล็ดและเนื้อเยื่อ</span><span class="en">Seed and tissue culture</span></a><a href="#t6"><i>6</i><span class="th">ก๊าซเรือนกระจก</span><span class="en">Greenhouse gases</span></a><a href="#t7"><i>7</i><span class="th">เส้นทางเปลี่ยนผ่าน</span><span class="en">Transition path</span></a></div></div>
+    <div class="toc-g g-fert"><b><span class="th">ปุ๋ยและธาตุอาหาร</span><span class="en">Fertilizer and nutrients</span></b><small><span class="th">สัดส่วนธาตุ การผลิต การดูดซึม มาตรฐาน</span><span class="en">Ratios, manufacture, uptake, standards</span></small><div><a href="#t8"><i>8</i><span class="th">ปุ๋ย</span><span class="en">Fertilizer</span></a></div></div>
+    <div class="toc-g g-lab"><b><span class="th">ห้องทดลอง</span><span class="en">Labs</span></b><small><span class="th">แบบจำลองให้ปรับเอง</span><span class="en">Models to play with</span></small><div><a href="#lab"><i>10</i><span class="th">เคมีราก</span><span class="en">Root chemistry</span></a><a href="#pest"><i>11</i><span class="th">แมลงกับศัตรูธรรมชาติ</span><span class="en">Pests and natural enemies</span></a><a href="#cycle"><i>12</i><span class="th">วงจรเพาะปลูก</span><span class="en">Cultivation cycle</span></a><a href="#time"><i>13</i><span class="th">ระยะเวลาเติบโต</span><span class="en">Growth time</span></a></div></div>
+  </nav>
 
-  <h2>1. โรคและแมลงเกิดจากขาดจุลินทรีย์หรือขาดอาหารหรือไม่</h2>
+  <section class="topic" id="t1">
+  <h2><span class="th">1. โรคและแมลงเกิดจากขาดจุลินทรีย์หรือขาดอาหารหรือไม่</span><span class="en">1. Are pests and diseases caused by a lack of microbes or a lack of nutrients?</span></h2>
+  <div class="th">
   <div class="answer">
     <p><strong>คำตอบสั้น:</strong> ไม่ได้เกิดจากสาเหตุเดียว โรคพืชเกิดเมื่อสามอย่างมาเจอกัน คือ พืชที่อ่อนแอ เชื้อโรคที่มีอยู่ และสภาพแวดล้อมที่เหมาะกับเชื้อ (สามเหลี่ยมโรคพืช)<sup><a href="#r1">1</a></sup> การขาดจุลินทรีย์ที่ดีในดินและธาตุอาหารที่ไม่สมดุลเป็นปัจจัยที่ทำให้พืชอ่อนแอลง แต่ไม่ใช่ต้นเหตุทั้งหมด</p>
   </div>
@@ -89,8 +109,27 @@ body{margin:0}
     <li><b>ดินเป็นกรดหรือขาดธาตุรอง</b> เช่น แคลเซียม โบรอน ทำให้ผนังเซลล์อ่อนแอ และผลผลิตเสียหายง่ายหลังเก็บเกี่ยว <span class="noref">ไม่มีอ้างอิง</span></li>
   </ul>
   <p>ปัญหาที่เห็นที่ปลายทาง เช่น ผักผลไม้เน่าหรือมีสารตกค้าง ส่วนหนึ่งจึงเริ่มจากต้นทางของห่วงโซ่ ทั้งดิน พันธุ์ และการจัดการแปลง <span class="inf">อนุมาน</span></p>
+  </div>
+  <div class="en">
+  <div class="answer">
+    <p><strong>Short answer:</strong> there is no single cause. Plant disease happens when three things meet: a susceptible plant, a pathogen that is present, and an environment that favors the pathogen (the disease triangle)<sup><a href="#r1">1</a></sup>. A lack of beneficial soil microbes and unbalanced nutrition make plants weaker, but they are not the whole cause.</p>
+  </div>
+  <h3>Common factors in monoculture systems</h3>
+  <ul>
+    <li><b>Planting the same crop in the same place</b> lets soil pathogens build up, such as <i>Fusarium</i>, <i>Pythium</i> and <i>Rhizoctonia</i>, and gives insect pests food all year round.</li>
+    <li><b>Too much nitrogen</b> makes leaves soft and attracts sap-sucking insects such as the brown planthopper in rice. <span class="noref">no reference</span></li>
+    <li><b>Broad-spectrum insecticide</b> kills natural enemies (spiders, mirid bugs, parasitic wasps), so the pest comes back worse than before. This is the main cause of planthopper outbreaks in Asia<sup><a href="#r2">2</a></sup>.</li>
+    <li><b>Low soil organic matter</b> means fewer microbes competing with pathogens, and soil that holds less water, so plants are stressed more easily<sup><a href="#r3">3</a></sup>.</li>
+    <li><b>Acid soil or missing secondary nutrients</b> such as calcium and boron weaken cell walls, so produce is damaged more easily after harvest. <span class="noref">no reference</span></li>
+  </ul>
+  <p>Problems seen at the end of the chain, such as rotting produce or chemical residues, therefore partly start at the beginning: the soil, the variety and how the field is managed. <span class="inf">inferred</span></p>
+  </div>
+  <div class="sim" id="sim1"></div>
+  </section>
 
-  <h2>2. ไตรโคเดอร์มาครอบคลุมพืชสำคัญได้แค่ไหน</h2>
+  <section class="topic" id="t2">
+  <h2><span class="th">2. ไตรโคเดอร์มาครอบคลุมพืชสำคัญได้แค่ไหน</span><span class="en">2. How much of the main crops can Trichoderma cover?</span></h2>
+  <div class="th">
   <p>ไตรโคเดอร์มาเป็นเชื้อราที่อยู่บริเวณราก แย่งพื้นที่และอาหาร ทำลายเส้นใยเชื้อราโรค และกระตุ้นให้พืชสร้างภูมิต้านทาน<sup><a href="#r4">4</a></sup> ในไทยมีสายพันธุ์ที่ส่งเสริมใช้แพร่หลาย เช่น <i>Trichoderma asperellum</i> สายพันธุ์ CB-Pin-01 ซึ่งภาควิชาโรคพืช มหาวิทยาลัยเกษตรศาสตร์ ทดสอบแล้วว่าช่วยลดโรคเมล็ดด่างในข้าว<sup><a href="#r5">5</a></sup> ที่น่านเอง เกษตรกรปลูกพริกในอำเภอท่าวังผาเกือบทุกรายรู้วิธีใช้ไตรโคเดอร์มา และรับเชื้อจากศูนย์จัดการศัตรูพืชชุมชน<sup><a href="#r23">23</a></sup></p>
   <div class="tbl"><table>
     <thead><tr><th>กลุ่มปัญหา</th><th>ได้ผลแค่ไหน <span class="noref">ไม่มีอ้างอิง</span></th><th>ตัวอย่าง</th></tr></thead>
@@ -103,8 +142,27 @@ body{margin:0}
     </tbody>
   </table></div>
   <p><b>สรุป:</b> ไตรโคเดอร์มาครอบคลุมโรคจากเชื้อราในดินของพืชหลักในน่านได้ดี ทั้งข้าว ข้าวโพด พืชผัก และไม้ผล แต่ใช้แทนการจัดการทั้งระบบไม่ได้ ได้ผลดีที่สุดเมื่อใช้ป้องกันก่อนโรคระบาด ผสมกับปุ๋ยหมักหรืออินทรียวัตถุ และในดินที่ไม่เป็นกรดจัดหรือแห้งจัด<sup><a href="#r4">4</a></sup><sup><a href="#r5">5</a></sup></p>
+  </div>
+  <div class="en">
+  <p><i>Trichoderma</i> is a fungus that lives around roots. It takes space and food from pathogens, attacks the hyphae of disease fungi, and triggers the plant's own defenses<sup><a href="#r4">4</a></sup>. In Thailand a widely promoted strain is <i>Trichoderma asperellum</i> CB-Pin-01, which the Department of Plant Pathology at Kasetsart University tested and found to reduce dirty panicle disease in rice<sup><a href="#r5">5</a></sup>. In Nan itself, almost every chili grower in Tha Wang Pha district knows how to use Trichoderma and gets it from the community pest management center<sup><a href="#r23">23</a></sup>.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Problem group</th><th>How well it works <span class="noref">no reference</span></th><th>Examples</th></tr></thead>
+    <tbody>
+      <tr><th>Soil fungi</th><td><span class="ok">Works well</span></td><td>Root and stem rot (<i>Phytophthora</i>, <i>Pythium</i>) in durian, citrus and chili; damping-off; <i>Fusarium</i> wilt; <i>Sclerotium</i> stem rot</td></tr>
+      <tr><th>Leaf fungi</th><td><span class="mid">Partly</span></td><td>Rice blast, sheath blight, anthracnose. Needs repeated spraying and results depend on humidity</td></tr>
+      <tr><th>Bacteria</th><td><span class="no">Little effect</span></td><td>Bacterial wilt (<i>Ralstonia</i>) in tomato, ginger and banana. Needs crop rotation and resistant varieties</td></tr>
+      <tr><th>Viruses</th><td><span class="no">No direct effect</span></td><td>Cassava mosaic, viruses in chili and papaya. Needs clean planting material and control of insect vectors</td></tr>
+      <tr><th>Insects</th><td><span class="no">Not a target</span></td><td>Use other fungi instead, such as <i>Beauveria</i> and <i>Metarhizium</i>, or natural enemies</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>Summary:</b> Trichoderma covers soil-borne fungal diseases of Nan's main crops well, including rice, maize, vegetables and fruit trees, but it cannot replace whole-system management. It works best when applied preventively before disease spreads, mixed with compost or organic matter, and in soil that is not strongly acid or very dry<sup><a href="#r4">4</a></sup><sup><a href="#r5">5</a></sup>.</p>
+  </div>
+  <div class="sim" id="sim2"></div>
+  </section>
 
-  <h2>3. วิธีบำรุงดินที่ได้ผลที่สุด</h2>
+  <section class="topic" id="t3">
+  <h2><span class="th">3. วิธีบำรุงดินที่ได้ผลที่สุด</span><span class="en">3. The most effective ways to build soil</span></h2>
+  <div class="th">
   <p>ไม่มีวัสดุตัวเดียวที่ดีที่สุด หลักที่หน่วยงานด้านดินทั่วโลกใช้ร่วมกันมีสี่ข้อ คือ รบกวนดินให้น้อย คลุมดินตลอดเวลา ปลูกพืชให้หลากหลาย และให้มีรากพืชมีชีวิตอยู่ในดินนานที่สุด<sup><a href="#r3">3</a></sup><sup><a href="#r6">6</a></sup></p>
   <ol class="steps">
     <li><div><b>ตรวจดินก่อน</b> วัดค่า pH อินทรียวัตถุ ฟอสฟอรัส โพแทสเซียม แล้วใส่ปุ๋ยตามค่าวิเคราะห์ กรมพัฒนาที่ดินมีบริการตรวจดินและสารเร่ง พด.<sup><a href="#r7">7</a></sup></div></li>
@@ -113,8 +171,23 @@ body{margin:0}
     <li><div><b>คลุมดินและลดการไถ</b> ลดการชะล้างหน้าดิน ซึ่งสำคัญมากบนพื้นที่ลาดชันต้นน้ำ</div></li>
     <li><div><b>เติมจุลินทรีย์เมื่อมีอาหารให้มันแล้ว</b> ไตรโคเดอร์มาและจุลินทรีย์อื่นอยู่รอดได้เมื่อดินมีอินทรียวัตถุ ใส่ลงดินเปล่าที่ไม่มีอาหารจะได้ผลน้อย</div></li>
   </ol>
+  </div>
+  <div class="en">
+  <p>No single material is best. Soil agencies around the world share four principles: disturb the soil as little as possible, keep it covered at all times, grow a diversity of plants, and keep living roots in the soil as long as possible<sup><a href="#r3">3</a></sup><sup><a href="#r6">6</a></sup>.</p>
+  <ol class="steps">
+    <li><div><b>Test the soil first.</b> Measure pH, organic matter, phosphorus and potassium, then fertilize according to the results. Thailand's Land Development Department offers soil testing and its "Por Dor" (พด.) microbial activators<sup><a href="#r7">7</a></sup>.</div></li>
+    <li><div><b>Add organic matter.</b> Plough stubble back in instead of burning it, add compost or manure, or grow green manure crops such as sunn hemp and jack bean.</div></li>
+    <li><div><b>Rotate crops.</b> Alternate rice and maize with legumes to break disease cycles and add nitrogen.</div></li>
+    <li><div><b>Cover the soil and till less.</b> This reduces topsoil erosion, which matters most on steep upstream slopes.</div></li>
+    <li><div><b>Add microbes once there is food for them.</b> Trichoderma and other microbes survive when the soil has organic matter. Adding them to bare soil with no food does little.</div></li>
+  </ol>
+  </div>
+  <div class="sim" id="sim3"></div>
+  </section>
 
-  <h2>4. เทียบระบบปลูกสามแบบ</h2>
+  <section class="topic" id="t4">
+  <h2><span class="th">4. เทียบระบบปลูกสามแบบ</span><span class="en">4. Comparing three growing systems</span></h2>
+  <div class="th">
   <p>ไฮโดรโปนิกส์และระบบปิดควบคุมสภาพได้แม่นยำกว่าดินจริง แต่ปลูกได้เพียงพืชบางกลุ่มและใช้ทุนกับพลังงานสูงกว่ามาก ข้าว ข้าวโพด และไม้ผลยังต้องปลูกในดิน</p>
   <div class="tbl"><table>
     <thead><tr>
@@ -138,8 +211,38 @@ body{margin:0}
   </table></div>
   <p class="refs">ช่องในตารางที่ไม่มีเลขอ้างอิงเป็นข้อสรุปทั่วไป <span class="noref">ไม่มีอ้างอิง</span></p>
   <p>ทั้งสามแบบจึงไม่ได้แข่งกัน แต่วางคนละตำแหน่งในลุ่มน้ำ ระบบดินคือฐานของพื้นที่ส่วนใหญ่ ไฮโดรโปนิกส์และระบบปิดเป็นส่วนเสริมสำหรับผักมูลค่าสูงใกล้ตลาด <span class="inf">อนุมาน</span></p>
+  </div>
+  <div class="en">
+  <p>Hydroponics and closed systems control conditions more precisely than real soil, but they can grow only some crop groups and need far more capital and energy. Rice, maize and fruit trees still have to be grown in soil.</p>
+  <div class="tbl"><table>
+    <thead><tr>
+      <th></th>
+      <th><span class="dot" style="background:var(--soil)"></span><span class="c-soil">Soil + microbes (e.g. Trichoderma)</span></th>
+      <th><span class="dot" style="background:var(--water)"></span><span class="c-water">Greenhouse hydroponics</span></th>
+      <th><span class="dot" style="background:var(--leaf)"></span><span class="c-leaf">Closed system with artificial light (plant factory)</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><th>Suitable crops</th><td>Everything: rice, maize, fruit trees, coffee, vegetables</td><td>Leafy greens, tomato, cucumber, melon, strawberry</td><td>Leafy greens, herbs, seedlings, high-value crops</td></tr>
+      <tr><th>Control</th><td>Low to medium, depends on rain and weather</td><td>High for nutrients and water, partial for climate</td><td>Highest: light, temperature, CO₂, humidity</td></tr>
+      <tr><th>Yield per area</th><td>Baseline</td><td>Lettuce about 11× soil per area<sup><a href="#r9">9</a></sup></td><td>Highest when counting many layers and year-round growing<sup><a href="#r8">8</a></sup></td></tr>
+      <tr><th>Water</th><td>A lot, relies on rain or irrigation</td><td>Far less than soil. Lettuce in an Arizona study used about 1/13 of the water of soil growing<sup><a href="#r9">9</a></sup></td><td>Least: water vapor is recovered</td></tr>
+      <tr><th>Energy</th><td>Low</td><td>Higher than expected: in the same study, about 82× the energy per kg of soil growing, because the greenhouse must be cooled or heated<sup><a href="#r9">9</a></sup></td><td>Very high: grow lights and air conditioning are the main cost<sup><a href="#r8">8</a></sup></td></tr>
+      <tr><th>Capital</th><td>Low</td><td>Medium</td><td>Very high</td></tr>
+      <tr><th>Disease risk</th><td>Soil pathogens build up; microbes and rotation help</td><td>If root-rot pathogens get into recirculating water, they spread through the whole house very fast</td><td>Low, if hygiene is strict</td></tr>
+      <tr><th>Chemical residues</th><td>Depends on management</td><td>Low, little insecticide needed</td><td>Almost none</td></tr>
+      <tr><th>Carbon and soil</th><td>Can store carbon in soil if well managed</td><td>Does not help soil</td><td>Does not help soil; high emissions from electricity if it comes from fossil fuels</td></tr>
+      <tr><th>Place in the Nan basin <span class="inf">inferred</span></th><td>Upstream: agroforestry, shade coffee, fruit trees instead of maize on steep land. Midstream: rice paddies and rotation crops</td><td>Near Nan town or midstream communities, supplying fresh vegetables to markets, hospitals, schools and hotels</td><td>Small units near downstream markets, or producing clean seedlings for farmers. Not worth it for field crops</td></tr>
+    </tbody>
+  </table></div>
+  <p class="refs">Table cells without a reference number are general conclusions. <span class="noref">no reference</span></p>
+  <p>So the three systems do not compete; they sit in different places in the basin. Soil is the base for most of the land, while hydroponics and closed systems add high-value vegetables near markets. <span class="inf">inferred</span></p>
+  </div>
+  <div class="sim" id="sim4"></div>
+  </section>
 
-  <h2>5. จากเมล็ดหรือเนื้อเยื่อ ไปจนถึงโรงงาน</h2>
+  <section class="topic" id="t5">
+  <h2><span class="th">5. จากเมล็ดหรือเนื้อเยื่อ ไปจนถึงโรงงาน</span><span class="en">5. From seed or tissue culture to the factory</span></h2>
+  <div class="th">
   <h3>เส้นทางเมล็ดพันธุ์</h3>
   <div class="flow"><span>คัดพันธุ์หรือผสมพันธุ์</span><b>→</b><span>เมล็ดพันธุ์หลัก</span><b>→</b><span>แปลงขยายพันธุ์</span><b>→</b><span>ตรวจความงอกและความบริสุทธิ์</span><b>→</b><span>เกษตรกร</span><b>→</b><span>โรงสี โรงงานอาหารสัตว์ ผู้ส่งออก</span></div>
   <p>ใช้กับข้าว ข้าวโพด ถั่ว ผัก ข้าวโพดเลี้ยงสัตว์ส่วนใหญ่เป็นพันธุ์ลูกผสม F1 ที่เกษตรกรต้องซื้อเมล็ดใหม่ทุกฤดู ส่วนข้าวมีศูนย์เมล็ดพันธุ์ข้าวของกรมการข้าวผลิตเมล็ดพันธุ์รับรอง <span class="noref">ไม่มีอ้างอิง</span></p>
@@ -147,8 +250,21 @@ body{margin:0}
   <div class="flow"><span>เลือกต้นแม่ปลอดโรค</span><b>→</b><span>ฟอกฆ่าเชื้อชิ้นส่วน</span><b>→</b><span>เพิ่มจำนวนยอดในอาหารวุ้น</span><b>→</b><span>ชักนำราก</span><b>→</b><span>อนุบาลในโรงเรือน</span><b>→</b><span>แปลงขยายท่อนพันธุ์</span><b>→</b><span>เกษตรกร</span></div>
   <p>ใช้กับพืชที่ขยายด้วยส่วนของต้น เช่น กล้วย อ้อย มันสำปะหลัง กล้วยไม้ สตรอว์เบอร์รี ข้อดีคือได้ต้นปลอดโรคจำนวนมากและตรงพันธุ์ ตัวอย่างสำคัญคือการผลิตท่อนพันธุ์มันสำปะหลังสะอาดหลังโรคใบด่างเริ่มพบตามแนวชายแดนไทยในปี 2561 แล้วลามไปทั่วประเทศผ่านท่อนพันธุ์ที่ติดเชื้อ<sup><a href="#r10">10</a></sup> ข้อจำกัดคือต้นทุนต่อต้นสูงกว่าและต้องมีห้องปฏิบัติการปลอดเชื้อ</p>
   <p>สำหรับน่าน ห้องปฏิบัติการเนื้อเยื่อร่วมกับโรงเรือนระบบปิดขนาดเล็กเป็นจุดเชื่อมที่ดี คือผลิตต้นกล้าสะอาดของกาแฟ ไม้ผล หรือกล้วย ให้เกษตรกรต้นน้ำที่เปลี่ยนจากข้าวโพด <span class="inf">อนุมาน</span></p>
+  </div>
+  <div class="en">
+  <h3>The seed route</h3>
+  <div class="flow"><span>Select or cross varieties</span><b>→</b><span>Foundation seed</span><b>→</b><span>Seed multiplication plots</span><b>→</b><span>Germination and purity testing</span><b>→</b><span>Farmers</span><b>→</b><span>Rice mills, feed mills, exporters</span></div>
+  <p>Used for rice, maize, beans and vegetables. Most feed maize is F1 hybrid, so farmers must buy new seed every season. For rice, the Rice Department's seed centers produce certified seed. <span class="noref">no reference</span></p>
+  <h3>The tissue culture route</h3>
+  <div class="flow"><span>Choose disease-free mother plants</span><b>→</b><span>Sterilize explants</span><b>→</b><span>Multiply shoots on agar medium</span><b>→</b><span>Induce roots</span><b>→</b><span>Harden off in a nursery</span><b>→</b><span>Cutting multiplication plots</span><b>→</b><span>Farmers</span></div>
+  <p>Used for crops propagated from plant parts, such as banana, sugarcane, cassava, orchids and strawberry. It gives large numbers of disease-free, true-to-type plants. A key example is producing clean cassava cuttings after cassava mosaic disease first appeared along Thailand's border in 2018 and then spread nationwide through infected cuttings<sup><a href="#r10">10</a></sup>. The drawbacks are a higher cost per plant and the need for a sterile laboratory.</p>
+  <p>For Nan, a tissue culture lab paired with a small closed-system nursery is a good link: it can produce clean seedlings of coffee, fruit trees or banana for upstream farmers moving away from maize. <span class="inf">inferred</span></p>
+  </div>
+  </section>
 
-  <h2>6. วัดก๊าซเรือนกระจกจากการเพาะปลูกอย่างไร</h2>
+  <section class="topic" id="t6">
+  <h2><span class="th">6. วัดก๊าซเรือนกระจกจากการเพาะปลูกอย่างไร</span><span class="en">6. How greenhouse gases from farming are measured</span></h2>
+  <div class="th">
   <p>ก๊าซหลักจากแปลงมีสามตัว คือ มีเทนจากนาน้ำขัง ไนตรัสออกไซด์จากปุ๋ยไนโตรเจน และคาร์บอนไดออกไซด์จากการเผาเศษพืช การไถ และพลังงาน การรายงานในระดับประเทศใช้แนวทางของ IPCC แบ่งความละเอียดเป็นสามระดับ<sup><a href="#r11">11</a></sup></p>
   <div class="tbl"><table>
     <thead><tr><th>ระดับ</th><th>วิธี</th><th>ใช้เมื่อไร</th></tr></thead>
@@ -161,8 +277,27 @@ body{margin:0}
   <p><b>วิธีกล่องครอบปิด</b> เป็นวิธีที่ใช้มากที่สุดในนาข้าว วางกล่องครอบต้นข้าวบนฐานที่ฝังในดิน ดูดอากาศในกล่องที่ 0, 10, 20, 30 นาที แล้ววัดว่าความเข้มข้นมีเทนเพิ่มเร็วแค่ไหน คำนวณออกมาเป็นกิโลกรัมต่อไร่ต่อวัน ทำซ้ำตลอดฤดูปลูก <span class="noref">ไม่มีอ้างอิง</span></p>
   <p><b>คาร์บอนในดิน</b> วัดโดยเก็บตัวอย่างดินลึก 0–30 ซม. วิเคราะห์ปริมาณคาร์บอนและความหนาแน่นดิน แล้วเทียบซ้ำทุก 3–5 ปี <span class="noref">ไม่มีอ้างอิง</span></p>
   <p>ในไทย องค์การบริหารจัดการก๊าซเรือนกระจก (อบก.) ออกระเบียบวิธีภายใต้โครงการ T-VER ให้นับคาร์บอนเครดิตจากภาคเกษตรได้ เช่น การทำนาเปียกสลับแห้ง (AWD) ซึ่งลดมีเทนได้ราว 48% โดยผลผลิตไม่ลด<sup><a href="#r13">13</a></sup> ตอนนี้มีโครงการนาเปียกสลับแห้งที่จดทะเบียน T-VER แล้ว เช่น ที่สุพรรณบุรี (เริ่มปี 2025)<sup><a href="#r12">12</a></sup> ส่วนการลดเผาตอซังช่วยปัญหาหมอกควัน PM2.5 ในภาคเหนือด้วย <span class="noref">ไม่มีอ้างอิง</span></p>
+  </div>
+  <div class="en">
+  <p>Fields emit three main gases: methane from flooded paddies, nitrous oxide from nitrogen fertilizer, and carbon dioxide from burning crop residues, tillage and energy use. National reporting follows IPCC guidance, which has three levels of detail<sup><a href="#r11">11</a></sup>.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Level</th><th>Method</th><th>When to use</th></tr></thead>
+    <tbody>
+      <tr><th>Tier 1</th><td>Activity data × IPCC default factors, e.g. nitrous oxide about 1% of applied nitrogen (aggregated). Disaggregated, synthetic fertilizer in wet climates like Thailand uses 1.6%, and flooded rice uses 0.4%<sup><a href="#r11">11</a></sup></td><td>Can start right away from records of fertilizer, area and flooded days</td></tr>
+      <tr><th>Tier 2</th><td>Country- or region-specific factors from local research</td><td>Provincial reporting or carbon projects</td></tr>
+      <tr><th>Tier 3</th><td>Direct measurement or models, e.g. closed chambers with air samples analyzed by gas chromatography, or eddy covariance flux towers</td><td>Research, or calibrating Tier 2 factors</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>The closed chamber method</b> is the most common in rice paddies. A chamber is placed over the rice plants on a base set into the soil; air is drawn from the chamber at 0, 10, 20 and 30 minutes, and the rate at which methane concentration rises is converted into kilograms per rai per day. This is repeated through the season. <span class="noref">no reference</span></p>
+  <p><b>Soil carbon</b> is measured by sampling soil 0–30 cm deep, analyzing carbon content and bulk density, and repeating every 3–5 years. <span class="noref">no reference</span></p>
+  <p>In Thailand, the Thailand Greenhouse Gas Management Organization (TGO) issues methodologies under the T-VER program so carbon credits can be counted from agriculture, such as alternate wetting and drying (AWD), which cuts methane by about 48% without lowering yield<sup><a href="#r13">13</a></sup>. AWD projects are already registered under T-VER, for example in Suphan Buri (started 2025)<sup><a href="#r12">12</a></sup>. Reducing stubble burning also helps with PM2.5 haze in the North. <span class="noref">no reference</span></p>
+  </div>
+  <div class="sim" id="sim6"></div>
+  </section>
 
-  <h2>7. ยังหยุดวิธีเดิมไม่ได้ จะเปลี่ยนอย่างไร</h2>
+  <section class="topic" id="t7">
+  <h2><span class="th">7. ยังหยุดวิธีเดิมไม่ได้ จะเปลี่ยนอย่างไร</span><span class="en">7. We can't stop the old way yet: how to change</span></h2>
+  <div class="th">
   <p>ใช่ หยุดทันทีไม่ได้ เพราะรายได้ของครัวเรือน หนี้ และสัญญากับผู้รับซื้อผูกอยู่กับพืชเดิม เส้นทางที่ทำได้จริงคือเปลี่ยนทีละส่วนโดยที่การผลิตเดิมยังเดินอยู่ <span class="inf">อนุมาน</span></p>
   <div class="tbl"><table>
     <thead><tr><th>ช่วง</th><th>สิ่งที่ทำ</th><th>ผลที่วัดได้</th></tr></thead>
@@ -173,8 +308,25 @@ body{margin:0}
     </tbody>
   </table></div>
   <p>สิ่งที่ทำให้การเปลี่ยนผ่านสำเร็จมักไม่ใช่เทคโนโลยี แต่คือการมีผู้รับซื้อที่แน่นอนและเงินทุนช่วงรอผลผลิตของพืชยืนต้น เช่น ไม้ผลและกาแฟที่ใช้เวลา 3–4 ปีกว่าจะให้ผล <span class="inf">อนุมาน</span></p>
+  </div>
+  <div class="en">
+  <p>Right, it can't stop overnight: household income, debt and contracts with buyers are all tied to the current crop. The realistic path is to change one part at a time while the existing production keeps running. <span class="inf">inferred</span></p>
+  <div class="tbl"><table>
+    <thead><tr><th>Period</th><th>What to do</th><th>What can be measured</th></tr></thead>
+    <tbody>
+      <tr><th>Year 1<br>Cut costs in the current system</th><td>Test soil and fertilize by the results, use Trichoderma in seedbeds and planting holes, stop burning stubble, start recording fertilizer, sprays and flooded days</td><td>Fertilizer cost per rai, number of sprays, data ready for a Tier 1 gas estimate</td></tr>
+      <tr><th>Years 2–3<br>Split off trial plots</th><td>Use 10–20% of the land for rotation or green manure crops, practice AWD where water can be controlled, upstream start interplanting fruit trees or coffee in maize fields</td><td>Compare yield and profit with the old plots in the same season</td></tr>
+      <tr><th>Years 3–5<br>Scale up and link to markets</th><td>Expand what works, set up a group hydroponic house near the market, get clean seedlings from the tissue culture lab, apply for GAP certification or join T-VER</td><td>Income from new channels, soil carbon, carbon credits</td></tr>
+    </tbody>
+  </table></div>
+  <p>What makes the transition succeed is usually not the technology but having a guaranteed buyer and money to live on while perennial crops mature, such as fruit trees and coffee, which take 3–4 years to bear. <span class="inf">inferred</span></p>
+  </div>
+  <div class="sim" id="sim7"></div>
+  </section>
 
-  <h2>8. ปุ๋ย: ทำจากอะไร ส่งผลกับสายพันธุ์พืชไหม และพืชแต่ละแบบต้องการต่างกันอย่างไร</h2>
+  <section class="topic" id="t8">
+  <h2><span class="th">8. ปุ๋ย: ทำจากอะไร ส่งผลกับสายพันธุ์พืชไหม และพืชแต่ละแบบต้องการต่างกันอย่างไร</span><span class="en">8. Fertilizer: what it is made of, whether it affects crop varieties, and how needs differ by crop</span></h2>
+  <div class="th">
   <h3>ปุ๋ยเปลี่ยนสายพันธุ์พืชหรือไม่</h3>
   <p>ปุ๋ยไม่เปลี่ยนพันธุกรรมของพืชโดยตรง แต่ส่งผลทางอ้อมต่อว่าพันธุ์ไหนถูกปลูก ข้าวพันธุ์ต้นเตี้ยยุคปฏิวัติเขียว เช่น IR8 ถูกปรับปรุงพันธุ์มาเพื่อให้ตอบสนองต่อปุ๋ยไนโตรเจนมากๆ โดยไม่ล้ม<sup><a href="#r16">16</a></sup> เมื่อพันธุ์ที่ให้ผลผลิตสูงต้องพึ่งปุ๋ย พันธุ์พื้นเมืองที่ไม่ตอบสนองต่อปุ๋ยจึงค่อยๆ หายไปจากแปลง</p>
   <p>อีกทางหนึ่งคือการขายเป็นชุด บริษัทเกษตรรายใหญ่หลายรายขายทั้งเมล็ดพันธุ์ลูกผสม ปุ๋ย และยา บางครั้งผ่านระบบเกษตรพันธสัญญา เช่น ข้าวโพดเลี้ยงสัตว์ในภาคเหนือ เกษตรกรจึงเลือกพันธุ์ตามชุดที่ผู้รับซื้อกำหนดมากกว่าเลือกตามดินของตัวเอง <span class="inf">อนุมาน</span></p>
@@ -221,8 +373,61 @@ body{margin:0}
     </tbody>
   </table></div>
   <p>ตลาดปลายทางก็กำหนดความต้องการด้วย ผู้ซื้อผลไม้ส่งออกต้องการความหวานและสีผิว จึงใส่โพแทสเซียมสูงช่วงท้าย ส่วนโรงงานอาหารสัตว์ต้องการน้ำหนักเมล็ดข้าวโพด จึงใส่ไนโตรเจนสูง ทั้งสองแบบส่งผลต่อดินและก๊าซเรือนกระจกในหัวข้อที่ 6 <span class="inf">อนุมาน</span></p>
+  </div>
+  <div class="en">
+  <h3>Does fertilizer change crop varieties?</h3>
+  <p>Fertilizer does not change a plant's genetics directly, but it indirectly decides which varieties get grown. Green Revolution semi-dwarf rice such as IR8 was bred to respond strongly to nitrogen without lodging<sup><a href="#r16">16</a></sup>. Once high-yield varieties depended on fertilizer, local varieties that did not respond to it gradually disappeared from the fields.</p>
+  <p>The other route is package selling. Several large agribusinesses sell hybrid seed, fertilizer and pesticides together, sometimes through contract farming, such as feed maize in the North. Farmers then choose varieties according to the buyer's package rather than their own soil. <span class="inf">inferred</span></p>
 
-  <h2>9. สัตว์ที่ช่วยพืช กับสัตว์ที่เป็นลูกค้า</h2>
+  <h3>Commonly used nutrients <span class="noref">no reference</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Group</th><th>Elements</th><th>Main role</th></tr></thead>
+    <tbody>
+      <tr><th>Primary</th><td>Nitrogen (N), phosphorus (P), potassium (K)</td><td>N builds leaves and stems, P builds roots and flowers, K helps store starch and sugar and gives good fruit quality</td></tr>
+      <tr><th>Secondary</th><td>Calcium, magnesium, sulfur</td><td>Ca builds cell walls, Mg is the center of chlorophyll, S builds proteins</td></tr>
+      <tr><th>Micronutrients</th><td>Iron, manganese, zinc, copper, boron, molybdenum, chlorine, nickel</td><td>Needed in small amounts but essential, e.g. boron for fruit set, zinc important for maize and rice</td></tr>
+    </tbody>
+  </table></div>
+  <p>Numbers on the bag, such as <span class="num">15-15-15</span>, are the percentages of N, P₂O₅ and K₂O in that order. Common grades in Thailand include urea <span class="num">46-0-0</span>, ammonium sulfate <span class="num">21-0-0</span>, <span class="num">16-20-0</span> for rice, and potassium chloride <span class="num">0-0-60</span>. <span class="noref">no reference</span></p>
+
+  <h3>What fertilizer is made from</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Element</th><th>Raw material and process</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><th>Nitrogen</th><td>Nitrogen from the air reacts with hydrogen from natural gas to make ammonia (the Haber-Bosch process); ammonia then reacts with CO₂ to make urea</td><td>Very energy-intensive, so fertilizer prices follow natural gas prices <span class="noref">no reference</span></td></tr>
+      <tr><th>Phosphorus</th><td>Phosphate rock is mined and digested with sulfuric or phosphoric acid to make superphosphate, DAP and MAP</td><td>About 68% of world reserves are in Morocco<sup><a href="#r14">14</a></sup>. A finite resource</td></tr>
+      <tr><th>Potassium</th><td>Potash ore (sylvinite) is mined and the salts separated to give potassium chloride</td><td>Major producers in 2025: Canada, Russia, China and Belarus<sup><a href="#r14">14</a></sup>. Thailand has potash deposits on the Khorat Plateau but produces little <span class="noref">no reference</span></td></tr>
+      <tr><th>Sulfur</th><td>Mostly a by-product of oil and gas refining</td><td>Also used to make the sulfuric acid for phosphate fertilizer</td></tr>
+      <tr><th>Organic fertilizer</th><td>Manure, plant compost, molasses, fish emulsion, bone meal</td><td>Lower in nutrients but adds organic matter and microbes to soil; can be made in Nan communities</td></tr>
+    </tbody>
+  </table></div>
+  <p>Thailand imports almost all its chemical fertilizer or raw materials, so most fertilizer sold in the country is imported straight fertilizers blended or re-granulated in local plants. <span class="noref">no reference</span> One sign of this dependence: in April 2026 Thailand asked Russia for a urea quota of 1–2 million tonnes a year<sup><a href="#r15">15</a></sup>.</p>
+
+  <h3>Granular vs liquid fertilizer</h3>
+  <p><b>Granular fertilizer</b> is cheaper per kilogram of nutrient and is broadcast in large doses, suiting field crops and rice, but a lot is lost to water and air. <b>Liquid or water-soluble fertilizer</b> must be pure and dissolve completely, such as calcium nitrate, potassium nitrate and chelated micronutrients. It is used for fertigation and hydroponics; it costs more but is given little and often, matching demand. Hydroponic solutions are split into tanks A and B so calcium does not bind with phosphate or sulfate and precipitate. <span class="noref">no reference</span></p>
+
+  <h3>How needs differ by crop group <span class="noref">no reference</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Crop group</th><th>Key nutrients</th><th>Reasons and cautions</th></tr></thead>
+    <tbody>
+      <tr><th>Rice</th><td>N medium to high; P and K medium</td><td>Too much nitrogen causes lodging and planthopper outbreaks; fertilize by soil test</td></tr>
+      <tr><th>Maize</th><td>High N, and zinc</td><td>Takes up most nitrogen before tasseling; a major nitrous oxide source if over-fertilized</td></tr>
+      <tr><th>Cassava, sugarcane</th><td>High K</td><td>Potassium helps store starch and sugar</td></tr>
+      <tr><th>Leafy vegetables</th><td>High N</td><td>Fast-growing and sold whole; beware nitrate residues in leaves if fertilized close to harvest</td></tr>
+      <tr><th>Fruiting vegetables</th><td>High K and Ca</td><td>Tomato and chili lacking calcium get blossom-end rot</td></tr>
+      <tr><th>Fruit trees, e.g. longan, durian, mango</th><td>Changes with stage</td><td>Leaf flush: N. Building reserves before flowering: P and K. Fruit fill: K for sweetness and skin color</td></tr>
+      <tr><th>Legumes</th><td>P and molybdenum, little N</td><td>Fix their own nitrogen through rhizobia bacteria in root nodules</td></tr>
+      <tr><th>Coffee, tea</th><td>N and K</td><td>Like slightly acid soil; suit Nan's upstream highlands</td></tr>
+    </tbody>
+  </table></div>
+  <p>End markets shape demand too. Export fruit buyers want sweetness and skin color, so growers apply a lot of potassium late in the season; feed mills want heavy maize grain, so growers apply a lot of nitrogen. Both affect soil and the greenhouse gases in topic 6. <span class="inf">inferred</span></p>
+  </div>
+  <div class="sim" id="sim8"></div>
+  </section>
+
+  <section class="topic" id="t9">
+  <h2><span class="th">9. สัตว์ที่ช่วยพืช กับสัตว์ที่เป็นลูกค้า</span><span class="en">9. Animals that help plants, and animals that are customers</span></h2>
+  <div class="th">
   <div class="answer">
     <p><strong>คำตอบสั้น:</strong> สัตว์ในแปลงส่วนใหญ่เป็นผู้ช่วยหรือไม่มีผลอะไร มีเพียงส่วนน้อยที่กินพืชจนเสียหาย แต่ส่วนน้อยนั้นระบาดได้รุนแรงเมื่อศัตรูธรรมชาติของมันถูกทำลาย <span class="inf">อนุมาน</span> พืชอาหารราว 3 ใน 4 ของชนิดที่ปลูกมากในโลกได้ประโยชน์จากสัตว์ผสมเกสร<sup><a href="#r18">18</a></sup></p>
   </div>
@@ -248,125 +453,165 @@ body{margin:0}
     <li><b>เพิ่มอินทรียวัตถุ</b> ไส้เดือนและสัตว์ในดินจะเพิ่มขึ้นตาม (หัวข้อที่ 3)</li>
   </ul>
   <p>สำหรับน่าน ต้นน้ำที่เปลี่ยนจากข้าวโพดเป็นวนเกษตรจะได้ทั้งผู้ผสมเกสรและผู้กระจายเมล็ดกลับมา ส่วนกลางน้ำที่เป็นนาข้าวได้ประโยชน์มากที่สุดจากศัตรูธรรมชาติและนาเป็ดหรือนาปลา <span class="inf">อนุมาน</span> ภาพรวมของบริการจากสัตว์ผสมเกสรดูได้จากรายงานของ IPBES<sup><a href="#r21">21</a></sup></p>
+  </div>
+  <div class="en">
+  <div class="answer">
+    <p><strong>Short answer:</strong> most animals in a field are helpers or neutral. Only a small share eat plants enough to cause damage, but that share can explode when its natural enemies are destroyed. <span class="inf">inferred</span> About 3 in 4 of the world's leading food crop species benefit from animal pollinators<sup><a href="#r18">18</a></sup>.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Role</th><th>Animals</th><th>How they help (cells without a number: <span class="noref">no reference</span>)</th></tr></thead>
+    <tbody>
+      <tr><th><span class="ok">Pollinators</span></th><td>Honeybees, stingless bees, butterflies, hoverflies, beetles, nectar bats, sunbirds</td><td>Make fruit set, e.g. longan, lychee, mango, pumpkin, coffee. Durian in Thailand relies on nectar bats, especially the cave nectar bat (<i>Eonycteris spelaea</i>), as its main pollinator<sup><a href="#r19">19</a></sup></td></tr>
+      <tr><th><span class="ok">Natural enemies</span></th><td>Spiders, ladybirds, lacewings, parasitic wasps, mirid egg predators, dragonflies, frogs, toads, geckos, insect-eating birds and bats</td><td>Eat or parasitize planthoppers, caterpillars and pest eggs. This is why blanket spraying makes pests come back (topic 1)</td></tr>
+      <tr><th><span class="ok">Rodent control</span></th><td>Barn owls, snakes, mongooses</td><td>One barn owl family eats a large number of rats a year; many areas put up owl boxes in rice fields and oil palm</td></tr>
+      <tr><th><span class="ok">Soil builders</span></th><td>Earthworms, dung beetles, earwigs, soil mites</td><td>Loosen soil, break down residues into organic matter, help water soak in</td></tr>
+      <tr><th><span class="ok">Seed dispersers</span></th><td>Birds, fruit bats, civets</td><td>Restore forest and agroforestry on upstream land</td></tr>
+      <tr><th><span class="ok">Farm animals in the system</span></th><td>Ducks and fish in paddies, chickens in orchards, cattle and buffalo</td><td>Eat insects and weeds, manure becomes fertilizer, extra income from the same plot</td></tr>
+      <tr><th><span class="mid">Two-faced</span></th><td>Ants, termites, birds, fruit bats</td><td>Weaver ants drive pests away in mango and citrus orchards<sup><a href="#r20">20</a></sup>, but some ants farm mealybugs and aphids for honeydew. Termites break down wood but chew sugarcane roots and seedlings. Birds eat insects but also rice grain</td></tr>
+      <tr><th><span class="no">Customers (pests)</span></th><td>Rats, planthoppers, aphids, whiteflies, thrips, fruit flies, stem borers, fall armyworm, golden apple snail, root-knot nematodes</td><td>Eat plants or suck sap directly, and many carry viruses. Fall armyworm is an invasive pest, first found in Thailand on 14 Dec 2018 in maize fields in Kanchanaburi and Tak<sup><a href="#r22">22</a></sup></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Getting more helpers than customers <span class="noref">no reference</span></h3>
+  <ul>
+    <li><b>Stop broad-spectrum insecticide sprays.</b> If one is needed, choose a selective product and spray only spots where scouting finds pests above the economic threshold.</li>
+    <li><b>Plant flowers on bunds and field edges</b> as shelter and nectar for parasitic wasps and bees.</li>
+    <li><b>Keep stingless bees in longan and fruit orchards</b> for pollination and stingless-bee honey as extra income.</li>
+    <li><b>Put up barn owl boxes, farm ducks or fish in paddies</b> to control rats, snails and insects at the same time.</li>
+    <li><b>Add organic matter</b> and earthworms and soil animals will follow (topic 3).</li>
+  </ul>
+  <p>For Nan, upstream land moving from maize to agroforestry gets pollinators and seed dispersers back, while midstream rice paddies gain most from natural enemies and duck or fish farming. <span class="inf">inferred</span> For an overview of pollinator services, see the IPBES report<sup><a href="#r21">21</a></sup>.</p>
+  </div>
+  <div class="sim" id="sim9"></div>
+  </section>
 
-
-  <h2 id="lab">10. ห้องทดลองเคมีราก: สภาพแวดล้อมเปลี่ยน ปฏิกิริยาเปลี่ยน</h2>
-  <p>ปรับระบบปลูก ความเป็นกรดด่าง น้ำ และปุ๋ยที่ให้ แล้วดูว่าพืชดูดธาตุอาหารได้จริงเท่าไร ปฏิกิริยาเคมีอะไรเกิดขึ้นในดินหรือสารละลาย และใบแสดงอาการอย่างไร รูปแบบความเป็นประโยชน์ของธาตุตาม pH อิงแผนภาพคลาสสิกของ Truog<sup><a href="#r24">24</a></sup> และตำราโภชนาการพืช<sup><a href="#r25">25</a></sup> ส่วนปฏิกิริยาในดินขังน้ำอิง Ponnamperuma<sup><a href="#r26">26</a></sup> ตัวเลขในห้องทดลองเป็นแบบจำลองสัมพัทธ์ <span class="inf">อนุมาน</span> ไม่ใช่ค่าวัดจริง</p>
+  <h2 id="lab"><span class="th">10. ห้องทดลองเคมีราก: สภาพแวดล้อมเปลี่ยน ปฏิกิริยาเปลี่ยน</span><span class="en">10. Root chemistry lab: change the environment, change the reactions</span></h2>
+  <p class="th">ปรับระบบปลูก ความเป็นกรดด่าง น้ำ และปุ๋ยที่ให้ แล้วดูว่าพืชดูดธาตุอาหารได้จริงเท่าไร ปฏิกิริยาเคมีอะไรเกิดขึ้นในดินหรือสารละลาย และใบแสดงอาการอย่างไร รูปแบบความเป็นประโยชน์ของธาตุตาม pH อิงแผนภาพคลาสสิกของ Truog<sup><a href="#r24">24</a></sup> และตำราโภชนาการพืช<sup><a href="#r25">25</a></sup> ส่วนปฏิกิริยาในดินขังน้ำอิง Ponnamperuma<sup><a href="#r26">26</a></sup> ตัวเลขในห้องทดลองเป็นแบบจำลองสัมพัทธ์ <span class="inf">อนุมาน</span> ไม่ใช่ค่าวัดจริง</p>
+  <p class="en">Change the growing system, acidity, water and fertilizer, and see how much the plant can really take up, which chemical reactions happen in the soil or solution, and what the leaves show. The pH availability pattern follows Truog's classic chart<sup><a href="#r24">24</a></sup> and plant nutrition texts<sup><a href="#r25">25</a></sup>; flooded-soil reactions follow Ponnamperuma<sup><a href="#r26">26</a></sup>. Numbers in the lab are a relative model <span class="inf">inferred</span>, not measurements.</p>
   <div class="lab2">
     <div class="lab2-ctl">
-      <div class="seg2" id="cEnv" role="group" aria-label="ระบบปลูก"><button data-v="soil" aria-pressed="true">ดิน</button><button data-v="hydro" aria-pressed="false">ไฮโดรโปนิกส์</button><button data-v="closed" aria-pressed="false">ระบบปิด</button></div>
-      <div class="seg2" id="cCrop" role="group" aria-label="พืช"><button data-v="rice" aria-pressed="false">ข้าว</button><button data-v="lettuce" aria-pressed="true">ผักกาดหอม</button><button data-v="tomato" aria-pressed="false">มะเขือเทศ</button></div>
+      <div class="seg2" id="cEnv" role="group" aria-label="ระบบปลูก" data-en-aria-label="Growing system"><button data-v="soil" aria-pressed="true"><span class="th">ดิน</span><span class="en">Soil</span></button><button data-v="hydro" aria-pressed="false"><span class="th">ไฮโดรโปนิกส์</span><span class="en">Hydroponics</span></button><button data-v="closed" aria-pressed="false"><span class="th">ระบบปิด</span><span class="en">Closed</span></button></div>
+      <div class="seg2" id="cCrop" role="group" aria-label="พืช" data-en-aria-label="Crop"><button data-v="rice" aria-pressed="false"><span class="th">ข้าว</span><span class="en">Rice</span></button><button data-v="lettuce" aria-pressed="true"><span class="th">ผักกาดหอม</span><span class="en">Lettuce</span></button><button data-v="tomato" aria-pressed="false"><span class="th">มะเขือเทศ</span><span class="en">Tomato</span></button></div>
       <label class="rng">pH <b id="vPH"></b><input id="cPH" type="range" min="4" max="9" step="0.1" value="6.3"></label>
       <label class="rng"><span id="lW">น้ำในดิน</span> <b id="vW"></b><input id="cW" type="range" min="0" max="100" value="55"></label>
-      <label class="rng">อุณหภูมิ <b id="vT"></b><input id="cT" type="range" min="12" max="42" value="22"></label>
+      <label class="rng"><span class="th">อุณหภูมิ</span><span class="en">Temperature</span> <b id="vT"></b><input id="cT" type="range" min="12" max="42" value="22"></label>
       <div class="nut" id="cNut"></div>
     </div>
     <div class="lab2-out">
-      <div class="plantbox"><svg id="plant" viewBox="0 0 220 260" role="img" aria-label="ภาพพืชแสดงอาการ"></svg>
-        <div><div class="grow"><span>การเติบโตสัมพัทธ์</span><b id="vGrow"></b></div><div class="gbar"><i id="gGrow"></i></div><p class="mini" id="limit"></p></div></div>
+      <div class="plantbox"><svg id="plant" viewBox="0 0 220 260" role="img" aria-label="ภาพพืชแสดงอาการ" data-en-aria-label="Plant showing symptoms"></svg>
+        <div><div class="grow"><span><span class="th">การเติบโตสัมพัทธ์</span><span class="en">Relative growth</span></span><b id="vGrow"></b></div><div class="gbar"><i id="gGrow"></i></div><p class="mini" id="limit"></p></div></div>
       <div class="avail" id="avail"></div>
     </div>
   </div>
-  <h3>ปฏิกิริยาที่เกิดขึ้นตอนนี้</h3>
+  <h3><span class="th">ปฏิกิริยาที่เกิดขึ้นตอนนี้</span><span class="en">Reactions happening now</span></h3>
   <div class="rx" id="rx"></div>
-  <h3>อาการที่ใบและผลบอก</h3>
+  <h3><span class="th">อาการที่ใบและผลบอก</span><span class="en">What leaves and fruit show</span></h3>
   <ul id="sym"></ul>
 
-  <h2 id="pest">11. จำลองแมลงศัตรูพืชกับศัตรูธรรมชาติในนาข้าว</h2>
-  <p>แบบจำลองนี้ใช้เพลี้ยกระโดดสีน้ำตาลกับแมงมุมและมวนที่กินเพลี้ยเป็นตัวอย่าง ลองพ่นยาฆ่าแมลงแบบออกฤทธิ์กว้างหลายรอบ แล้วเทียบกับปลูกดอกไม้ขอบแปลงและใช้พันธุ์ต้านทาน จะเห็นว่าการพ่นยาฆ่าศัตรูธรรมชาติไปด้วย ทำให้เพลี้ยกลับมาระบาดหนักกว่าเดิม ตรงกับที่พบในเอเชีย<sup><a href="#r2">2</a></sup> ค่าในกราฟเป็นแบบจำลองเชิงสัมพัทธ์ <span class="inf">อนุมาน</span></p>
+  <h2 id="pest"><span class="th">11. จำลองแมลงศัตรูพืชกับศัตรูธรรมชาติในนาข้าว</span><span class="en">11. Pests and natural enemies in a rice paddy</span></h2>
+  <p class="th">แบบจำลองนี้ใช้เพลี้ยกระโดดสีน้ำตาลกับแมงมุมและมวนที่กินเพลี้ยเป็นตัวอย่าง ลองพ่นยาฆ่าแมลงแบบออกฤทธิ์กว้างหลายรอบ แล้วเทียบกับปลูกดอกไม้ขอบแปลงและใช้พันธุ์ต้านทาน จะเห็นว่าการพ่นยาฆ่าศัตรูธรรมชาติไปด้วย ทำให้เพลี้ยกลับมาระบาดหนักกว่าเดิม ตรงกับที่พบในเอเชีย<sup><a href="#r2">2</a></sup> ค่าในกราฟเป็นแบบจำลองเชิงสัมพัทธ์ <span class="inf">อนุมาน</span></p>
+  <p class="en">This model uses the brown planthopper and the spiders and mirid bugs that eat it. Try several broad-spectrum sprays, then compare with flowers on the bunds and resistant varieties. Spraying kills natural enemies too, so planthoppers come back worse, as seen across Asia<sup><a href="#r2">2</a></sup>. Values in the chart are a relative model <span class="inf">inferred</span>.</p>
   <div class="lab2">
     <div class="lab2-ctl">
-      <div class="seg2" id="pN" role="group" aria-label="ปุ๋ยไนโตรเจน"><button data-v="0.8" aria-pressed="false">N ต่ำ</button><button data-v="1" aria-pressed="true">N ตามค่าดิน</button><button data-v="1.35" aria-pressed="false">N สูงเกิน</button></div>
-      <label class="rng">พ่นยาออกฤทธิ์กว้าง <b id="vSpray"></b><input id="pSpray" type="range" min="0" max="4" value="0"></label>
-      <label class="chk2"><input type="checkbox" id="pFlower"> ปลูกดอกไม้คันนา (ที่อยู่ศัตรูธรรมชาติ)</label>
-      <label class="chk2"><input type="checkbox" id="pResist"> ใช้พันธุ์ต้านทานเพลี้ย</label>
-      <label class="chk2"><input type="checkbox" id="pBio"> ใช้เชื้อราบิวเวอเรีย (เฉพาะแมลงเป้าหมาย)</label>
-      <label class="rng">ดูแปลงวันที่ <b id="vDay"></b><input id="pDay" type="range" min="0" max="110" value="80"></label>
+      <div class="seg2" id="pN" role="group" aria-label="ปุ๋ยไนโตรเจน" data-en-aria-label="Nitrogen fertilizer"><button data-v="0.8" aria-pressed="false"><span class="th">N ต่ำ</span><span class="en">Low N</span></button><button data-v="1" aria-pressed="true"><span class="th">N ตามค่าดิน</span><span class="en">N by soil test</span></button><button data-v="1.35" aria-pressed="false"><span class="th">N สูงเกิน</span><span class="en">Too much N</span></button></div>
+      <label class="rng"><span class="th">พ่นยาออกฤทธิ์กว้าง</span><span class="en">Broad-spectrum sprays</span> <b id="vSpray"></b><input id="pSpray" type="range" min="0" max="4" value="0"></label>
+      <label class="chk2"><input type="checkbox" id="pFlower"> <span class="th">ปลูกดอกไม้คันนา (ที่อยู่ศัตรูธรรมชาติ)</span><span class="en">Flowers on bunds (natural enemy habitat)</span></label>
+      <label class="chk2"><input type="checkbox" id="pResist"> <span class="th">ใช้พันธุ์ต้านทานเพลี้ย</span><span class="en">Planthopper-resistant variety</span></label>
+      <label class="chk2"><input type="checkbox" id="pBio"> <span class="th">ใช้เชื้อราบิวเวอเรีย (เฉพาะแมลงเป้าหมาย)</span><span class="en">Beauveria fungus (targets the pest only)</span></label>
+      <label class="rng"><span class="th">ดูแปลงวันที่</span><span class="en">View field on day</span> <b id="vDay"></b><input id="pDay" type="range" min="0" max="110" value="80"></label>
     </div>
     <div class="lab2-out">
-      <canvas id="pChart" height="220" aria-label="กราฟจำนวนเพลี้ยและศัตรูธรรมชาติ"></canvas>
-      <div class="legend2"><span><i style="background:var(--warn)"></i>เพลี้ยกระโดด</span><span><i style="background:var(--leaf)"></i>แมงมุม มวน (×4 ให้เห็นชัด)</span><span><i style="background:var(--muted)"></i>วันที่พ่นยา</span></div>
-      <div class="field" id="field" aria-label="สภาพต้นข้าวในแปลง"></div>
+      <canvas id="pChart" height="220" aria-label="กราฟจำนวนเพลี้ยและศัตรูธรรมชาติ" data-en-aria-label="Planthoppers and natural enemies chart"></canvas>
+      <div class="legend2"><span><i style="background:var(--warn)"></i><span class="th">เพลี้ยกระโดด</span><span class="en">Planthoppers</span></span><span><i style="background:var(--leaf)"></i><span class="th">แมงมุม มวน (×4 ให้เห็นชัด)</span><span class="en">Spiders, mirid bugs (×4 for visibility)</span></span><span><i style="background:var(--muted)"></i><span class="th">วันที่พ่นยา</span><span class="en">Spray days</span></span></div>
+      <div class="field" id="field" aria-label="สภาพต้นข้าวในแปลง" data-en-aria-label="Rice plants in the field"></div>
       <div class="kpi" id="pKpi"></div>
     </div>
   </div>
 
-  <h2 id="cycle">12. วงจรการเพาะปลูก จากแบบดั้งเดิมถึงอัตโนมัติ</h2>
-  <p>ขั้นตอนพื้นฐานของการปลูกยังเหมือนเดิมทุกยุค คือ เตรียมพันธุ์ เตรียมดิน ปลูก ดูแลน้ำและปุ๋ย จัดการศัตรูพืช เก็บเกี่ยว และขาย สิ่งที่เปลี่ยนคือเครื่องมือ ใครตัดสินใจ และข้อมูลที่ใช้ตัดสินใจ เลือกยุคแล้วกดเล่นฤดูปลูกเพื่อดูทีละขั้น <span class="noref">ไม่มีอ้างอิง</span></p>
+  <h2 id="cycle"><span class="th">12. วงจรการเพาะปลูก จากแบบดั้งเดิมถึงอัตโนมัติ</span><span class="en">12. The cultivation cycle, from traditional to automated</span></h2>
+  <p class="th">ขั้นตอนพื้นฐานของการปลูกยังเหมือนเดิมทุกยุค คือ เตรียมพันธุ์ เตรียมดิน ปลูก ดูแลน้ำและปุ๋ย จัดการศัตรูพืช เก็บเกี่ยว และขาย สิ่งที่เปลี่ยนคือเครื่องมือ ใครตัดสินใจ และข้อมูลที่ใช้ตัดสินใจ เลือกยุคแล้วกดเล่นฤดูปลูกเพื่อดูทีละขั้น <span class="noref">ไม่มีอ้างอิง</span></p>
+  <p class="en">The basic steps are the same in every era: seed, land preparation, planting, water and fertilizer, pests, harvest and sale. What changes is the tools, who decides, and the data used to decide. Pick an era and play a season to walk through each step. <span class="noref">no reference</span></p>
   <div class="tabs2" id="eraTabs"></div>
   <div class="cyc">
-    <svg id="wheel" viewBox="0 0 320 320" role="img" aria-label="วงจรการเพาะปลูก"></svg>
+    <svg id="wheel" viewBox="0 0 320 320" role="img" aria-label="วงจรการเพาะปลูก" data-en-aria-label="Cultivation cycle"></svg>
     <div class="cyc-txt">
       <p class="mini" id="eraYears"></p>
       <h3 id="stepName" style="margin-top:4px"></h3>
       <p id="stepTxt"></p>
-      <button class="btn2" id="playBtn">▶ เล่นฤดูปลูก</button>
+      <button class="btn2" id="playBtn">▶ <span class="th">เล่นฤดูปลูก</span><span class="en">Play a season</span></button>
       <div class="avail" id="eraBars" style="margin-top:14px"></div>
-      <p class="mini">แถบเป็นค่าเปรียบเทียบโดยประมาณสำหรับนาข้าวไทย <span class="inf">อนุมาน</span></p>
+      <p class="mini"><span class="th">แถบเป็นค่าเปรียบเทียบโดยประมาณสำหรับนาข้าวไทย</span><span class="en">Bars are rough comparisons for Thai rice farming</span> <span class="inf"><span class="th">อนุมาน</span><span class="en">inferred</span></span></p>
     </div>
   </div>
 
-  <h3>การพัฒนาพันธุ์พืช: ใช้เวลากี่ปีกว่าจะได้พันธุ์ใหม่</h3>
-  <p>เลือกวิธีปรับปรุงพันธุ์เพื่อดูหลักการ เวลาที่ใช้โดยประมาณ และตัวอย่างในไทย <span class="noref">ไม่มีอ้างอิง</span></p>
+  <h3><span class="th">การพัฒนาพันธุ์พืช: ใช้เวลากี่ปีกว่าจะได้พันธุ์ใหม่</span><span class="en">Plant breeding: how many years for a new variety?</span></h3>
+  <p class="th">เลือกวิธีปรับปรุงพันธุ์เพื่อดูหลักการ เวลาที่ใช้โดยประมาณ และตัวอย่างในไทย <span class="noref">ไม่มีอ้างอิง</span></p>
+  <p class="en">Pick a breeding method to see how it works, roughly how long it takes, and Thai examples. <span class="noref">no reference</span></p>
   <div class="tabs2" id="brTabs"></div>
   <div class="answer" id="brBox"></div>
 
-  <h2 id="time">13. ระยะเวลาการเติบโต: ปลูกจนเก็บเกี่ยวใช้เวลาเท่าไร</h2>
-  <p>พืชแต่ละชนิดใช้เวลาต่างกันมาก ตั้งแต่ผักบุ้งไม่ถึงเดือน ไปจนถึงไม้สักที่ใช้เวลาหลายสิบปี ตัวเลขด้านล่างเป็นช่วงที่พบทั่วไปในไทย ขึ้นกับพันธุ์ ฤดู และการจัดการ <span class="noref">ไม่มีอ้างอิง</span> ช่วงเวลาที่ต้องใช้วางแผนลงทุนควรตรวจกับคำแนะนำของกรมวิชาการเกษตรและกรมการข้าว</p>
-  <div class="tabs2" id="gTabs"><button data-v="d" aria-pressed="true">พืชอายุสั้น (วัน)</button><button data-v="m" aria-pressed="false">พืชไร่อายุยาว (เดือน)</button><button data-v="y" aria-pressed="false">ไม้ยืนต้น (ปี)</button></div>
+  <h2 id="time"><span class="th">13. ระยะเวลาการเติบโต: ปลูกจนเก็บเกี่ยวใช้เวลาเท่าไร</span><span class="en">13. Growth time: how long from planting to harvest?</span></h2>
+  <p class="th">พืชแต่ละชนิดใช้เวลาต่างกันมาก ตั้งแต่ผักบุ้งไม่ถึงเดือน ไปจนถึงไม้สักที่ใช้เวลาหลายสิบปี ตัวเลขด้านล่างเป็นช่วงที่พบทั่วไปในไทย ขึ้นกับพันธุ์ ฤดู และการจัดการ <span class="noref">ไม่มีอ้างอิง</span> ช่วงเวลาที่ต้องใช้วางแผนลงทุนควรตรวจกับคำแนะนำของกรมวิชาการเกษตรและกรมการข้าว</p>
+  <p class="en">Crops differ hugely, from water spinach in under a month to teak over decades. Figures below are common ranges in Thailand and depend on variety, season and management. <span class="noref">no reference</span> Timelines used for investment planning should be checked with the Department of Agriculture and the Rice Department.</p>
+  <div class="tabs2" id="gTabs"><button data-v="d" aria-pressed="true"><span class="th">พืชอายุสั้น (วัน)</span><span class="en">Short crops (days)</span></button><button data-v="m" aria-pressed="false"><span class="th">พืชไร่อายุยาว (เดือน)</span><span class="en">Long field crops (months)</span></button><button data-v="y" aria-pressed="false"><span class="th">ไม้ยืนต้น (ปี)</span><span class="en">Perennials (years)</span></button></div>
   <div class="tbl gtl" id="gChart"></div>
   <div class="legend2" id="gLeg"></div>
 
-  <h3>ข้าวไวแสงกับข้าวไม่ไวแสง: ปลูกช้าแล้วเก็บเกี่ยวเมื่อไร</h3>
-  <p>ข้าวหอมมะลิ 105 เป็นข้าวไวต่อช่วงแสง จะออกดอกเมื่อกลางวันสั้นลงช่วงปลายเดือนตุลาคมไม่ว่าจะปลูกเมื่อไร ส่วนข้าวไม่ไวแสงนับอายุจากวันปลูก เลื่อนวันปลูกเพื่อเทียบ <span class="noref">ไม่มีอ้างอิง</span></p>
-  <label class="rng" style="max-width:520px">วันตกกล้า <b id="vPlant"></b><input id="cPlant" type="range" min="0" max="105" value="45"></label>
-  <div class="tbl" style="padding:12px 14px"><svg id="photo" viewBox="0 0 640 168" role="img" aria-label="เทียบเวลาออกดอกและเก็บเกี่ยวของข้าวไวแสงและไม่ไวแสง"></svg></div>
+  <h3><span class="th">ข้าวไวแสงกับข้าวไม่ไวแสง: ปลูกช้าแล้วเก็บเกี่ยวเมื่อไร</span><span class="en">Photoperiod vs non-photoperiod rice: plant late, harvest when?</span></h3>
+  <p class="th">ข้าวหอมมะลิ 105 เป็นข้าวไวต่อช่วงแสง จะออกดอกเมื่อกลางวันสั้นลงช่วงปลายเดือนตุลาคมไม่ว่าจะปลูกเมื่อไร ส่วนข้าวไม่ไวแสงนับอายุจากวันปลูก เลื่อนวันปลูกเพื่อเทียบ <span class="noref">ไม่มีอ้างอิง</span></p>
+  <p class="en">Khao Dawk Mali 105 is photoperiod-sensitive: it flowers when days shorten in late October, whenever it was planted. Non-photoperiod rice counts its age from planting. Move the sowing date to compare. <span class="noref">no reference</span></p>
+  <label class="rng" style="max-width:520px"><span class="th">วันตกกล้า</span><span class="en">Seedbed sowing date</span> <b id="vPlant"></b><input id="cPlant" type="range" min="0" max="105" value="45"></label>
+  <div class="tbl" style="padding:12px 14px"><svg id="photo" viewBox="0 0 640 168" role="img" aria-label="เทียบเวลาออกดอกและเก็บเกี่ยวของข้าวไวแสงและไม่ไวแสง" data-en-aria-label="Flowering and harvest of photoperiod vs non-photoperiod rice"></svg></div>
   <p id="photoTxt"></p>
 
-  <h3>ผักกาดหอมในสามระบบ</h3>
+  <h3><span class="th">ผักกาดหอมในสามระบบ</span><span class="en">Lettuce in three systems</span></h3>
   <div class="tbl"><table>
-    <thead><tr><th>ระบบ</th><th>เพาะเมล็ดถึงเก็บเกี่ยว</th><th>ทำไมเร็วหรือช้า</th></tr></thead>
+    <thead><tr><th><span class="th">ระบบ</span><span class="en">System</span></th><th><span class="th">เพาะเมล็ดถึงเก็บเกี่ยว</span><span class="en">Sowing to harvest</span></th><th><span class="th">ทำไมเร็วหรือช้า</span><span class="en">Why fast or slow</span></th></tr></thead>
     <tbody>
-      <tr><th>ดิน แปลงเปิด</th><td>ราว 55–65 วัน</td><td>ขึ้นกับฝน อุณหภูมิ และแมลง รากต้องหาน้ำและธาตุอาหารเอง</td></tr>
-      <tr><th>ไฮโดรโปนิกส์ (NFT) ในโรงเรือน</th><td>ราว 35–45 วัน</td><td>ธาตุอาหารอยู่ในน้ำพร้อมดูด รากไม่ต้องขยายไกล แต่อากาศร้อนในไทยทำให้ช้าลงหรือผักขม</td></tr>
-      <tr><th>ระบบปิดใช้แสงไฟ</th><td>ราว 30–35 วัน</td><td>คุมแสง อุณหภูมิ และเพิ่ม CO₂ ได้ตลอด 24 ชั่วโมงตามที่ตั้ง ปลูกได้ 10 รอบขึ้นไปต่อปี<sup><a href="#r8">8</a></sup></td></tr>
+      <tr><th><span class="th">ดิน แปลงเปิด</span><span class="en">Open-field soil</span></th><td><span class="th">ราว 55–65 วัน</span><span class="en">about 55–65 days</span></td><td><span class="th">ขึ้นกับฝน อุณหภูมิ และแมลง รากต้องหาน้ำและธาตุอาหารเอง</span><span class="en">Depends on rain, temperature and insects; roots must find water and nutrients themselves</span></td></tr>
+      <tr><th><span class="th">ไฮโดรโปนิกส์ (NFT) ในโรงเรือน</span><span class="en">Greenhouse hydroponics (NFT)</span></th><td><span class="th">ราว 35–45 วัน</span><span class="en">about 35–45 days</span></td><td><span class="th">ธาตุอาหารอยู่ในน้ำพร้อมดูด รากไม่ต้องขยายไกล แต่อากาศร้อนในไทยทำให้ช้าลงหรือผักขม</span><span class="en">Nutrients are dissolved and ready, roots need not spread far, but Thai heat slows growth or makes lettuce bitter</span></td></tr>
+      <tr><th><span class="th">ระบบปิดใช้แสงไฟ</span><span class="en">Closed system with grow lights</span></th><td><span class="th">ราว 30–35 วัน</span><span class="en">about 30–35 days</span></td><td><span class="th">คุมแสง อุณหภูมิ และเพิ่ม CO₂ ได้ตลอด 24 ชั่วโมงตามที่ตั้ง ปลูกได้ 10 รอบขึ้นไปต่อปี</span><span class="en">Light, temperature and CO₂ held at set points around the clock; 10+ crops a year</span><sup><a href="#r8">8</a></sup></td></tr>
     </tbody>
   </table></div>
-  <p class="refs">ช่วงวันในตารางเป็นค่าทั่วไปที่พบในการปลูกเชิงพาณิชย์ <span class="inf">อนุมาน</span></p>
+  <p class="refs"><span class="th">ช่วงวันในตารางเป็นค่าทั่วไปที่พบในการปลูกเชิงพาณิชย์</span><span class="en">Day ranges are typical for commercial growing</span> <span class="inf"><span class="th">อนุมาน</span><span class="en">inferred</span></span></p>
 
-  <h2>แหล่งที่มา</h2>
+  <h2><span class="th">แหล่งที่มา</span><span class="en">Sources</span></h2>
   <ol class="refs">
-    <li id="r1"><span class="chk">✓ ตรวจแล้ว</span>Agrios, G.N. (2005). <i>Plant Pathology</i>, 5th ed. Elsevier Academic Press. บทแนวคิดสามเหลี่ยมโรคพืช <a href="https://shop.elsevier.com/books/plant-pathology/agrios/9780120445653" target="_blank" rel="noopener">elsevier.com</a></li>
-    <li id="r2"><span class="chk">✓ แก้แล้ว</span>Heong, K.L., Wong, L. &amp; Delos Reyes, J.H. (2015). Addressing planthopper threats to Asian rice farming and food security: fixing insecticide misuse. ใน Heong, Cheng &amp; Escalada (eds.) <i>Rice Planthoppers</i>, Springer, หน้า 65–76. <a href="https://doi.org/10.1007/978-94-017-9535-7_3" target="_blank" rel="noopener">doi.org/10.1007/978-94-017-9535-7_3</a> (บทนี้พูดเรื่องการใช้ยาฆ่าแมลงผิดวิธี ไม่ได้พูดเรื่องปุ๋ยไนโตรเจน จึงย้ายออกจากประโยคเรื่องไนโตรเจนแล้ว)</li>
-    <li id="r3"><span class="chk">✓ ตรวจแล้ว</span>FAO &amp; ITPS (2015). <i>Status of the World's Soil Resources: Main Report</i>. <a href="https://openknowledge.fao.org/server/api/core/bitstreams/c0991a62-d870-4c95-8f33-3ed0516abff6/content" target="_blank" rel="noopener">openknowledge.fao.org</a></li>
-    <li id="r4"><span class="chk">✓ ตรวจแล้ว</span>Harman, G.E. et al. (2004). <i>Trichoderma</i> species: opportunistic, avirulent plant symbionts. <i>Nature Reviews Microbiology</i> 2, 43–56. <a href="https://doi.org/10.1038/nrmicro797" target="_blank" rel="noopener">doi.org/10.1038/nrmicro797</a></li>
-    <li id="r5"><span class="chk">✓ แก้แล้ว</span>Charoenrak, P. &amp; Chamswarng, C. (2016). Efficacies of wettable pellet and fresh culture of <i>Trichoderma asperellum</i> biocontrol products in growth promoting and reducing dirty panicles of rice. <i>Agriculture and Natural Resources</i> 50(4), 243–249. <a href="https://li01.tci-thaijo.org/index.php/anres/article/view/244037" target="_blank" rel="noopener">tci-thaijo.org</a> (เดิมอ้างแค่ชื่อหน่วยงาน ไม่มีเอกสาร)</li>
-    <li id="r6"><span class="chk">✓ ตรวจแล้ว</span>USDA NRCS. Soil Health. <a href="https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health" target="_blank" rel="noopener">nrcs.usda.gov</a> (หน้าเว็บระบุ: ลดการรบกวนดิน คลุมดิน เพิ่มความหลากหลาย และรักษารากพืชมีชีวิต)</li>
-    <li id="r7"><span class="chk warn">⚠ ยังยืนยันไม่ได้</span>กรมพัฒนาที่ดิน. บริการวิเคราะห์ดินและผลิตภัณฑ์สารเร่ง พด. <a href="https://www.ldd.go.th" target="_blank" rel="noopener">ldd.go.th</a> (เปิดหน้าข้อมูลบริการโดยตรงไม่ได้)</li>
-    <li id="r8"><span class="chk">✓ แก้แล้ว</span>Kozai, T., Niu, G. &amp; Takagaki, M. (eds.) (2019). <i>Plant Factory: An Indoor Vertical Farming System for Efficient Quality Food Production</i>, 2nd ed. Academic Press. (เดิมเขียนปี 2020 ฉบับพิมพ์ครั้งที่ 2 ออก พ.ย. 2019)</li>
-    <li id="r9"><span class="chk">✓ ตรวจแล้ว</span>Barbosa, G.L. et al. (2015). Comparison of land, water, and energy requirements of lettuce grown using hydroponic vs. conventional agricultural methods. <i>IJERPH</i> 12(6), 6879–6891. <a href="https://doi.org/10.3390/ijerph120606879" target="_blank" rel="noopener">doi.org/10.3390/ijerph120606879</a></li>
-    <li id="r10"><span class="chk">✓ แก้แล้ว</span>สวทช. (NSTDA). Diagnostic technology offers solutions for combating cassava mosaic disease. <a href="https://www.nstda.or.th/thaibioeconomy/195-diagnostic-technology-offers-solutions-for-combating-cassava-mosaic-disease.html" target="_blank" rel="noopener">nstda.or.th</a> (เดิมอ้างหน้าแรกของกรมวิชาการเกษตร ซึ่งไม่ได้ระบุข้อมูลนี้)</li>
-    <li id="r11"><span class="chk">✓ ตรวจแล้ว</span>IPCC (2019). <i>2019 Refinement to the 2006 IPCC Guidelines for National Greenhouse Gas Inventories</i>, Vol. 4 (AFOLU), Ch. 5 และ 11. <a href="https://www.ipcc-nggip.iges.or.jp/public/2019rf/" target="_blank" rel="noopener">ipcc-nggip.iges.or.jp</a></li>
-    <li id="r12"><span class="chk">✓ แก้แล้ว</span>อบก. ฐานข้อมูลโครงการ T-VER: Sustainable Rice for Methane Reduction by AWD in Suphan Buri Province (ขึ้นทะเบียน 23 ก.ย. 2025). <a href="https://ghgreduction.tgo.or.th/en/database-and-statistics/single-and-bundled-projects/item/6456-sustainable-rice-for-methane-reduction-by-alternate-wetting-and-drying-awd-in-suphan-buri-province.html" target="_blank" rel="noopener">ghgreduction.tgo.or.th</a></li>
-    <li id="r13"><span class="chk">✓ แก้แล้ว</span>Richards, M. &amp; Sander, B.O. (2014). Alternate wetting and drying in irrigated rice. Climate-Smart Agriculture Practice Brief, CCAFS. <a href="https://ccafs.cgiar.org/publications/alternate-wetting-and-drying-irrigated-rice" target="_blank" rel="noopener">ccafs.cgiar.org</a> (เดิมเขียนว่าลด 30–50% ต้นฉบับระบุ 48%)</li>
-    <li id="r14"><span class="chk">✓ แก้แล้ว</span>U.S. Geological Survey (2026). <i>Mineral Commodity Summaries 2026</i>: <a href="https://pubs.usgs.gov/periodicals/mcs2026/mcs2026-phosphate.pdf" target="_blank" rel="noopener">Phosphate Rock</a> และ <a href="https://pubs.usgs.gov/periodicals/mcs2026/mcs2026-potash.pdf" target="_blank" rel="noopener">Potash</a> (เพิ่มจีนในรายชื่อผู้ผลิตโพแทช)</li>
-    <li id="r15"><span class="chk">✓ แก้แล้ว</span>มติชน (15 เม.ย. 2026). ข่าวไทยขอโควตายูเรียจากรัสเซีย. <a href="https://www.matichon.co.th/economy/news_5678234" target="_blank" rel="noopener">matichon.co.th</a> (เดิมอ้าง IFA และกรมวิชาการเกษตรแบบกว้าง ๆ ซึ่งยืนยันตัวเลขไม่ได้)</li>
-    <li id="r16"><span class="chk warn">⚠ ยังยืนยันไม่ได้</span>Evenson, R.E. &amp; Gollin, D. (2003). Assessing the impact of the Green Revolution, 1960 to 2000. <i>Science</i> 300, 758–762. <a href="https://doi.org/10.1126/science.1078710" target="_blank" rel="noopener">doi.org/10.1126/science.1078710</a> (ยืนยันว่ามีบทความนี้ แต่เปิดเนื้อหาเรื่องพันธุ์ IR8 ไม่ได้)</li>
-    <li id="r17"><span class="chk warn">⚠ ยังยืนยันไม่ได้</span>กรมการข้าว. คำแนะนำการใช้ปุ๋ยข้าวตามค่าวิเคราะห์ดิน (หาเอกสารต้นฉบับไม่พบ จึงเอาออกจากเนื้อหาแล้ว)</li>
-    <li id="r18"><span class="chk">✓ ตรวจแล้ว</span>Klein, A.-M. et al. (2007). Importance of pollinators in changing landscapes for world crops. <i>Proc. R. Soc. B</i> 274, 303–313. <a href="https://doi.org/10.1098/rspb.2006.3721" target="_blank" rel="noopener">doi.org/10.1098/rspb.2006.3721</a> (พืชอาหารหลัก 87 จาก 115 ชนิด)</li>
-    <li id="r19"><span class="chk">✓ ตรวจแล้ว</span>Bumrungsri, S., Sripaoraya, E., Chongsiri, T., Siridith, K. &amp; Racey, P.A. (2009). The pollination ecology of durian (<i>Durio zibethinus</i>, Bombacaceae) in southern Thailand. <i>Journal of Tropical Ecology</i> 25, 85–92. (ยืนยันผ่านบทความอื่นที่อ้างถึง เปิดต้นฉบับไม่ได้)</li>
-    <li id="r20"><span class="chk">✓ ตรวจแล้ว</span>Van Mele, P. (2008). A historical review of research on the weaver ant <i>Oecophylla</i> in biological control. <i>Agricultural and Forest Entomology</i> 10, 13–22. <a href="https://doi.org/10.1111/j.1461-9563.2007.00350.x" target="_blank" rel="noopener">doi.org/10.1111/j.1461-9563.2007.00350.x</a></li>
-    <li id="r21"><span class="chk">✓ ตรวจแล้ว</span>IPBES (2016). <i>Assessment Report on Pollinators, Pollination and Food Production</i>. <a href="https://ipbes.net/deliverables/pollination-assessment" target="_blank" rel="noopener">ipbes.net</a></li>
-    <li id="r22"><span class="chk">✓ แก้แล้ว</span>IPPC (19 ธ.ค. 2018). First detection of fall army worm on the border of Thailand. <a href="https://ippc.int/en/countries/Thailand/pestreports/2018/12/first-detection-of-fall-army-worm-on-the-border-of-Thailand" target="_blank" rel="noopener">ippc.int</a> (เดิมอ้างหน้าทั่วไปของ FAO)</li>
-    <li id="r23"><span class="chk">✓ ตรวจแล้ว</span>อินทรทิพย์ ฤ., สีระสาร น. และ ดิษฐกิจ ป. (2025). การประเมินความรู้และการใช้เชื้อราไตรโคเดอร์มาในการปลูกพริกของเกษตรกรในตำบลยม อำเภอท่าวังผา จังหวัดน่าน. <i>วารสารเกษตรนเรศวร</i> 22(1), e0220101. <a href="https://li01.tci-thaijo.org/index.php/aginujournal/article/view/264936" target="_blank" rel="noopener">tci-thaijo.org</a></li>
-  <li id="r24"><span class="chk warn">⚠ ยังไม่ได้ตรวจกับต้นฉบับ</span>Truog, E. (1946). Soil reaction influence on availability of plant nutrients. <i>Soil Science Society of America Proceedings</i> 11, 305–308. (เพิ่ม 30 ต.ค. 2026 สำหรับรูปแบบความเป็นประโยชน์ของธาตุตาม pH ในหัวข้อ 10)</li>
-    <li id="r25"><span class="chk warn">⚠ ยังไม่ได้ตรวจกับต้นฉบับ</span>Marschner, P. (ed.) (2012). <i>Marschner's Mineral Nutrition of Higher Plants</i>, 3rd ed. Academic Press. (อาการขาดธาตุและการเคลื่อนย้ายธาตุในพืช หัวข้อ 10)</li>
-    <li id="r26"><span class="chk warn">⚠ ยังไม่ได้ตรวจกับต้นฉบับ</span>Ponnamperuma, F.N. (1972). The chemistry of submerged soils. <i>Advances in Agronomy</i> 24, 29–96. (ปฏิกิริยารีดักชันในดินขังน้ำ หัวข้อ 10)</li>
+    <li id="r1"><span class="chk"><span class="th">✓ ตรวจแล้ว</span><span class="en">✓ checked</span></span>Agrios, G.N. (2005). <i>Plant Pathology</i>, 5th ed. Elsevier Academic Press. บทแนวคิดสามเหลี่ยมโรคพืช <a href="https://shop.elsevier.com/books/plant-pathology/agrios/9780120445653" target="_blank" rel="noopener">elsevier.com</a></li>
+    <li id="r2"><span class="chk"><span class="th">✓ แก้แล้ว</span><span class="en">✓ corrected</span></span>Heong, K.L., Wong, L. &amp; Delos Reyes, J.H. (2015). Addressing planthopper threats to Asian rice farming and food security: fixing insecticide misuse. ใน Heong, Cheng &amp; Escalada (eds.) <i>Rice Planthoppers</i>, Springer, หน้า 65–76. <a href="https://doi.org/10.1007/978-94-017-9535-7_3" target="_blank" rel="noopener">doi.org/10.1007/978-94-017-9535-7_3</a> (บทนี้พูดเรื่องการใช้ยาฆ่าแมลงผิดวิธี ไม่ได้พูดเรื่องปุ๋ยไนโตรเจน จึงย้ายออกจากประโยคเรื่องไนโตรเจนแล้ว)</li>
+    <li id="r3"><span class="chk"><span class="th">✓ ตรวจแล้ว</span><span class="en">✓ checked</span></span>FAO &amp; ITPS (2015). <i>Status of the World's Soil Resources: Main Report</i>. <a href="https://openknowledge.fao.org/server/api/core/bitstreams/c0991a62-d870-4c95-8f33-3ed0516abff6/content" target="_blank" rel="noopener">openknowledge.fao.org</a></li>
+    <li id="r4"><span class="chk"><span class="th">✓ ตรวจแล้ว</span><span class="en">✓ checked</span></span>Harman, G.E. et al. (2004). <i>Trichoderma</i> species: opportunistic, avirulent plant symbionts. <i>Nature Reviews Microbiology</i> 2, 43–56. <a href="https://doi.org/10.1038/nrmicro797" target="_blank" rel="noopener">doi.org/10.1038/nrmicro797</a></li>
+    <li id="r5"><span class="chk"><span class="th">✓ แก้แล้ว</span><span class="en">✓ corrected</span></span>Charoenrak, P. &amp; Chamswarng, C. (2016). Efficacies of wettable pellet and fresh culture of <i>Trichoderma asperellum</i> biocontrol products in growth promoting and reducing dirty panicles of rice. <i>Agriculture and Natural Resources</i> 50(4), 243–249. <a href="https://li01.tci-thaijo.org/index.php/anres/article/view/244037" target="_blank" rel="noopener">tci-thaijo.org</a> (เดิมอ้างแค่ชื่อหน่วยงาน ไม่มีเอกสาร)</li>
+    <li id="r6"><span class="chk"><span class="th">✓ ตรวจแล้ว</span><span class="en">✓ checked</span></span>USDA NRCS. Soil Health. <a href="https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health" target="_blank" rel="noopener">nrcs.usda.gov</a> (หน้าเว็บระบุ: ลดการรบกวนดิน คลุมดิน เพิ่มความหลากหลาย และรักษารากพืชมีชีวิต)</li>
+    <li id="r7"><span class="chk warn"><span class="th">⚠ ยังยืนยันไม่ได้</span><span class="en">⚠ not confirmed</span></span>กรมพัฒนาที่ดิน. บริการวิเคราะห์ดินและผลิตภัณฑ์สารเร่ง พด. <a href="https://www.ldd.go.th" target="_blank" rel="noopener">ldd.go.th</a> (เปิดหน้าข้อมูลบริการโดยตรงไม่ได้)</li>
+    <li id="r8"><span class="chk"><span class="th">✓ แก้แล้ว</span><span class="en">✓ corrected</span></span>Kozai, T., Niu, G. &amp; Takagaki, M. (eds.) (2019). <i>Plant Factory: An Indoor Vertical Farming System for Efficient Quality Food Production</i>, 2nd ed. Academic Press. (เดิมเขียนปี 2020 ฉบับพิมพ์ครั้งที่ 2 ออก พ.ย. 2019)</li>
+    <li id="r9"><span class="chk"><span class="th">✓ ตรวจแล้ว</span><span class="en">✓ checked</span></span>Barbosa, G.L. et al. (2015). Comparison of land, water, and energy requirements of lettuce grown using hydroponic vs. conventional agricultural methods. <i>IJERPH</i> 12(6), 6879–6891. <a href="https://doi.org/10.3390/ijerph120606879" target="_blank" rel="noopener">doi.org/10.3390/ijerph120606879</a></li>
+    <li id="r10"><span class="chk"><span class="th">✓ แก้แล้ว</span><span class="en">✓ corrected</span></span>สวทช. (NSTDA). Diagnostic technology offers solutions for combating cassava mosaic disease. <a href="https://www.nstda.or.th/thaibioeconomy/195-diagnostic-technology-offers-solutions-for-combating-cassava-mosaic-disease.html" target="_blank" rel="noopener">nstda.or.th</a> (เดิมอ้างหน้าแรกของกรมวิชาการเกษตร ซึ่งไม่ได้ระบุข้อมูลนี้)</li>
+    <li id="r11"><span class="chk"><span class="th">✓ ตรวจแล้ว</span><span class="en">✓ checked</span></span>IPCC (2019). <i>2019 Refinement to the 2006 IPCC Guidelines for National Greenhouse Gas Inventories</i>, Vol. 4 (AFOLU), Ch. 5 และ 11. <a href="https://www.ipcc-nggip.iges.or.jp/public/2019rf/" target="_blank" rel="noopener">ipcc-nggip.iges.or.jp</a></li>
+    <li id="r12"><span class="chk"><span class="th">✓ แก้แล้ว</span><span class="en">✓ corrected</span></span>อบก. ฐานข้อมูลโครงการ T-VER: Sustainable Rice for Methane Reduction by AWD in Suphan Buri Province (ขึ้นทะเบียน 23 ก.ย. 2025). <a href="https://ghgreduction.tgo.or.th/en/database-and-statistics/single-and-bundled-projects/item/6456-sustainable-rice-for-methane-reduction-by-alternate-wetting-and-drying-awd-in-suphan-buri-province.html" target="_blank" rel="noopener">ghgreduction.tgo.or.th</a></li>
+    <li id="r13"><span class="chk"><span class="th">✓ แก้แล้ว</span><span class="en">✓ corrected</span></span>Richards, M. &amp; Sander, B.O. (2014). Alternate wetting and drying in irrigated rice. Climate-Smart Agriculture Practice Brief, CCAFS. <a href="https://ccafs.cgiar.org/publications/alternate-wetting-and-drying-irrigated-rice" target="_blank" rel="noopener">ccafs.cgiar.org</a> (เดิมเขียนว่าลด 30–50% ต้นฉบับระบุ 48%)</li>
+    <li id="r14"><span class="chk"><span class="th">✓ แก้แล้ว</span><span class="en">✓ corrected</span></span>U.S. Geological Survey (2026). <i>Mineral Commodity Summaries 2026</i>: <a href="https://pubs.usgs.gov/periodicals/mcs2026/mcs2026-phosphate.pdf" target="_blank" rel="noopener">Phosphate Rock</a> และ <a href="https://pubs.usgs.gov/periodicals/mcs2026/mcs2026-potash.pdf" target="_blank" rel="noopener">Potash</a> (เพิ่มจีนในรายชื่อผู้ผลิตโพแทช)</li>
+    <li id="r15"><span class="chk"><span class="th">✓ แก้แล้ว</span><span class="en">✓ corrected</span></span>มติชน (15 เม.ย. 2026). ข่าวไทยขอโควตายูเรียจากรัสเซีย. <a href="https://www.matichon.co.th/economy/news_5678234" target="_blank" rel="noopener">matichon.co.th</a> (เดิมอ้าง IFA และกรมวิชาการเกษตรแบบกว้าง ๆ ซึ่งยืนยันตัวเลขไม่ได้)</li>
+    <li id="r16"><span class="chk warn"><span class="th">⚠ ยังยืนยันไม่ได้</span><span class="en">⚠ not confirmed</span></span>Evenson, R.E. &amp; Gollin, D. (2003). Assessing the impact of the Green Revolution, 1960 to 2000. <i>Science</i> 300, 758–762. <a href="https://doi.org/10.1126/science.1078710" target="_blank" rel="noopener">doi.org/10.1126/science.1078710</a> (ยืนยันว่ามีบทความนี้ แต่เปิดเนื้อหาเรื่องพันธุ์ IR8 ไม่ได้)</li>
+    <li id="r17"><span class="chk warn"><span class="th">⚠ ยังยืนยันไม่ได้</span><span class="en">⚠ not confirmed</span></span>กรมการข้าว. คำแนะนำการใช้ปุ๋ยข้าวตามค่าวิเคราะห์ดิน (หาเอกสารต้นฉบับไม่พบ จึงเอาออกจากเนื้อหาแล้ว)</li>
+    <li id="r18"><span class="chk"><span class="th">✓ ตรวจแล้ว</span><span class="en">✓ checked</span></span>Klein, A.-M. et al. (2007). Importance of pollinators in changing landscapes for world crops. <i>Proc. R. Soc. B</i> 274, 303–313. <a href="https://doi.org/10.1098/rspb.2006.3721" target="_blank" rel="noopener">doi.org/10.1098/rspb.2006.3721</a> (พืชอาหารหลัก 87 จาก 115 ชนิด)</li>
+    <li id="r19"><span class="chk"><span class="th">✓ ตรวจแล้ว</span><span class="en">✓ checked</span></span>Bumrungsri, S., Sripaoraya, E., Chongsiri, T., Siridith, K. &amp; Racey, P.A. (2009). The pollination ecology of durian (<i>Durio zibethinus</i>, Bombacaceae) in southern Thailand. <i>Journal of Tropical Ecology</i> 25, 85–92. (ยืนยันผ่านบทความอื่นที่อ้างถึง เปิดต้นฉบับไม่ได้)</li>
+    <li id="r20"><span class="chk"><span class="th">✓ ตรวจแล้ว</span><span class="en">✓ checked</span></span>Van Mele, P. (2008). A historical review of research on the weaver ant <i>Oecophylla</i> in biological control. <i>Agricultural and Forest Entomology</i> 10, 13–22. <a href="https://doi.org/10.1111/j.1461-9563.2007.00350.x" target="_blank" rel="noopener">doi.org/10.1111/j.1461-9563.2007.00350.x</a></li>
+    <li id="r21"><span class="chk"><span class="th">✓ ตรวจแล้ว</span><span class="en">✓ checked</span></span>IPBES (2016). <i>Assessment Report on Pollinators, Pollination and Food Production</i>. <a href="https://ipbes.net/deliverables/pollination-assessment" target="_blank" rel="noopener">ipbes.net</a></li>
+    <li id="r22"><span class="chk"><span class="th">✓ แก้แล้ว</span><span class="en">✓ corrected</span></span>IPPC (19 ธ.ค. 2018). First detection of fall army worm on the border of Thailand. <a href="https://ippc.int/en/countries/Thailand/pestreports/2018/12/first-detection-of-fall-army-worm-on-the-border-of-Thailand" target="_blank" rel="noopener">ippc.int</a> (เดิมอ้างหน้าทั่วไปของ FAO)</li>
+    <li id="r23"><span class="chk"><span class="th">✓ ตรวจแล้ว</span><span class="en">✓ checked</span></span>อินทรทิพย์ ฤ., สีระสาร น. และ ดิษฐกิจ ป. (2025). การประเมินความรู้และการใช้เชื้อราไตรโคเดอร์มาในการปลูกพริกของเกษตรกรในตำบลยม อำเภอท่าวังผา จังหวัดน่าน. <i>วารสารเกษตรนเรศวร</i> 22(1), e0220101. <a href="https://li01.tci-thaijo.org/index.php/aginujournal/article/view/264936" target="_blank" rel="noopener">tci-thaijo.org</a></li>
+  <li id="r24"><span class="chk warn"><span class="th">⚠ ยังไม่ได้ตรวจกับต้นฉบับ</span><span class="en">⚠ not yet checked</span></span>Truog, E. (1946). Soil reaction influence on availability of plant nutrients. <i>Soil Science Society of America Proceedings</i> 11, 305–308. (เพิ่ม 30 ต.ค. 2026 สำหรับรูปแบบความเป็นประโยชน์ของธาตุตาม pH ในหัวข้อ 10)</li>
+    <li id="r25"><span class="chk warn"><span class="th">⚠ ยังไม่ได้ตรวจกับต้นฉบับ</span><span class="en">⚠ not yet checked</span></span>Marschner, P. (ed.) (2012). <i>Marschner's Mineral Nutrition of Higher Plants</i>, 3rd ed. Academic Press. (อาการขาดธาตุและการเคลื่อนย้ายธาตุในพืช หัวข้อ 10)</li>
+    <li id="r26"><span class="chk warn"><span class="th">⚠ ยังไม่ได้ตรวจกับต้นฉบับ</span><span class="en">⚠ not yet checked</span></span>Ponnamperuma, F.N. (1972). The chemistry of submerged soils. <i>Advances in Agronomy</i> 24, 29–96. (ปฏิกิริยารีดักชันในดินขังน้ำ หัวข้อ 10)</li>
   </ol>
-  <p class="refs">หัวข้อ 10–13 เพิ่มเมื่อ 30 ต.ค. 2026 แหล่งที่มาหมายเลข 24–26 ยังไม่ได้ตรวจกับต้นฉบับเหมือนรายการ 1–23</p>
-  <p class="refs">ตัวเลขที่ต้องใช้ตัดสินใจลงทุน เช่น ผลผลิตต่อไร่ ต้นทุนโรงเรือน และค่าเครดิตคาร์บอน ควรตรวจกับข้อมูลล่าสุดของหน่วยงานในจังหวัดน่านก่อนใช้</p>
+  <p class="refs th">หัวข้อ 10–13 เพิ่มเมื่อ 30 ต.ค. 2026 แหล่งที่มาหมายเลข 24–26 ยังไม่ได้ตรวจกับต้นฉบับเหมือนรายการ 1–23</p>
+  <p class="refs en">Topics 10–13 were added on 30 Oct 2026; sources 24–26 have not yet been checked against the originals like sources 1–23. Simulations for topics 1–9 were added on 6 Nov 2026. Notes inside the source list are in Thai.</p>
+  <p class="refs th">ตัวเลขที่ต้องใช้ตัดสินใจลงทุน เช่น ผลผลิตต่อไร่ ต้นทุนโรงเรือน และค่าเครดิตคาร์บอน ควรตรวจกับข้อมูลล่าสุดของหน่วยงานในจังหวัดน่านก่อนใช้</p>
+  <p class="refs en">Numbers needed for investment decisions, such as yield per rai, greenhouse cost and carbon credit prices, should be checked against the latest data from agencies in Nan province before use.</p>
 </div>
 
 <script src="assets/soil-lab.js"></script>
+<script src="assets/topics.js"></script>
+<script src="assets/topics2.js"></script>
+<script src="assets/topics3.js"></script>
 </body>
 </html>
