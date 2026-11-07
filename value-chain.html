@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ห่วงโซ่การผลิต · Agriculture Simulation</title>
+<meta name="title-en" content="Value chain · Agriculture Simulation">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@500;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column with wide comparison tables that scroll on their own; soil (brown), water (teal), leaf (green) as the three system colors */
+:root{
+  --bg:#f3f5f1; --surface:#ffffff; --fg:#1f2a24; --muted:#5b6a61; --line:#d6ddd5;
+  --soil:#7a4f2c; --water:#1f6f78; --leaf:#3f7a35; --warn:#a1561b; --tag:#e8ece5;
+  --display:"Noto Serif Thai", Georgia, serif;
+  --body:"IBM Plex Sans Thai", "Leelawadee UI", Tahoma, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141a17; --surface:#1c2420; --fg:#e4ebe5; --muted:#9caba2; --line:#2f3a34;
+  --soil:#d39a6a; --water:#5fb7bf; --leaf:#88c47a; --warn:#e3a066; --tag:#26302b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a17; --surface:#1c2420; --fg:#e4ebe5; --muted:#9caba2; --line:#2f3a34;
+  --soil:#d39a6a; --water:#5fb7bf; --leaf:#88c47a; --warn:#e3a066; --tag:#26302b; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:1040px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.35;margin:0}
+h1{font-size:2.1rem}
+h2{font-size:1.45rem;margin-top:48px;padding-top:20px;border-top:1px solid var(--line)}
+h3{font-size:1.1rem;margin-top:24px}
+p,li{max-width:68ch}
+p{margin:12px 0}
+.lede{font-size:1.08rem;color:var(--muted)}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--water)}
+.answer{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 20px;margin-top:16px}
+.answer strong{color:var(--soil)}
+.noref{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;background:var(--tag);color:var(--muted);padding:0 6px;border-radius:3px;vertical-align:1px;border:1px dashed var(--line)}
+.chk{font-family:var(--mono);font-size:.78rem;color:var(--leaf);margin-right:4px}
+.chk.warn{color:var(--warn)}
+.inf{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;background:var(--tag);color:var(--warn);padding:0 6px;border-radius:3px;vertical-align:1px}
+sup a{color:var(--water);text-decoration:none;font-family:var(--mono);font-size:.75em}
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.92rem;line-height:1.55}
+th,td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+thead th{font-family:var(--body);font-weight:600;font-size:.85rem}
+tbody th{font-weight:500;color:var(--muted);width:20%}
+tr:last-child td,tr:last-child th{border-bottom:0}
+.c-soil{color:var(--soil)} .c-water{color:var(--water)} .c-leaf{color:var(--leaf)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.ok{color:var(--leaf);font-weight:600} .mid{color:var(--warn);font-weight:600} .no{color:var(--muted);font-weight:600}
+ol.steps{padding-left:0;list-style:none;counter-reset:s;display:grid;gap:12px;margin-top:16px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:2.2rem 1fr;gap:8px;max-width:none}
+ol.steps li::before{content:counter(s);font-family:var(--mono);font-size:.85rem;color:var(--water);border:1px solid var(--water);border-radius:50%;width:1.8rem;height:1.8rem;display:grid;place-items:center;margin-top:2px}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px;font-size:.88rem}
+.flow span{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:4px 10px}
+.flow b{color:var(--muted);font-weight:400}
+.refs{font-size:.86rem;color:var(--muted)}
+.refs li{margin:6px 0;max-width:none}
+.refs a{color:var(--water);word-break:break-word}
+code,.num{font-family:var(--mono);font-size:.88em}
+a:focus-visible{outline:2px solid var(--water);outline-offset:2px}
+</style>
+
+<link rel="stylesheet" href="assets/soil-lab.css">
+<style>
+body{margin:0}
+</style>
+<link rel="stylesheet" href="assets/nav.css">
+<link rel="stylesheet" href="assets/topics.css">
+<link rel="stylesheet" href="assets/chain.css">
+<script src="assets/i18n.js"></script>
+</head>
+<body>
+<header class="sitebar"><div class="sitebar-in">
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#2f6b45"/><path d="M16 25V13M16 17c-5 0-8-3-8-8 5 0 8 3 8 8zm0-2c0-5 3-8 8-8 0 5-3 8-8 8z" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Agriculture Simulation</span></a>
+  <nav class="mainnav" aria-label="เมนูหลัก" data-en-aria-label="Main menu">
+    <a class="nv nv-home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span><b><span class="th">หน้าแรก</span><span class="en">Home</span></b><small><span class="th">ทุกหน้า</span><span class="en">All pages</span></small></span></a>
+    <a class="nv nv-map" href="thailand.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg><span><b><span class="th">แผนที่ภูมิภาคไทย</span><span class="en">Thailand regions</span></b><small><span class="th">ระดับประเทศ</span><span class="en">National scale</span></small></span></a>
+    <a class="nv nv-basin" href="nan-basin.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 18l5-9 4 6 3-4 6 7z"/><path d="M14 4c-2 3 2 4 0 7" /></svg><span><b><span class="th">ลุ่มน้ำน่าน</span><span class="en">Nan River basin</span></b><small><span class="th">ระดับลุ่มน้ำและแปลง</span><span class="en">Basin and plot scale</span></small></span></a>
+    <a class="nv nv-soil" href="soil.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 13V5M12 9c-3 0-5-2-5-5 3 0 5 2 5 5zm0 0c0-3 2-5 5-5 0 3-2 5-5 5z"/><path d="M3 15h18M5 19h3M11 19h2M16 19h3"/></svg><span><b><span class="th">ดิน · น้ำ · ระบบปิด</span><span class="en">Soil · Water · Closed</span></b><small><span class="th">ระดับพืชและราก</span><span class="en">Plant and root scale</span></small></span></a>
+    <a class="nv nv-chain" href="value-chain.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span><b><span class="th">ห่วงโซ่การผลิต</span><span class="en">Value chain</span></b><small><span class="th">แปรรูปถึงตลาด · 100 ปี</span><span class="en">Processing to market · 100 years</span></small></span></a>
+  </nav>
+  <div class="langsw" role="group" aria-label="ภาษา" data-en-aria-label="Language"><button type="button" data-lang-btn="th" aria-pressed="true">ไทย</button><button type="button" data-lang-btn="en" aria-pressed="false">EN</button></div>
+</div></header>
+<div class="wrap">
+  <div class="eyebrow"><span class="th">ระดับห่วงโซ่และตลาด · ไร่ถึงผู้บริโภค</span><span class="en">Chain and market scale · field to consumer</span></div>
+  <h1><span class="th">ห่วงโซ่การผลิต: แปรรูป ต่อยอด และ 100 ปีของตลาด</span><span class="en">Value chain: processing, derivatives and 100 years of markets</span></h1>
+  <p class="th lede">เลือกพืชและขนาดกิจการ แล้วดูว่าตลอดสายการผลิตใช้เครื่องจักรอะไร ส่วนที่เหลือจากสายหลักเอาไปทำอะไรได้อีก และป้อนเป็นวัตถุดิบให้อุตสาหกรรมไหนต่อ จากนั้นดูว่าในรอบ 100 ปี ห่วงโซ่จากผู้ผลิตถึงผู้บริโภคเปลี่ยนไปอย่างไร ปัญหาที่อธิบายไว้ในหน้าอื่นมีน้ำหนักเปลี่ยนไปแค่ไหน และใครเป็นคนพลิกเกม</p><p class="en lede">Pick a crop and a business size to see the machines along the production line, what else the leftovers from the main line can become, and which industries they feed. Then see how the producer-to-consumer chain changed over 100 years, how the problems explained on other pages shifted in weight, and who changed the game.</p>
+  <p class="th refs">ตัวเลขที่มีหมายเลขยกกำลังตรวจกับแหล่งที่มาแล้วเมื่อ 6 พ.ย. 2026 ข้อความที่ติดป้าย <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span> เป็นความรู้ทั่วไปที่ยังต้องตรวจ ส่วนป้าย <span class="inf">อนุมาน</span> เป็นการประเมินของผู้เขียน สัดส่วนน้ำหนักในตัวจำลองเป็นค่าตำราทั่วไป และดัชนีมูลค่าเป็นค่าเปรียบเทียบ ไม่ใช่ราคาตลาด</p><p class="en refs">Figures with a superscript number were checked against the source on 6 Nov 2026. Text tagged <span class="noref">not yet checked</span> is general knowledge still to be verified, and <span class="inf">inferred</span> marks the author’s judgement. Mass shares in the simulator are typical textbook figures, and the value index is for comparison only, not a market price.</p>
+  <nav class="toc" aria-label="หัวข้อในหน้านี้" data-en-aria-label="Topics on this page">
+    <div class="toc-g g-fert"><b><span class="th">ออกแบบคอมโบ</span><span class="en">Design a combo</span></b><small><span class="th">พืช × ขนาดกิจการ × สายต่อยอด</span><span class="en">Crop × size × derivative lines</span></small><div><a href="#combo"><i>1</i><span class="th">ตัวจำลองสถาปัตยกรรม</span><span class="en">Architecture simulator</span></a></div></div>
+    <div class="toc-g g-water"><b><span class="th">100 ปีของห่วงโซ่</span><span class="en">100 years of the chain</span></b><small><span class="th">มูลค่า ปัญหา ภูมิภาค</span><span class="en">Value, problems, regions</span></small><div><a href="#value"><i>2</i><span class="th">ใครได้มูลค่า</span><span class="en">Who captures value</span></a><a href="#problems"><i>3</i><span class="th">ปัญหาเปลี่ยนน้ำหนัก</span><span class="en">Problems over time</span></a><a href="#regions"><i>4</i><span class="th">ห่วงโซ่แต่ละภูมิภาค</span><span class="en">Chains by region</span></a></div></div>
+    <div class="toc-g g-lab"><b>Tipping point</b><small><span class="th">ใครเปลี่ยนวิจัย การผลิต ตลาด</span><span class="en">Who shifted research, production, markets</span></small><div><a href="#tips"><i>5</i><span class="th">เส้นเวลา</span><span class="en">Timeline</span></a></div></div>
+  </nav>
+
+  <section class="topic" id="combo">
+  <h2><span class="th">1. เลือกคอมโบโซลูชันตามพืชและขนาดกิจการ</span><span class="en">1. Choose a combo solution by crop and business size</span></h2>
+  <div class="sim">
+    <div class="sim-h"><span class="sim-tag"><span class="th">ตัวจำลอง</span><span class="en">Simulator</span></span><h3><span class="th">สถาปัตยกรรมสายการผลิตและ supply chain ย่อย</span><span class="en">Production-line architecture and sub-supply chains</span></h3>
+    <p class="th">เมนูย่อยด้านล่างคือพืช 8 ชนิด เลือกขนาดกิจการ แล้วติ๊กสายต่อยอดที่อยากเพิ่ม ระบบจะบอกว่าสายไหนทำเองได้ สายไหนต้องรวมกลุ่มหรือขายเป็นวัตถุดิบ วัตถุดิบเหลือทิ้งกี่เปอร์เซ็นต์ และมูลค่าเพิ่มขึ้นเท่าไรเมื่อเทียบกับขายสินค้าหลักอย่างเดียว</p><p class="en">The submenu below lists 8 crops. Choose a business size and tick the derivative lines to add. The simulator shows which lines you can run yourself, which need a group hub or a sale as feedstock, how much raw material is left as waste, and how value compares with selling the main product alone.</p></div>
+    <div class="submenu" id="cropTabs" role="tablist" aria-label="เลือกพืช" data-en-aria-label="Choose a crop"></div>
+    <div class="row"><span class="lab2"><span class="th">ขนาดกิจการ</span><span class="en">Business size</span></span><div class="seg3" id="sizeSeg"></div></div>
+    <div><div class="lab2"><span class="th">สายหลัก: เครื่องจักรแต่ละขั้น</span><span class="en">Main line: machines at each stage</span></div><div class="flow2" id="flow"></div></div>
+    <div class="row"><span class="lab2"><span class="th">สายต่อยอด / ผลพลอยได้</span><span class="en">Derivative / by-product lines</span></span><div class="seg3"><button type="button" data-preset="none"><span class="th">ขายสินค้าหลักอย่างเดียว</span><span class="en">Main product only</span></button><button type="button" data-preset="zero"><span class="th">ไม่เหลือทิ้ง</span><span class="en">Zero waste</span></button><button type="button" data-preset="bio"><span class="th">ครบวงจร (ไบโอรีไฟเนอรี)</span><span class="en">Full biorefinery</span></button></div></div>
+    <div class="lines" id="lines"></div>
+    <div class="pane" id="res" aria-live="polite"></div>
+    <p class="th note">สมมติฐาน: สายที่ต้องใช้ขนาดกิจการใหญ่กว่าที่เลือก คิดมูลค่าให้ 30% (ขายเป็นวัตถุดิบหรือแบ่งกับศูนย์กลาง) ถ้าขั้นตอนหลักขั้นใดทำเองไม่ได้ สินค้าหลักคิดมูลค่า 60% ทั้งหมดเป็นแบบจำลองเพื่อเปรียบเทียบ <span class="inf">อนุมาน</span></p><p class="en note">Assumptions: a line that needs a larger business than the one chosen keeps 30% of its value (sold as feedstock or shared with a hub). If any main stage cannot be done in-house, the main product keeps 60% of its value. All of this is a comparison model. <span class="inf">inferred</span></p>
+  </div>
+  </section>
+
+  <section class="topic" id="value">
+  <h2><span class="th">2. 100 ปีที่ผ่านมา: มูลค่าไหลไปอยู่ที่ไหน</span><span class="en">2. The last 100 years: where the value went</span></h2>
+  <p class="th">ร้อยปีก่อน ห่วงโซ่ส่วนใหญ่สั้น เกษตรกรขายให้พ่อค้าหรือโรงสีใกล้บ้าน และผู้บริโภคซื้อของสดเกือบไม่ผ่านการแปรรูป หลังปุ๋ยสังเคราะห์ พันธุ์ลูกผสม และเครื่องจักร ผลผลิตเพิ่มมาก แต่ต้นทุนปัจจัยการผลิตย้ายไปอยู่กับบริษัทต้นน้ำ ขณะที่การแปรรูป การขนส่ง และค้าปลีกปลายน้ำได้ส่วนแบ่งมากขึ้น ตัวเลขที่ตรวจแล้วด้านล่างแสดงผลลัพธ์ในปัจจุบัน</p><p class="en">A hundred years ago most chains were short: farmers sold to a trader or mill nearby, and consumers bought fresh food with little processing. Synthetic fertilizer, hybrid seed and machines raised output a lot, but input costs moved to upstream companies, while processing, transport and retail took a larger share downstream. The checked figures below show where things stand today.</p>
+  <div class="facts" id="facts"></div>
+  <h3 style="margin-top:20px"><span class="th">ขนาดของบริษัทแต่ละช่วงในห่วงโซ่ (มูลค่าตลาด)</span><span class="en">Company size along the chain (market cap)</span></h3>
+  <div class="pane" id="caps" style="margin-top:8px"></div>
+  </section>
+
+  <section class="topic" id="problems">
+  <h2><span class="th">3. ปัญหาที่อธิบายไว้ มีน้ำหนักเปลี่ยนไปอย่างไร</span><span class="en">3. How the problems explained earlier changed in weight</span></h2>
+  <p class="th">แต่ละแถวคือปัญหาที่อธิบายไว้ในหน้าดินและหน้าลุ่มน้ำน่าน ความเข้มของสีคือความสำคัญเชิงเปรียบเทียบในแต่ละยุค ประเมินจากแนวโน้มที่ทราบกันทั่วไป ไม่ใช่ข้อมูลวัด แตะแถวเพื่อดูเหตุผล <span class="inf">อนุมาน</span></p><p class="en">Each row is a problem explained on the soil and Nan basin pages. Color strength is relative importance in each era, judged from well-known trends, not measured data. Tap a row to see why. <span class="inf">inferred</span></p>
+  <div class="tbl"><table class="heat" id="heat"></table></div>
+  <p class="why" id="heatWhy"></p>
+  </section>
+
+  <section class="topic" id="regions">
+  <h2><span class="th">4. ห่วงโซ่ผู้ผลิตถึงผู้บริโภคในแต่ละพื้นที่</span><span class="en">4. Producer-to-consumer chains by region</span></h2>
+  <div class="regions" id="regionCards"></div>
+  </section>
+
+  <section class="topic" id="tips">
+  <h2><span class="th">5. ใครทำให้เกิด tipping point</span><span class="en">5. Who created the tipping points</span></h2>
+  <p class="th">องค์กรและกลุ่มคนที่เปลี่ยนวิธีวิจัย การผลิต หรือตลาด จนห่วงโซ่ทั้งสายต้องปรับตาม แยกตามประเภท สังเกตว่าจุดเปลี่ยนช่วงแรกมาจากงานวิจัยที่ได้ทุนจากมูลนิธิและรัฐ ส่วนช่วงหลังมาจากผู้ซื้อปลายน้ำ (มาตรฐาน ฉลาก กฎหมายนำเข้า) มากขึ้น <span class="inf">อนุมาน</span></p><p class="en">Organizations and groups that changed how research, production or markets worked, so the whole chain had to adjust. Notice that early tipping points came from research funded by foundations and governments, while later ones come more from downstream buyers (standards, labels, import rules). <span class="inf">inferred</span></p>
+  <div class="seg3" id="tipSeg" style="margin-top:12px"></div>
+  <div class="tl pane" id="tl" style="margin-top:10px"></div>
+  <ol class="tips" id="tipList"></ol>
+  </section>
+
+  <section class="topic" id="refs">
+  <h2><span class="th">แหล่งที่มา</span><span class="en">Sources</span></h2>
+  <ol class="refs">
+    <li id="c1">USDA ERS, Food Dollar Series: summary findings (updated 10 Mar 2026). <a href="https://www.ers.usda.gov/data-products/food-dollar/summary-findings">ers.usda.gov</a>; ERS Amber Waves, Dec 2023 (2022 farm share 14.9¢). <a href="https://www.ers.usda.gov/amber-waves/2023/december/ers-food-dollar-s-three-series-show-distributions-of-u-s-food-production-costs">ers.usda.gov</a> <span class="chk">✓</span></li>
+    <li id="c2">USDA ERS, Charts of Note: Two companies accounted for more than half of corn, soybean, and cotton seed sales in 2018–20 (2 Oct 2023). <a href="https://ers.usda.gov/data-products/charts-of-note/107516">ers.usda.gov</a> <span class="chk">✓</span></li>
+    <li id="c3">FAO, Pesticides use and trade 1990–2022 (16 Jul 2024). <a href="https://www.fao.org/statistics/highlights-archive/highlights-detail/pesticides-use-and-trade-1990-2022/en">fao.org</a> <span class="chk">✓</span></li>
+    <li id="c4">World Bank, Agriculture value added (% of GDP), Thailand, via IndexMundi. <a href="https://www.indexmundi.com/facts/thailand/agriculture">indexmundi.com</a> <span class="chk">✓</span></li>
+    <li id="c5">CompaniesMarketCap, read 6 Nov 2026. <a href="https://companiesmarketcap.com/">companiesmarketcap.com</a> <span class="chk">✓</span></li>
+  </ol>
+  <p class="th refs">เส้นเวลา tipping point ข้อมูลภูมิภาค และสัดส่วนน้ำหนักในตัวจำลอง ยังไม่ได้ตรวจกับต้นฉบับทีละรายการ ควรตรวจก่อนนำไปอ้างอิง</p><p class="en refs">The tipping-point timeline, the regional notes and the mass shares in the simulator have not yet been checked item by item against sources. Check before citing.</p>
+  </section>
+</div>
+<script src="assets/chain-data.js"></script>
+<script src="assets/chain-hist.js"></script>
+<script src="assets/chain.js"></script>
+</body>
+</html>
