@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>เกมจากแปลงสู่โรงงาน · Agriculture Simulation</title>
+<meta name="title-en" content="Plot to Plant game · Agriculture Simulation">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Noto+Serif+Thai:wght@600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/nav.css">
+<link rel="stylesheet" href="assets/game.css">
+<script src="assets/i18n.js"></script>
+<script src="assets/chain-data.js"></script>
+<script src="assets/game-data.js"></script>
+<script src="assets/game.js"></script>
+</head>
+<body>
+<header class="sitebar"><div class="sitebar-in">
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#2f6b45"/><path d="M16 25V13M16 17c-5 0-8-3-8-8 5 0 8 3 8 8zm0-2c0-5 3-8 8-8 0 5-3 8-8 8z" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Agriculture Simulation</span></a>
+  <nav class="mainnav" aria-label="เมนูหลัก" data-en-aria-label="Main menu">
+    <a class="nv nv-home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span><b><span class="th">หน้าแรก</span><span class="en">Home</span></b><small><span class="th">ทุกหน้า</span><span class="en">All pages</span></small></span></a>
+    <a class="nv nv-map" href="thailand.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg><span><b><span class="th">แผนที่ภูมิภาคไทย</span><span class="en">Thailand regions</span></b><small><span class="th">ระดับประเทศ</span><span class="en">National scale</span></small></span></a>
+    <a class="nv nv-basin" href="nan-basin.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 18l5-9 4 6 3-4 6 7z"/><path d="M14 4c-2 3 2 4 0 7" /></svg><span><b><span class="th">ลุ่มน้ำน่าน</span><span class="en">Nan River basin</span></b><small><span class="th">ระดับลุ่มน้ำและแปลง</span><span class="en">Basin and plot scale</span></small></span></a>
+    <a class="nv nv-soil" href="soil.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 13V5M12 9c-3 0-5-2-5-5 3 0 5 2 5 5zm0 0c0-3 2-5 5-5 0 3-2 5-5 5z"/><path d="M3 15h18M5 19h3M11 19h2M16 19h3"/></svg><span><b><span class="th">ดิน · น้ำ · ระบบปิด</span><span class="en">Soil · Water · Closed</span></b><small><span class="th">ระดับพืชและราก</span><span class="en">Plant and root scale</span></small></span></a>
+    <a class="nv nv-chain" href="value-chain.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span><b><span class="th">ห่วงโซ่การผลิต</span><span class="en">Value chain</span></b><small><span class="th">แปรรูปถึงตลาด · 100 ปี</span><span class="en">Processing to market · 100 years</span></small></span></a>
+    <a class="nv nv-game" href="game.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="12" width="18" height="8" rx="1"/><path d="M7 12V9M12 12V6M17 12V8M5 16h14"/><path d="M12 6c-2-1-3-3-2-5 2 0 3 2 2 5z"/></svg><span><b><span class="th">เกมจากแปลงสู่โรงงาน</span><span class="en">Plot to Plant game</span></b><small><span class="th">ปลูก ให้น้ำ แปรรูป ส่งโรงงาน</span><span class="en">Grow, water, process, supply</span></small></span></a>
+  </nav>
+  <div class="langsw" role="group" aria-label="ภาษา" data-en-aria-label="Language"><button type="button" data-lang-btn="th" aria-pressed="true">ไทย</button><button type="button" data-lang-btn="en" aria-pressed="false">EN</button></div>
+</div></header>
+<div class="wrap">
+<header>
+  <span class="eyebrow"><span class="th">เกมจำลอง · แปลงถึงโรงงาน</span><span class="en">Simulation game · plot to factory</span></span>
+  <h1><span class="th">จากแปลงสู่โรงงาน</span><span class="en">Plot to Plant</span></h1>
+  <p class="lede"><span class="th">บริหารไร่ 12 ไร่ริมแม่น้ำน่าน ทุกวันในเกมคำนวณฝน การคายน้ำ ความชื้นดิน ธาตุอาหาร N P K ค่า pH อินทรียวัตถุ และแมลง ผลผลิตจึงขึ้นกับการตัดสินใจจริง เก็บเกี่ยวแล้วแปรรูปเป็นวัตถุดิบตั้งต้น ส่งให้โรงสี โรงงานอาหารสัตว์ โรงไฟฟ้าชีวมวล โรงงานเอทานอล และโรงงานน้ำตาล</span><span class="en">Run a 12-rai farm on the Nan River. Each game day works out rain, evaporation, soil moisture, N P K, pH, organic matter and pests, so the harvest depends on real decisions. Then process the crop into feedstock and supply rice mills, feed mills, biomass power plants, ethanol plants and sugar mills.</span></p>
+  <details class="howto"><summary><span class="th">วิธีเล่นและสิ่งที่เกมจำลอง</span><span class="en">How to play and what the game models</span></summary>
+    <ol class="th">
+      <li>คลิกแปลง แล้ว <b>เตรียมดิน</b> และ <b>ปลูก</b> พืชที่เหมาะกับโซน (ดูค่า "เหมาะ")</li>
+      <li>กด <b>+1 วัน</b>, <b>+7 วัน</b> หรือ <b>เดินเวลา</b> ดูพยากรณ์ฝน 7 วันก่อนตัดสินใจให้น้ำ</li>
+      <li>ใส่ปุ๋ยตามที่ดินขาด ผลผลิตถูกจำกัดด้วยปัจจัยที่ต่ำที่สุด ใส่ยูเรียมากไปทำให้เพลี้ยระบาดและไนโตรเจนหลุดลงน้ำ</li>
+      <li>เก็บเกี่ยวเมื่อสุก แล้วเลือกจัดการเศษพืช: ไถกลบ อัดก้อนขาย หรือเผา</li>
+      <li>หัวมัน ผลกาแฟ และอ้อยเสียเร็ว ต้องแปรรูปหรือส่งขายภายในไม่กี่วัน</li>
+      <li>ส่งของตาม <b>คำสั่งซื้อ</b> ของอุตสาหกรรมเพื่อได้ราคาดีกว่าพ่อค้าคนกลาง</li>
+    </ol>
+    <ol class="en">
+      <li>Click a plot, <b>prepare the soil</b>, and <b>plant</b> a crop that fits your zone (see “fit”).</li>
+      <li>Press <b>+1 day</b>, <b>+7 days</b> or <b>Run</b>. Check the 7-day rain forecast before irrigating.</li>
+      <li>Fertilize what the soil lacks. Yield is capped by the scarcest factor. Too much urea brings planthoppers and washes nitrogen into streams.</li>
+      <li>Harvest when ripe, then deal with the residue: plough it in, bale it to sell, or burn it.</li>
+      <li>Cassava roots, coffee cherries and cane spoil fast, so process or sell them within days.</li>
+      <li>Fill industry <b>orders</b> for better prices than the middleman.</li>
+    </ol>
+    <p class="note"><span class="tag inf"><span class="th">อนุมาน</span><span class="en">inferred</span></span> <span class="th">ตัวเลขในเกม (ฝนรายเดือนลุ่มน้ำน่าน ผลผลิตสูงสุด การดูดธาตุอาหารต่อตัน ราคา และต้นทุน) เป็นค่าประมาณจากตำราและราคาตลาดไทยช่วงปี 2567–2568 ปัดเศษให้เกมทำงานสมจริง ใช้เปรียบเทียบทางเลือกได้ แต่ไม่ใช่ตัวเลขสำหรับวางแผนลงทุน ไม่ได้จำลองอุณหภูมิ วัชพืช และโรคพืช</span><span class="en">Game numbers (Nan basin monthly rain, top yields, nutrient uptake per tonne, prices and costs) are rounded textbook values and Thai market levels from 2024–2025, tuned so the game behaves realistically. Use them to compare choices, not to plan an investment. Temperature, weeds and plant diseases are not modelled.</span></p>
+  </details>
+</header>
+
+<section id="setup" hidden>
+  <h2><span class="th">เลือกที่ตั้งไร่ตามแนวแม่น้ำ</span><span class="en">Choose where on the river to farm</span></h2>
+  <p class="lede"><span class="th">สามโซนนี้มาจากหน้า<a href="nan-basin.html">ลุ่มน้ำน่าน</a> ดิน น้ำ และความเสี่ยงต่างกัน พืชที่เหมาะจึงต่างกัน</span><span class="en">These three zones come from the <a href="nan-basin.html">Nan basin</a> page. Their soil, water and risks differ, so different crops fit.</span></p>
+  <div class="zgrid" id="zonePick"></div>
+</section>
+
+<section id="game" hidden>
+  <div class="hud">
+    <div class="hcell"><span class="eyebrow"><span class="th">วันที่</span><span class="en">Date</span></span><b id="hDate"></b><small id="hDay"></small></div>
+    <div class="hcell"><span class="eyebrow"><span class="th">เงินสด</span><span class="en">Cash</span></span><b id="hCash"></b><small id="hLoan"></small></div>
+    <div class="hcell"><span class="eyebrow"><span class="th">น้ำที่ใช้ได้วันนี้</span><span class="en">Water available today</span></span><b id="hWater"></b><small id="hWaterSrc"></small></div>
+    <div class="hcell"><span class="eyebrow"><span class="th">ชื่อเสียง</span><span class="en">Reputation</span></span><b id="hRep"></b><small><span class="th">กับผู้รับซื้อ</span><span class="en">with buyers</span></small></div>
+    <div class="hctl">
+      <button type="button" id="b1"><span class="th">+1 วัน</span><span class="en">+1 day</span></button>
+      <button type="button" id="b7"><span class="th">+7 วัน</span><span class="en">+7 days</span></button>
+      <button type="button" id="bAuto" aria-pressed="false" class="go"></button>
+    </div>
+  </div>
+  <div class="fcrow"><span class="eyebrow"><span class="th">ฝนวันนี้และพยากรณ์ 7 วัน</span><span class="en">Rain today and 7-day forecast</span></span><ol class="fc" id="hFc"></ol>
+    <span id="hFlood" class="tag bad" hidden><span class="th">🌊 น้ำหลาก</span><span class="en">🌊 Flood</span></span></div>
+
+  <div class="playgrid">
+    <div class="card fieldcard">
+      <svg id="farm" viewBox="0 0 760 330" role="group" aria-label="แผนผังไร่ คลิกแปลงเพื่อเลือก" data-en-aria-label="Farm map; click a plot to select it"></svg>
+      <p class="note"><span class="th">สีดินเข้มขึ้นเมื่อชื้นและมีอินทรียวัตถุมาก · สัญลักษณ์: ✓ พร้อมเก็บ, 💧 ขาดน้ำ, 🐛 แมลงระบาด, N ไนโตรเจนต่ำ, ≋ น้ำขัง</span><span class="en">Soil gets darker when wet and rich in organic matter · Badges: ✓ ready, 💧 dry, 🐛 pests, N low nitrogen, ≋ waterlogged</span></p>
+      <div class="goalbox"><span class="eyebrow"><span class="th">เป้าหมาย</span><span class="en">Goals</span></span><ul id="goals"></ul></div>
+    </div>
+    <div class="card" id="panel" aria-live="polite"></div>
+  </div>
+
+  <div class="card"><span class="eyebrow"><span class="th">โครงสร้างของพืช และความสัมพันธ์กับคนและสิ่งแวดล้อม</span><span class="en">Plant structure, people and environment</span></span><div id="plantcard"></div></div>
+
+  <div class="gtabs" role="tablist">
+    <button type="button" role="tab" data-tab="store" aria-selected="true"><span class="th">คลังและแปรรูป</span><span class="en">Store and processing</span></button>
+    <button type="button" role="tab" data-tab="orders" aria-selected="false"><span class="th">คำสั่งซื้ออุตสาหกรรม</span><span class="en">Industry orders</span> <span class="badge" id="ordCount"></span></button>
+    <button type="button" role="tab" data-tab="invest" aria-selected="false"><span class="th">ลงทุนและการเงิน</span><span class="en">Invest and finance</span></button>
+    <button type="button" role="tab" data-tab="env" aria-selected="false"><span class="th">ผลต่อคนและสิ่งแวดล้อม</span><span class="en">People and environment</span></button>
+    <button type="button" role="tab" data-tab="log" aria-selected="false"><span class="th">บันทึก</span><span class="en">Log</span></button>
+  </div>
+  <div class="card tabbody" id="tab-store"></div>
+  <div class="card tabbody" id="tab-orders" hidden></div>
+  <div class="card tabbody" id="tab-invest" hidden></div>
+  <div class="card tabbody" id="tab-env" hidden></div>
+  <div class="card tabbody" id="tab-log" hidden></div>
+  <p class="note"><button type="button" id="bNew" class="linkbtn"><span class="th">เริ่มเกมใหม่</span><span class="en">New game</span></button> · <span class="th">เกมบันทึกไว้ในเบราว์เซอร์นี้อัตโนมัติ</span><span class="en">The game saves itself in this browser.</span></p>
+</section>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
