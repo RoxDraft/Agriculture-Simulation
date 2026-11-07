@@ -86,8 +86,9 @@ function init(){
 }
 function resize(){
   if (!renderer || !visible) return;
-  const w = el.clientWidth, h = Math.max(320, Math.min(620, Math.round(w * 0.6)));
+  const w = el.clientWidth, h = Math.max(380, Math.min(620, Math.round(w * 0.6)));
   renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
+  if (!cam.fit) { cam.fit = true; if (camera.aspect < 1.4) { cam.r = 92 * 1.4 / camera.aspect; cam.tx = 2 } }
 }
 
 /* static parts that depend on zone and language */
