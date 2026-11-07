@@ -60,6 +60,8 @@ function newGame(zone){
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)) } catch (e) {} }
 function load(){ try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v === 1 && ZONES[s.zone]) return s } catch (e) {} return null }
 
+const listeners = [];                              // the 3D view listens here to animate activity
+function emit(type, d){ listeners.forEach(f => { try { f(type, d) } catch (e) {} }) }
 function log(fn, kind){ const m = {}; ['th','en'].forEach(l => { LANG = l; m[l] = typeof fn === 'function' ? fn() : fn }); LANG = null; S.log.unshift({d:S.day, m, k:kind || ''}); if (S.log.length > 80) S.log.length = 80 }
 function pay(n, cat){ S.cash -= n; S.led.exp += n; S.led.cat[cat] = (S.led.cat[cat] || 0) - n }
 function earn(n, cat){ S.cash += n; S.led.inc += n; S.led.cat[cat] = (S.led.cat[cat] || 0) + n }
@@ -122,7 +124,7 @@ function irrigate(pl, mm, auto){
   const cr = pl.crop && CROPS[pl.crop.id], flood = cr && cr.pond;
   const eff = flood ? 0.7 : S.up.drip ? 0.9 : 0.6, need = mm / eff * M3_PER_MM;
   const got = takeWater(need); if (got < 1) { if (!auto) toast(t('วันนี้ไม่มีน้ำเหลือให้สูบแล้ว (โควตาหรือสระหมด)', 'No water left today (quota or pond used up)'), 'bad'); return 0 }
-  const cost = got * pumpCost(); pay(cost, 'water'); S.env.water += got;
+  const cost = got * pumpCost(); pay(cost, 'water'); S.env.water += got; emit('water', {plot:pl.id, m3:got});
   let add = got / M3_PER_MM * eff, z = ZONES[S.zone];
   const room = z.awc - pl.w; if (add <= room) pl.w += add; else { pl.w = z.awc; if (flood) pl.pond = Math.min(150, pl.pond + add - room) }
   if (!auto) log(() => t(`แปลง ${pl.id + 1}: ให้น้ำ ${fmt(got)} ลบ.ม. ถึงรากราว ${fmt(add)} มม.`, `Plot ${pl.id + 1}: irrigated ${fmt(got)} m³, about ${fmt(add)} mm reached the roots`));
@@ -271,7 +273,7 @@ function fertilize(pl, k){
   let kg = f.kg * RAI, cost = kg * f.price, fromCompost = 0;
   if (k === 'manure' && S.compost > 0) { fromCompost = Math.min(S.compost, kg / 1000); cost -= fromCompost * 1000 * f.price; S.compost -= fromCompost }
   if (!afford(cost)) return;
-  pay(cost, 'fert');
+  pay(cost, 'fert'); emit('fert', {plot:pl.id, kind:k});
   const per = f.kg;
   if (f.N) {
     let n = per * f.N, lossShare = 0;
@@ -292,6 +294,7 @@ function protect(pl, bio){
   pay(cost, 'pest');
   if (bio) { c.en = Math.min(100, c.en + 35); c.pest *= 0.8 }
   else { c.pest *= 0.15; c.en *= 0.1; c.sprayed = true; S.env.spray++ }
+  emit(bio ? 'bio' : 'spray', {plot:pl.id});
   log(() => bio ? t(`แปลง ${pl.id + 1}: ปล่อยแตนเบียน/ใช้ชีวภัณฑ์`, `Plot ${pl.id + 1}: released parasitoids / bio-control`) : t(`แปลง ${pl.id + 1}: พ่นสารฆ่าแมลง (ศัตรูธรรมชาติตายด้วย)`, `Plot ${pl.id + 1}: sprayed insecticide (natural enemies die too)`), bio ? 'ok' : 'warn');
 }
 function harvest(pl){
@@ -300,7 +303,7 @@ function harvest(pl){
   const cost = cr.cutPerT ? y * cr.cutPerT : cr.harvest * RAI;
   if (!afford(cost)) return;
   pay(cost, 'harvest');
-  addStore(cr.raw, y);
+  addStore(cr.raw, y); emit('harvest', {plot:pl.id, crop:c.id, item:cr.raw, t:y});
   const lim = limiting(f);
   S.harvests.unshift({ d:S.day, plot:pl.id, crop:c.id, y, perRai:y / RAI, f, lim:lim[0] }); if (S.harvests.length > 20) S.harvests.length = 20;
   S.env.jobs += (c.id === 'cassava' ? 8 : c.id === 'coffee' ? 12 : c.id === 'cane' ? y / 1.5 / RAI : 0.6) * RAI;
@@ -316,7 +319,7 @@ function residue(pl, how){
   const r = pl.residue; if (!r) return;
   if (how === 'burn') {
     const perRai = r.t / RAI; pl.K += perRai * 7; pl.om = Math.max(0.3, pl.om - 0.01);
-    S.env.burnt += r.t; S.goals.burnt = true; pl.residue = null;
+    S.env.burnt += r.t; S.goals.burnt = true; pl.residue = null; emit('burn', {plot:pl.id, t:r.t});
     log(() => t(`แปลง ${pl.id + 1}: เผาเศษพืช ${tons(r.t)} เกิดฝุ่น PM2.5 ราว ${fmt(r.t * 10)} กก.`, `Plot ${pl.id + 1}: burned ${tons(r.t)} of residue, about ${fmt(r.t * 10)} kg of PM2.5`), 'bad');
   } else if (how === 'bale') {
     const cost = r.t * OPS.bale; if (!afford(cost)) return; pay(cost, 'ops');
@@ -328,7 +331,7 @@ function residue(pl, how){
 /* ---------- processing ---------- */
 function runProc(k, q, perT){
   const pr = PROCS[k];
-  pay(q * perT, 'process');
+  pay(q * perT, 'process'); emit('process', {proc:k, t:q, toll:perT === pr.toll});
   Object.entries(pr.out).forEach(([it, r]) => addStore(it, q * r));
   if (pr.compost) S.compost += q * pr.compost;
   const by = Object.entries(pr.out).filter(([it]) => !['rice','corn','chips','green'].includes(it)).reduce((a, [, r]) => a + r * q, 0);
@@ -362,7 +365,7 @@ const spotPrice = item => bestPrice(item) * 0.86;
 function sellSpot(item){
   const q = S.store[item] || 0, p = spotPrice(item);
   if (!p) { toast(t('ตอนนี้ไม่มีผู้รับซื้อ (นอกฤดู)', 'Nobody buys this right now (out of season)'), 'bad'); return }
-  earn(q * p, 'sales'); delete S.store[item];
+  earn(q * p, 'sales'); delete S.store[item]; emit('sell', {item, t:q, buyer:'middle'});
   if (!['paddy','cornWet','corn','roots','cane','cherry','rice','chips','green'].includes(item)) S.goals.byprod = true;
   log(() => t(`ขาย${T(ITEMS[item].n)} ${tons(q)} ให้พ่อค้าคนกลาง ได้ ${baht(q * p)}`, `Sold ${tons(q)} of ${T(ITEMS[item].n)} to a middleman for ${baht(q * p)}`));
 }
@@ -390,7 +393,7 @@ function makeOrder(first){
 function fulfil(o){
   if ((S.store[o.item] || 0) + 1e-6 < o.qty) return;
   S.store[o.item] -= o.qty; if (S.store[o.item] < 0.0005) delete S.store[o.item];
-  earn(o.qty * o.price, 'orders'); S.rep += o.rep; S.env.delivered += o.qty;
+  earn(o.qty * o.price, 'orders'); S.rep += o.rep; S.env.delivered += o.qty; emit('deliver', {item:o.item, t:o.qty, buyer:o.buyer});
   S.goals.orders = (S.goals.orders || 0) + 1;
   if (!['paddy','cornWet','corn','roots','cane','cherry','rice','chips','green'].includes(o.item)) S.goals.byprod = true;
   S.orders = S.orders.filter(x => x !== o);
@@ -711,6 +714,7 @@ function renderGoals(){
 function renderAll(){
   if (!S) return;
   renderHUD(); drawFarm(); renderPanel(); renderGoals();
+  if (window.Farm3D) window.Farm3D.update();
   const tab = document.querySelector('.gtabs [aria-selected="true"]').dataset.tab;
   ({store:renderStore, orders:renderOrders, invest:renderInvest, env:renderEnv, log:renderLog})[tab]();
   $('ordCount').textContent = S.orders.filter(o => (S.store[o.item] || 0) + 1e-6 >= o.qty).length || '';
@@ -788,5 +792,6 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('langchange', () => { if (S) { renderAll(); setAuto(!!timer) } else startScreen() });
   if (S) startGame(); else startScreen();
 });
-window.__game = { get S(){ return S }, advance, act, ready };
+window.__game = { get S(){ return S }, advance, act, ready, progress, cover, weather, monthOf, dstr, plotXY, PW, PH, T, t,
+  on: f => listeners.push(f), select: i => { S.sel = i; renderAll() } };
 })();

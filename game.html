@@ -14,6 +14,7 @@
 <script src="assets/chain-data.js"></script>
 <script src="assets/game-data.js"></script>
 <script src="assets/game.js"></script>
+<script src="assets/game3d.js"></script>
 </head>
 <body>
 <header class="sitebar"><div class="sitebar-in">
@@ -77,7 +78,19 @@
 
   <div class="playgrid">
     <div class="card fieldcard">
+      <div class="viewbar">
+        <div class="viewsw" role="group" aria-label="มุมมอง" data-en-aria-label="View"><button type="button" data-view="2d" aria-pressed="true"><span class="th">แผนผัง 2 มิติ</span><span class="en">2D map</span></button><button type="button" data-view="3d" aria-pressed="false"><span class="th">ฉาก 3 มิติ</span><span class="en">3D scene</span></button></div>
+        <span class="note"><span class="th">3 มิติแสดงพืชโตตามวัน รถขนผลผลิต น้ำที่สูบ และของที่ส่งไปโรงงาน</span><span class="en">3D shows crops growing day by day, harvest trucks, pumped water and deliveries to industry</span></span>
+      </div>
       <svg id="farm" viewBox="0 0 760 330" role="group" aria-label="แผนผังไร่ คลิกแปลงเพื่อเลือก" data-en-aria-label="Farm map; click a plot to select it"></svg>
+      <div id="farm3d" hidden>
+        <div class="f3canvas"></div>
+        <p class="f3msg"><span class="th">กำลังโหลดฉาก 3 มิติ…</span><span class="en">Loading the 3D scene…</span></p>
+        <div class="f3top"><span class="f3info"></span>
+          <div class="f3cam"><button type="button" data-cam="reset"><span class="th">มุมเริ่มต้น</span><span class="en">Default</span></button><button type="button" data-cam="plot"><span class="th">ซูมแปลงที่เลือก</span><span class="en">Selected plot</span></button><button type="button" data-cam="top"><span class="th">มองจากบน</span><span class="en">Top</span></button><button type="button" data-cam="chain"><span class="th">ไร่ถึงโรงงาน</span><span class="en">Farm to factory</span></button></div></div>
+        <ul class="f3legend"><li><i style="background:#d9a93a"></i><span class="th">เก็บเกี่ยวเข้าคลัง</span><span class="en">Harvest to store</span></li><li><i style="background:#3d8fd0"></i><span class="th">น้ำที่สูบ</span><span class="en">Pumped water</span></li><li><i style="background:#9a5b2b"></i><span class="th">ส่งแปรรูป</span><span class="en">To processing</span></li><li><i style="background:#2f8a4f"></i><span class="th">ส่งอุตสาหกรรม</span><span class="en">To industry</span></li><li><i style="background:#8a8f96"></i><span class="th">ขายพ่อค้าคนกลาง</span><span class="en">To middleman</span></li><li><i style="background:#777"></i><span class="th">ควันจากการเผา</span><span class="en">Smoke from burning</span></li></ul>
+        <p class="note"><span class="th">ลากเพื่อหมุน · ล้อเมาส์หรือสองนิ้วเพื่อซูม · คลิกขวาหรือ Shift+ลากเพื่อเลื่อน · คลิกแปลงเพื่อเลือก · กด ▶ เดินเวลา เพื่อดูพืชโตและกิจกรรมไหล</span><span class="en">Drag to orbit · wheel or pinch to zoom · right-drag or Shift-drag to pan · click a plot to select it · press ▶ Run to watch crops grow and activity flow</span></p>
+      </div>
       <p class="note"><span class="th">สีดินเข้มขึ้นเมื่อชื้นและมีอินทรียวัตถุมาก · สัญลักษณ์: ✓ พร้อมเก็บ, 💧 ขาดน้ำ, 🐛 แมลงระบาด, N ไนโตรเจนต่ำ, ≋ น้ำขัง</span><span class="en">Soil gets darker when wet and rich in organic matter · Badges: ✓ ready, 💧 dry, 🐛 pests, N low nitrogen, ≋ waterlogged</span></p>
       <div class="goalbox"><span class="eyebrow"><span class="th">เป้าหมาย</span><span class="en">Goals</span></span><ul id="goals"></ul></div>
     </div>
