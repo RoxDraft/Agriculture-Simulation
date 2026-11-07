@@ -30,7 +30,7 @@ python3 -m http.server 8000
 ## โครงสร้างไฟล์
 
 ```
-index.html, thailand.html, nan-basin.html, soil.html
+index.html, thailand.html, nan-basin.html, soil.html, value-chain.html
 assets/
   site.css            สไตล์ร่วมของหน้าแรกและแผนที่ภูมิภาค
   thailand-data.js    พิกัดแม่น้ำ อ่าง เมือง ถนน ราง สายส่ง และข้อมูลภูมิภาค
@@ -43,6 +43,9 @@ assets/
   topics.js           ภาพจำลองหัวข้อ 1, 2, 3, 5 และฟังก์ชันร่วม
   topics2.js          ภาพจำลองหัวข้อ 4, 6, 7
   topics3.js          ภาพจำลองหัวข้อ 8, 9
+  chain-data.js       ข้อมูลพืช 8 ชนิด: เครื่องจักรแต่ละขั้นตาม 3 ขนาดกิจการ และสายต่อยอด
+  chain-hist.js       ประวัติห่วงโซ่ 100 ปี ปัญหาแต่ละยุค ภูมิภาค และ tipping point
+  chain.js / chain.css  ตัวจำลองคอมโบและส่วนประวัติของหน้า value-chain.html
   soil-lab.css/.js    ส่วนโต้ตอบหัวข้อ 10–13 ของหน้าดิน
 parts/soil-new.html   ต้นฉบับ HTML ของหัวข้อ 10–13 (รวมอยู่ใน soil.html แล้ว)
 ```
