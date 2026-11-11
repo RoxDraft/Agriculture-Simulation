@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>สารานุกรมพืช · Agriculture Simulation</title>
+<meta name="title-en" content="Plant atlas · Agriculture Simulation">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@500;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column with wide comparison tables that scroll on their own; soil (brown), water (teal), leaf (green) as the three system colors */
+:root{
+  --bg:#f3f5f1; --surface:#ffffff; --fg:#1f2a24; --muted:#5b6a61; --line:#d6ddd5;
+  --soil:#7a4f2c; --water:#1f6f78; --leaf:#3f7a35; --warn:#a1561b; --tag:#e8ece5;
+  --display:"Noto Serif Thai", Georgia, serif;
+  --body:"IBM Plex Sans Thai", "Leelawadee UI", Tahoma, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141a17; --surface:#1c2420; --fg:#e4ebe5; --muted:#9caba2; --line:#2f3a34;
+  --soil:#d39a6a; --water:#5fb7bf; --leaf:#88c47a; --warn:#e3a066; --tag:#26302b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a17; --surface:#1c2420; --fg:#e4ebe5; --muted:#9caba2; --line:#2f3a34;
+  --soil:#d39a6a; --water:#5fb7bf; --leaf:#88c47a; --warn:#e3a066; --tag:#26302b; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:1040px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.35;margin:0}
+h1{font-size:2.1rem}
+h2{font-size:1.45rem;margin-top:48px;padding-top:20px;border-top:1px solid var(--line)}
+h3{font-size:1.1rem;margin-top:24px}
+p,li{max-width:68ch}
+p{margin:12px 0}
+.lede{font-size:1.08rem;color:var(--muted)}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--water)}
+.answer{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 20px;margin-top:16px}
+.answer strong{color:var(--soil)}
+.noref{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;background:var(--tag);color:var(--muted);padding:0 6px;border-radius:3px;vertical-align:1px;border:1px dashed var(--line)}
+.chk{font-family:var(--mono);font-size:.78rem;color:var(--leaf);margin-right:4px}
+.chk.warn{color:var(--warn)}
+.inf{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;background:var(--tag);color:var(--warn);padding:0 6px;border-radius:3px;vertical-align:1px}
+sup a{color:var(--water);text-decoration:none;font-family:var(--mono);font-size:.75em}
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.92rem;line-height:1.55}
+th,td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+thead th{font-family:var(--body);font-weight:600;font-size:.85rem}
+tbody th{font-weight:500;color:var(--muted);width:20%}
+tr:last-child td,tr:last-child th{border-bottom:0}
+.c-soil{color:var(--soil)} .c-water{color:var(--water)} .c-leaf{color:var(--leaf)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.ok{color:var(--leaf);font-weight:600} .mid{color:var(--warn);font-weight:600} .no{color:var(--muted);font-weight:600}
+ol.steps{padding-left:0;list-style:none;counter-reset:s;display:grid;gap:12px;margin-top:16px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:2.2rem 1fr;gap:8px;max-width:none}
+ol.steps li::before{content:counter(s);font-family:var(--mono);font-size:.85rem;color:var(--water);border:1px solid var(--water);border-radius:50%;width:1.8rem;height:1.8rem;display:grid;place-items:center;margin-top:2px}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px;font-size:.88rem}
+.flow span{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:4px 10px}
+.flow b{color:var(--muted);font-weight:400}
+.refs{font-size:.86rem;color:var(--muted)}
+.refs li{margin:6px 0;max-width:none}
+.refs a{color:var(--water);word-break:break-word}
+code,.num{font-family:var(--mono);font-size:.88em}
+a:focus-visible{outline:2px solid var(--water);outline-offset:2px}
+</style>
+
+<link rel="stylesheet" href="assets/soil-lab.css">
+<style>
+body{margin:0}
+</style>
+<link rel="stylesheet" href="assets/nav.css">
+<link rel="stylesheet" href="assets/topics.css">
+<link rel="stylesheet" href="assets/plants.css">
+<script src="assets/i18n.js"></script>
+</head>
+<body>
+<header class="sitebar"><div class="sitebar-in">
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#2f6b45"/><path d="M16 25V13M16 17c-5 0-8-3-8-8 5 0 8 3 8 8zm0-2c0-5 3-8 8-8 0 5-3 8-8 8z" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Agriculture Simulation</span></a>
+  <nav class="mainnav" aria-label="เมนูหลัก" data-en-aria-label="Main menu">
+    <a class="nv nv-home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span><b><span class="th">หน้าแรก</span><span class="en">Home</span></b><small><span class="th">ทุกหน้า</span><span class="en">All pages</span></small></span></a>
+    <a class="nv nv-map" href="thailand.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg><span><b><span class="th">แผนที่ภูมิภาคไทย</span><span class="en">Thailand regions</span></b><small><span class="th">ระดับประเทศ</span><span class="en">National scale</span></small></span></a>
+    <a class="nv nv-basin" href="nan-basin.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 18l5-9 4 6 3-4 6 7z"/><path d="M14 4c-2 3 2 4 0 7" /></svg><span><b><span class="th">ลุ่มน้ำน่าน</span><span class="en">Nan River basin</span></b><small><span class="th">ระดับลุ่มน้ำและแปลง</span><span class="en">Basin and plot scale</span></small></span></a>
+    <a class="nv nv-soil" href="soil.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 13V5M12 9c-3 0-5-2-5-5 3 0 5 2 5 5zm0 0c0-3 2-5 5-5 0 3-2 5-5 5z"/><path d="M3 15h18M5 19h3M11 19h2M16 19h3"/></svg><span><b><span class="th">ดิน · น้ำ · ระบบปิด</span><span class="en">Soil · Water · Closed</span></b><small><span class="th">ระดับพืชและราก</span><span class="en">Plant and root scale</span></small></span></a>
+    <a class="nv nv-chain" href="value-chain.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span><b><span class="th">ห่วงโซ่การผลิต</span><span class="en">Value chain</span></b><small><span class="th">แปรรูปถึงตลาด · 100 ปี</span><span class="en">Processing to market · 100 years</span></small></span></a>
+    <a class="nv nv-game" href="game.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="12" width="18" height="8" rx="1"/><path d="M7 12V9M12 12V6M17 12V8M5 16h14"/><path d="M12 6c-2-1-3-3-2-5 2 0 3 2 2 5z"/></svg><span><b><span class="th">เกมจากแปลงสู่โรงงาน</span><span class="en">Plot to Plant game</span></b><small><span class="th">ปลูก ให้น้ำ แปรรูป ส่งโรงงาน</span><span class="en">Grow, water, process, supply</span></small></span></a>
+    <a class="nv nv-plants" href="plants.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21V9"/><path d="M12 13c-4 0-7-3-7-7 4 0 7 3 7 7zM12 10c0-4 3-7 7-7 0 4-3 7-7 7z"/><path d="M7 21h10"/></svg><span><b><span class="th">สารานุกรมพืช</span><span class="en">Plant atlas</span></b><small><span class="th">ชนิด วิวัฒนาการ สารอาหาร</span><span class="en">Species, evolution, nutrition</span></small></span></a>
+  </nav>
+  <div class="langsw" role="group" aria-label="ภาษา" data-en-aria-label="Language"><button type="button" data-lang-btn="th" aria-pressed="true">ไทย</button><button type="button" data-lang-btn="en" aria-pressed="false">EN</button></div>
+</div></header>
+<div class="wrap">
+  <div class="eyebrow"><span class="th">ระดับอาณาจักรพืช · 470 ล้านปีถึงวันนี้</span><span class="en">Plant kingdom scale · 470 million years to today</span></div>
+  <h1><span class="th">สารานุกรมพืช: มีกี่ชนิด จัดกลุ่มอย่างไร และมาจากไหน</span><span class="en">Plant atlas: how many, how they are grouped, and where they came from</span></h1>
+  <p class="th lede">พืชที่เราปลูกในหน้าอื่นเป็นเพียงไม่กี่ชนิดจากราว 400,000 ชนิดบนโลก หน้านี้รวบรวมว่าพืชมีกี่กลุ่ม แต่ละระบบจัดกลุ่มตอบคำถามอะไร ทำไมคนเรียกบางอย่างว่าผักหรือผลไม้ พืชอยู่ร่วมกับสิ่งมีชีวิตอื่นแบบไหน พืชให้พลังงานและสารอาหารอะไรกับคน และความรู้เหล่านี้ถูกพิสูจน์และแก้ไขมาอย่างไร</p><p class="en lede">The crops on the other pages are a handful out of roughly 400,000 plant species. This page covers how plants are grouped, what question each classification answers, why people call some things vegetables or fruit, how plants live with other organisms, what energy and nutrients plants give people, and how this knowledge was tested and revised.</p>
+  <p class="th refs">ตัวเลขที่มีหมายเลขยกกำลังตรวจกับแหล่งที่มาแล้วเมื่อ 11 พ.ย. 2026 ข้อความที่ติดป้าย <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span> เป็นความรู้ทั่วไปที่ยังต้องตรวจ ส่วนป้าย <span class="inf">อนุมาน</span> เป็นการตีความของผู้เขียน</p><p class="en refs">Figures with a superscript number were checked against the source on 11 Nov 2026. Text tagged <span class="noref">not yet checked</span> is general knowledge still to be verified, and <span class="inf">inferred</span> marks the author’s interpretation.</p>
+  <nav class="toc" aria-label="หัวข้อในหน้านี้" data-en-aria-label="Topics on this page">
+    <div class="toc-g g-fert"><b><span class="th">พืชมีอะไรบ้าง</span><span class="en">What plants there are</span></b><small><span class="th">จำนวน การจำแนก การใช้งาน</span><span class="en">Numbers, classification, uses</span></small><div><a href="#count"><i>1</i><span class="th">มีกี่ชนิด</span><span class="en">How many</span></a><a href="#classify"><i>2</i><span class="th">จำแนกตามอะไร</span><span class="en">Ways to classify</span></a><a href="#kitchen"><i>3</i><span class="th">ผัก ผลไม้ พืชหัว</span><span class="en">Vegetable, fruit, tuber</span></a><a href="#life"><i>4</i><span class="th">อยู่อย่างไร อยู่ที่ไหน</span><span class="en">How and where they live</span></a></div></div>
+    <div class="toc-g g-water"><b><span class="th">พืชกับคน</span><span class="en">Plants and people</span></b><small><span class="th">พลังงานและสารอาหาร</span><span class="en">Energy and nutrients</span></small><div><a href="#food"><i>5</i><span class="th">อาหารจากพืช</span><span class="en">Food from plants</span></a></div></div>
+    <div class="toc-g g-lab"><b><span class="th">เวลาและความรู้</span><span class="en">Time and knowledge</span></b><small><span class="th">วิวัฒนาการ ผู้ค้นพบ ข้อโต้แย้ง</span><span class="en">Evolution, discoverers, debates</span></small><div><a href="#evo"><i>6</i><span class="th">วิวัฒนาการ</span><span class="en">Evolution</span></a><a href="#history"><i>7</i><span class="th">ประวัติความรู้</span><span class="en">History of the science</span></a><a href="#thinkers"><i>8</i><span class="th">นักคิดและข้อโต้แย้ง</span><span class="en">Thinkers and critics</span></a></div></div>
+  </nav>
+
+  <section class="topic" id="count">
+  <h2><span class="th">1. พืชบนโลกมีกี่ชนิด</span><span class="en">1. How many plant species are there</span></h2>
+  <div class="answer"><p class="th">มีพืชที่มีท่อลำเลียงซึ่งได้รับการตั้งชื่อแล้วราว <strong>391,000 ชนิด</strong> ในจำนวนนี้เป็นพืชดอก <strong>369,000 ชนิด</strong> และยังมีการตั้งชื่อชนิดใหม่ราว <strong>2,000 ชนิดต่อปี</strong><sup><a href="#r1">1</a></sup> รวมมอสและลิเวอร์เวิร์ตด้วยจะได้ราว 400,000 ชนิด</p><p class="en">About <strong>391,000</strong> vascular plant species have been named, <strong>369,000</strong> of them flowering plants, and about <strong>2,000</strong> new species are named every year.<sup><a href="#r1">1</a></sup> With mosses and liverworts the total is about 400,000.</p></div>
+  <div class="bars" role="list">
+    <div class="bar" role="listitem"><div class="lab"><span class="th">พืชดอก</span><span class="en">Flowering plants</span><small>~369,000</small></div><div class="track"><div class="fill" style="width:92%"></div></div></div>
+    <div class="bar" role="listitem"><div class="lab"><span class="th">มอส ลิเวอร์เวิร์ต ฮอร์นเวิร์ต</span><span class="en">Mosses, liverworts, hornworts</span><small>~20,000</small></div><div class="track"><div class="fill f2" style="width:5%"></div></div></div>
+    <div class="bar" role="listitem"><div class="lab"><span class="th">เฟิร์นและไลโคไฟต์</span><span class="en">Ferns and lycophytes</span><small>~12,000</small></div><div class="track"><div class="fill f3" style="width:3%"></div></div></div>
+    <div class="bar" role="listitem"><div class="lab"><span class="th">พืชเมล็ดเปลือย (สน ปรง แปะก๊วย)</span><span class="en">Gymnosperms (conifers, cycads, ginkgo)</span><small>~1,100</small></div><div class="track"><div class="fill f4" style="width:.4%"></div></div></div>
+  </div>
+  <p class="th note">ความยาวแท่งเทียบกับจำนวนรวมราว 400,000 ชนิด ตัวเลขพืชดอกตรวจแล้ว<sup><a href="#r1">1</a></sup> ส่วนจำนวนมอส เฟิร์น และพืชเมล็ดเปลือย <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span></p><p class="en note">Bars are relative to about 400,000 species in total. The flowering-plant count is checked;<sup><a href="#r1">1</a></sup> the moss, fern and gymnosperm counts are <span class="noref">not yet checked</span>.</p>
+  <ul>
+    <li class="th">พืชดอกแบ่งเป็น <strong>64 อันดับ 416 วงศ์</strong> ตามระบบ APG IV<sup><a href="#r3">3</a></sup></li><li class="en">Flowering plants fall into <strong>64 orders and 416 families</strong> under APG IV.<sup><a href="#r3">3</a></sup></li>
+    <li class="th">พืชราว <strong>39.4%</strong> ถูกประเมินว่าเสี่ยงสูญพันธุ์ (Kew 2020)<sup><a href="#r2">2</a></sup></li><li class="en">About <strong>39.4%</strong> of plant species are estimated to be threatened with extinction (Kew 2020).<sup><a href="#r2">2</a></sup></li>
+    <li class="th">"ชนิด" (species) ไม่ใช่ "สายพันธุ์" (variety) ข้าวที่ปลูกส่วนใหญ่ทั้งโลกเป็นชนิดเดียวคือ <i>Oryza sativa</i> แต่มีสายพันธุ์นับแสน <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span></li><li class="en">A “species” is not a “variety”. Most rice grown worldwide is one species, <i>Oryza sativa</i>, but there are well over a hundred thousand varieties. <span class="noref">not yet checked</span></li>
+  </ul>
+  </section>
+
+  <section class="topic" id="classify">
+  <h2><span class="th">2. จำแนกตามอะไรได้บ้าง</span><span class="en">2. Ways to classify plants</span></h2>
+  <p class="th">แต่ละระบบตอบคำถามคนละข้อ ต้นข้าวต้นเดียวจึงอยู่ได้หลายกลุ่มพร้อมกัน</p><p class="en">Each system answers a different question, so one rice plant belongs to several groups at once.</p>
+  <div class="tbl"><table>
+    <thead><tr><th><span class="th">ระบบ</span><span class="en">System</span></th><th><span class="th">ตอบคำถาม</span><span class="en">Question it answers</span></th><th><span class="th">กลุ่มหลัก</span><span class="en">Main groups</span></th><th><span class="th">ข้าว</span><span class="en">Rice</span></th></tr></thead>
+    <tbody>
+      <tr><th><span class="th">สายวิวัฒนาการ (APG)</span><span class="en">Lineage (APG)</span></th><td><span class="th">ใครเป็นญาติใคร ดูจาก DNA</span><span class="en">Who is related to whom, from DNA</span></td><td><span class="th">อาณาจักร → หมวด → ชั้น → อันดับ → วงศ์ → สกุล → ชนิด</span><span class="en">Kingdom → division → class → order → family → genus → species</span></td><td><span class="th">วงศ์หญ้า Poaceae</span><span class="en">Grass family, Poaceae</span></td></tr>
+      <tr><th><span class="th">รูปแบบชีวิต (Raunkiær)</span><span class="en">Life form (Raunkiær)</span></th><td><span class="th">ตาที่รอดฤดูแล้งหรือหนาวอยู่ตรงไหน</span><span class="en">Where buds survive the dry or cold season</span></td><td><span class="th">ไม้ต้น ไม้พุ่ม ไม้คลุมดิน พืชหัวใต้ดิน พืชปีเดียว พืชน้ำ</span><span class="en">Trees, shrubs, ground cover, geophytes, annuals, aquatics</span></td><td><span class="th">พืชปีเดียว รอดในรูปเมล็ด</span><span class="en">Annual, survives as seed</span></td></tr>
+      <tr><th><span class="th">ถิ่นอาศัย</span><span class="en">Habitat</span></th><td><span class="th">ทนน้ำ แล้ง เค็มได้แค่ไหน</span><span class="en">Tolerance of water, drought, salt</span></td><td><span class="th">พืชบก พืชทนแล้ง พืชทนเค็ม พืชน้ำ พืชอิงอาศัย</span><span class="en">Land, drought-tolerant, salt-tolerant, aquatic, epiphytic</span></td><td><span class="th">พืชโผล่พ้นน้ำ มีช่องอากาศส่งออกซิเจนลงราก</span><span class="en">Emergent aquatic, air channels feed oxygen to roots</span></td></tr>
+      <tr><th><span class="th">ระบบสังเคราะห์แสง</span><span class="en">Photosynthesis type</span></th><td><span class="th">ตรึงคาร์บอนแบบไหน ทนร้อนแล้งแค่ไหน</span><span class="en">How carbon is fixed, heat and drought tolerance</span></td><td>C3 · C4 · CAM</td><td>C3</td></tr>
+      <tr><th><span class="th">การใช้ประโยชน์</span><span class="en">Human use</span></th><td><span class="th">คนเอาไปทำอะไร</span><span class="en">What people use it for</span></td><td><span class="th">ธัญพืช พืชหัว พืชน้ำมัน ผัก ผลไม้ พืชอาหารสัตว์ พืชเส้นใย ไม้ประดับ</span><span class="en">Cereals, roots, oil crops, vegetables, fruit, forage, fibre, ornamentals</span></td><td><span class="th">ธัญพืช</span><span class="en">Cereal</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="grid2">
+    <div class="answer"><h3>C3</h3><p class="th">ราว 85–90% ของชนิด เช่น ข้าว ข้าวสาลี ถั่ว ผักส่วนใหญ่ ทำงานดีในที่ไม่ร้อนจัด <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span></p><p class="en">About 85–90% of species, such as rice, wheat, legumes and most vegetables. Works best where it is not too hot. <span class="noref">not yet checked</span></p></div>
+    <div class="answer"><h3>C4</h3><p class="th">เพียงราว 3% ของชนิด แต่สร้างมวลชีวภาพบนบกได้ราว 20–25% ของโลก<sup><a href="#r6">6</a></sup> เช่น ข้าวโพด อ้อย ข้าวฟ่าง ทนร้อนและใช้น้ำคุ้มกว่า</p><p class="en">Only about 3% of species, yet about 20–25% of land plant productivity.<sup><a href="#r6">6</a></sup> Examples: maize, sugarcane, sorghum. More heat-tolerant and water-efficient.</p></div>
+    <div class="answer"><h3>CAM</h3><p class="th">ราว 6% ของชนิด เปิดปากใบตอนกลางคืนเพื่อเก็บน้ำ เช่น สับปะรด กล้วยไม้ กระบองเพชร <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span></p><p class="en">About 6% of species. Opens its pores at night to save water, as in pineapple, orchids and cacti. <span class="noref">not yet checked</span></p></div>
+  </div>
+  </section>
+
+  <section class="topic" id="kitchen">
+  <h2><span class="th">3. ทำไมจึงเรียกผัก ผลไม้ ไม้ใบ ไม้คลุมดิน พืชหัว</span><span class="en">3. Why we say vegetable, fruit, foliage plant, ground cover, root crop</span></h2>
+  <p class="th">คำเหล่านี้มาจากการใช้งานของคนในครัวและในสวน ไม่ใช่จากสายวิวัฒนาการ จึงซ้อนทับกันได้ <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span></p><p class="en">These words come from how people use plants in the kitchen and garden, not from lineage, so they overlap. <span class="noref">not yet checked</span></p>
+  <div class="grid2">
+    <div class="answer"><h3><span class="th">ผลไม้ (ทางพฤกษศาสตร์)</span><span class="en">Fruit (botanical)</span></h3><p class="th">รังไข่ของดอกที่เจริญหลังผสมเกสร มะเขือเทศ แตงกวา พริก และเมล็ดข้าวจึงนับเป็นผลทั้งหมด</p><p class="en">The ovary of a flower after pollination. Tomato, cucumber, chilli and even a rice grain are all fruits.</p></div>
+    <div class="answer"><h3><span class="th">ผัก (ทางครัว)</span><span class="en">Vegetable (culinary)</span></h3><ul class="th"><li>ใบ: ผักบุ้ง ผักกาด</li><li>ลำต้น: หน่อไม้</li><li>ดอก: กะหล่ำดอก</li><li>ราก: แครอท</li></ul><ul class="en"><li>Leaves: morning glory, lettuce</li><li>Stems: bamboo shoots</li><li>Flowers: cauliflower</li><li>Roots: carrot</li></ul></div>
+    <div class="answer"><h3><span class="th">พืชหัว / ใต้ดิน</span><span class="en">Root and tuber crops</span></h3><ul class="th"><li>รากสะสมอาหาร: มันสำปะหลัง มันเทศ</li><li>ลำต้นใต้ดิน: มันฝรั่ง</li><li>เหง้า: ขิง ขมิ้น</li><li>หัวแบบ corm: เผือก</li><li>กาบใบซ้อน (bulb): หอม กระเทียม</li></ul><ul class="en"><li>Storage roots: cassava, sweet potato</li><li>Stem tubers: potato</li><li>Rhizomes: ginger, turmeric</li><li>Corms: taro</li><li>Bulbs: onion, garlic</li></ul></div>
+    <div class="answer"><h3><span class="th">ไม้ใบ / ไม้คลุมดิน</span><span class="en">Foliage plants / ground cover</span></h3><p class="th">คำทางจัดสวนตามหน้าที่ในแปลง ไม้คลุมดินคือพืชเตี้ยที่แผ่คลุมผิวดิน กันดินพังและเก็บความชื้น เช่น ถั่วคลุมดินในสวนยางและปาล์ม</p><p class="en">Gardening terms for a plant’s job in the bed. Ground cover is a low plant that spreads over the soil to stop erosion and hold moisture, such as cover legumes in rubber and oil-palm plantations.</p></div>
+  </div>
+  </section>
+
+  <section class="topic" id="life">
+  <h2><span class="th">4. พืชอยู่กับสิ่งมีชีวิตอื่นอย่างไร และอยู่ที่ไหน</span><span class="en">4. How plants live with other organisms, and where</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th><span class="th">วิถีชีวิต</span><span class="en">Strategy</span></th><th><span class="th">ทำอย่างไร</span><span class="en">How it works</span></th><th><span class="th">ตัวอย่าง</span><span class="en">Examples</span></th><th><span class="th">มากแค่ไหน</span><span class="en">How common</span></th></tr></thead>
+    <tbody>
+      <tr><th><span class="th">พึ่งพารา (ไมคอร์ไรซา)</span><span class="en">Mycorrhizal partnership</span></th><td><span class="th">ราช่วยดูดฟอสฟอรัสและน้ำ แลกกับน้ำตาลจากพืช</span><span class="en">Fungi bring phosphorus and water in exchange for plant sugar</span></td><td><span class="th">พืชบกส่วนใหญ่</span><span class="en">Most land plants</span></td><td><span class="th">มากกว่า 85% ของพืชมีท่อลำเลียง</span><span class="en">Over 85% of vascular plants</span><sup><a href="#r7">7</a></sup></td></tr>
+      <tr><th><span class="th">พึ่งพาแบคทีเรีย</span><span class="en">Bacterial partnership</span></th><td><span class="th">ไรโซเบียมในปมรากตรึงไนโตรเจนจากอากาศ</span><span class="en">Rhizobia in root nodules fix nitrogen from the air</span></td><td><span class="th">ถั่วเหลือง ถั่วลิสง ถั่วเขียว</span><span class="en">Soybean, peanut, mung bean</span></td><td><span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span></td></tr>
+      <tr><th><span class="th">อิงอาศัย</span><span class="en">Epiphyte</span></th><td><span class="th">เกาะต้นไม้อื่นเพื่อรับแสง ไม่ดูดอาหาร</span><span class="en">Perches on another tree for light, takes no food</span></td><td><span class="th">กล้วยไม้ เฟิร์นข้าหลวง</span><span class="en">Orchids, bird’s-nest fern</span></td><td><span class="th">ราว 9–10% ของพืชมีท่อลำเลียง</span><span class="en">About 9–10% of vascular plants</span> <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span></td></tr>
+      <tr><th><span class="th">กึ่งปรสิต</span><span class="en">Hemiparasite</span></th><td><span class="th">สังเคราะห์แสงเองได้ แต่ดูดน้ำและแร่ธาตุจากต้นอื่น</span><span class="en">Photosynthesises but takes water and minerals from a host</span></td><td><span class="th">กาฝาก</span><span class="en">Mistletoe</span></td><td rowspan="2"><span class="th">พืชปรสิตรวมราว 4,750 ชนิด จาก 292 สกุล</span><span class="en">About 4,750 parasitic species in 292 genera</span><sup><a href="#r5">5</a></sup></td></tr>
+      <tr><th><span class="th">ปรสิตเต็มตัว</span><span class="en">Holoparasite</span></th><td><span class="th">ไม่มีคลอโรฟิลล์ ดูดอาหารทั้งหมดจากพืชอื่น</span><span class="en">No chlorophyll, takes all food from a host</span></td><td><span class="th">บัวผุด ฝอยทอง</span><span class="en">Rafflesia, dodder</span></td></tr>
+      <tr><th><span class="th">กินแมลง</span><span class="en">Carnivorous</span></th><td><span class="th">จับแมลงเสริมไนโตรเจนในดินที่ขาดธาตุอาหาร</span><span class="en">Traps insects for nitrogen in poor soil</span></td><td><span class="th">หม้อข้าวหม้อแกงลิง หยาดน้ำค้าง</span><span class="en">Pitcher plants, sundews</span></td><td><span class="th">ราว 800 ชนิด</span><span class="en">About 800 species</span> <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span></td></tr>
+    </tbody>
+  </table></div>
+  <h3><span class="th">พืชน้ำ 4 แบบ</span><span class="en">Four kinds of aquatic plant</span></h3>
+  <ul class="th"><li>จมใต้น้ำทั้งต้น: สาหร่ายหางกระรอก</li><li>รากยึดดิน ใบลอยผิวน้ำ: บัว</li><li>ลอยอิสระที่ผิวน้ำ: ผักตบชวา จอก แหน</li><li>โผล่พ้นน้ำ: กก ข้าว</li></ul><ul class="en"><li>Fully submerged: hornwort</li><li>Rooted with floating leaves: lotus, water lily</li><li>Free-floating: water hyacinth, water lettuce, duckweed</li><li>Emergent: sedges, rice</li></ul>
+  <h3><span class="th">พืชตามภูมิประเทศ</span><span class="en">Plants by landscape</span></h3>
+  <ul class="th"><li>ป่าดิบชื้นเขตร้อน: พื้นที่ไม่ถึง 10% ของแผ่นดิน แต่มีพืชราวครึ่งหนึ่งของทุกชนิด <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span></li><li>ทะเลทราย: พืช CAM และพืชอวบน้ำ</li><li>ทุ่งหญ้า: หญ้า C4 ทนแดดและไฟ</li><li>เขตหนาวและภูเขาสูง: สนและพืชเตี้ยติดดิน</li><li>ชายเลน: โกงกางทนเค็ม มีรากหายใจ</li></ul><ul class="en"><li>Tropical rainforest: under 10% of land but about half of all plant species <span class="noref">not yet checked</span></li><li>Deserts: CAM plants and succulents</li><li>Grasslands: C4 grasses that tolerate sun and fire</li><li>Cold zones and high mountains: conifers and cushion plants</li><li>Mangroves: salt-tolerant trees with breathing roots</li></ul>
+  </section>
+
+  <section class="topic" id="food">
+  <h2><span class="th">5. พืชกับพลังงานและสารอาหารของคน</span><span class="en">5. Plants, energy and nutrition</span></h2>
+  <div class="answer"><p class="th">มีพืชที่คนกินได้อย่างน้อย <strong>7,039 ชนิด</strong> แต่พืชเพียง <strong>15 ชนิด</strong>ให้พลังงานจากอาหารราว 90%<sup><a href="#r2">2</a></sup> และพืช <strong>9 ชนิด</strong>ให้ผลผลิตพืชราว 66% ของโลก<sup><a href="#r4">4</a></sup> ได้แก่ อ้อย ข้าวโพด ข้าว ข้าวสาลี มันฝรั่ง ถั่วเหลือง ปาล์มน้ำมัน บีทน้ำตาล และมันสำปะหลัง</p><p class="en">People can eat at least <strong>7,039</strong> plant species, but just <strong>15</strong> crops supply about 90% of food energy,<sup><a href="#r2">2</a></sup> and <strong>9</strong> crops make up about 66% of world crop production:<sup><a href="#r4">4</a></sup> sugarcane, maize, rice, wheat, potato, soybean, oil palm, sugar beet and cassava.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th><span class="th">หน้าที่</span><span class="en">Role</span></th><th><span class="th">พืชหลัก</span><span class="en">Main crops</span></th><th><span class="th">ตัวเลขโดยประมาณ</span><span class="en">Approximate figures</span></th></tr></thead>
+    <tbody>
+      <tr><th><span class="th">แป้ง (คาร์โบไฮเดรต)</span><span class="en">Starch (carbohydrate)</span></th><td><span class="th">ข้าว ข้าวสาลี ข้าวโพด มันสำปะหลัง มันฝรั่ง</span><span class="en">Rice, wheat, maize, cassava, potato</span></td><td><span class="th">ธัญพืชมีแป้งราว 70–75% ของน้ำหนักแห้ง มันสำปะหลังสดราว 25–35%</span><span class="en">Cereals about 70–75% starch by dry weight; fresh cassava about 25–35%</span></td></tr>
+      <tr><th><span class="th">ความหวาน</span><span class="en">Sugar</span></th><td><span class="th">อ้อย บีทน้ำตาล</span><span class="en">Sugarcane, sugar beet</span></td><td><span class="th">อ้อยให้น้ำตาลราว 80% ของโลก</span><span class="en">Sugarcane supplies about 80% of world sugar</span></td></tr>
+      <tr><th><span class="th">โปรตีน</span><span class="en">Protein</span></th><td><span class="th">ถั่วเหลือง ถั่วอื่นๆ</span><span class="en">Soybean, other pulses</span></td><td><span class="th">ถั่วเหลืองมีโปรตีนราว 36–40% และน้ำมันราว 20% ถั่วอื่นราว 20–25%</span><span class="en">Soybean about 36–40% protein and 20% oil; other pulses about 20–25% protein</span></td></tr>
+      <tr><th><span class="th">ไขมัน</span><span class="en">Fat</span></th><td><span class="th">ปาล์มน้ำมัน ถั่วเหลือง คาโนลา ทานตะวัน มะพร้าว</span><span class="en">Oil palm, soybean, rapeseed, sunflower, coconut</span></td><td><span class="th">น้ำมันพืชของโลกราว 35–40% มาจากปาล์ม</span><span class="en">About 35–40% of world vegetable oil is palm oil</span></td></tr>
+      <tr><th><span class="th">แร่ธาตุและวิตามิน</span><span class="en">Minerals and vitamins</span></th><td><span class="th">ผักใบ ผลไม้ ถั่วเปลือกแข็ง ธัญพืชไม่ขัดสี</span><span class="en">Leafy greens, fruit, nuts, whole grains</span></td><td>–</td></tr>
+    </tbody>
+  </table></div>
+  <p class="th note">ตัวเลขในตารางนี้ <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span> และในภาพรวม อาหารจากพืชให้พลังงานราว 80% และโปรตีนราว 60% ของอาหารคนทั้งโลก <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span></p><p class="en note">Figures in this table are <span class="noref">not yet checked</span>. Overall, plant foods supply roughly 80% of the energy and 60% of the protein in the world diet. <span class="noref">not yet checked</span></p>
+  <p class="th">พืชในเกม <a href="game.html">จากแปลงสู่โรงงาน</a>: ข้าว (C3 ธัญพืช แป้ง) ข้าวโพด (C4 ธัญพืช แป้งและอาหารสัตว์) มันสำปะหลัง (รากสะสมแป้ง) อ้อย (C4 น้ำตาล) และกาแฟ (ไม้ยืนต้น คาเฟอีน)</p><p class="en">Crops in the <a href="game.html">Plot to Plant</a> game: rice (C3 cereal, starch), maize (C4 cereal, starch and feed), cassava (starch storage root), sugarcane (C4, sugar) and coffee (perennial, caffeine).</p>
+  </section>
+
+  <section class="topic" id="evo">
+  <h2><span class="th">6. วิวัฒนาการ: ใครครองโลกในแต่ละยุค</span><span class="en">6. Evolution: who dominated each era</span></h2>
+  <p class="th">อายุเป็นค่าที่ใช้กันทั่วไปในตำรา <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span> (ล้านปีก่อน = Ma)</p><p class="en">Ages are common textbook values. <span class="noref">not yet checked</span> (Ma = million years ago)</p>
+  <ol class="tline">
+    <li><span class="when">~3,000 Ma</span><b><span class="th">ไซยาโนแบคทีเรียเริ่มสังเคราะห์แสงและปล่อยออกซิเจน</span><span class="en">Cyanobacteria begin oxygen-producing photosynthesis</span></b><br><span class="dom"><span class="th">จุลินทรีย์ในน้ำ</span><span class="en">Aquatic microbes</span></span></li>
+    <li><span class="when">~1,500 Ma</span><b><span class="th">เซลล์หนึ่งกลืนไซยาโนแบคทีเรียจนกลายเป็นคลอโรพลาสต์ เกิดสาหร่าย</span><span class="en">A cell engulfs a cyanobacterium that becomes the chloroplast: algae appear</span></b><br><span class="dom"><span class="th">สาหร่าย</span><span class="en">Algae</span></span></li>
+    <li><span class="when">~470 Ma</span><b><span class="th">พืชขึ้นบกครั้งแรก คล้ายมอส ไม่มีราก ต้องพึ่งรา</span><span class="en">Plants reach land: moss-like, rootless, relying on fungi</span></b><br><span class="dom"><span class="th">มอส</span><span class="en">Mosses</span></span></li>
+    <li><span class="when">~430 Ma</span><b><span class="th">พืชมีท่อลำเลียงแรก (Cooksonia) ต้นตั้งตรงได้</span><span class="en">First vascular plants (Cooksonia) stand upright</span></b><br><span class="dom"><span class="th">พืชมีท่อลำเลียงแรกๆ</span><span class="en">Early vascular plants</span></span></li>
+    <li><span class="when">~385 Ma</span><b><span class="th">ป่าแห่งแรก</span><span class="en">First forests</span></b><br><span class="dom"><span class="th">เฟิร์นต้นและพืชสปอร์</span><span class="en">Tree ferns and spore plants</span></span></li>
+    <li><span class="when">~365 Ma</span><b><span class="th">เกิดเมล็ด</span><span class="en">Seeds appear</span></b></li>
+    <li><span class="when">359–299 Ma</span><b><span class="th">ป่าพรุยุคคาร์บอนิเฟอรัส กลายเป็นถ่านหินในปัจจุบัน</span><span class="en">Carboniferous swamp forests, today’s coal</span></b><br><span class="dom"><span class="th">เฟิร์นยักษ์และไลโคไฟต์</span><span class="en">Giant ferns and lycophytes</span></span></li>
+    <li><span class="when">~300–145 Ma</span><b><span class="th">ยุคไดโนเสาร์ ยังไม่มีพืชดอก</span><span class="en">Age of dinosaurs, no flowers yet</span></b><br><span class="dom"><span class="th">สน ปรง แปะก๊วย</span><span class="en">Conifers, cycads, ginkgo</span></span></li>
+    <li><span class="when">~140–130 Ma</span><b><span class="th">พืชดอกเกิดขึ้นและแพร่เร็วมาก เพราะใช้แมลงผสมเกสรและให้สัตว์ช่วยกระจายเมล็ด</span><span class="en">Flowering plants appear and spread fast, using insect pollinators and animal seed dispersal</span></b><br><span class="dom"><span class="th">พืชดอกเริ่มขึ้นแทน</span><span class="en">Flowering plants take over</span></span></li>
+    <li><span class="when">~66 Ma</span><b><span class="th">พืชดอกครองโลก หญ้าเริ่มเกิดขึ้นในช่วงนี้</span><span class="en">Flowering plants dominate; grasses arise around this time</span></b></li>
+    <li><span class="when">~8–6 Ma</span><b><span class="th">ทุ่งหญ้า C4 ขยายตัวเมื่ออากาศแห้งลงและ CO₂ ต่ำลง</span><span class="en">C4 grasslands spread as climate dries and CO₂ falls</span></b><br><span class="dom"><span class="th">ทุ่งหญ้าเขตร้อน</span><span class="en">Tropical grasslands</span></span></li>
+    <li class="h"><span class="when"><span class="th">~10,000 ปีก่อน</span><span class="en">~10,000 years ago</span></span><b><span class="th">คนเริ่มปลูกพืช ข้าวสาลีในตะวันออกกลาง ข้าวในจีน ข้าวโพดในเม็กซิโก (จากหญ้าเทโอซินเต)</span><span class="en">Farming begins: wheat in the Middle East, rice in China, maize in Mexico (from teosinte)</span></b><br><span class="dom"><span class="th">พืชเลี้ยงของคน</span><span class="en">Domesticated crops</span></span></li>
+  </ol>
+  <p class="th">สัดส่วนชนิดพืชจึงเปลี่ยนไปตามยุค ช่วงแรกพืชสปอร์ครองโลก ต่อด้วยพืชเมล็ดเปลือย ปัจจุบันพืชดอกมีราว 90% ของชนิดทั้งหมด<sup><a href="#r1">1</a></sup></p><p class="en">So the species mix shifted over time: spore plants first, then gymnosperms, and today flowering plants make up about 90% of species.<sup><a href="#r1">1</a></sup></p>
+  </section>
+
+  <section class="topic" id="history">
+  <h2><span class="th">7. ความรู้นี้ถูกพิสูจน์และแก้ไขมาอย่างไร</span><span class="en">7. How this knowledge was tested and revised</span></h2>
+  <p class="th">ไม่มีการพิสูจน์ครั้งเดียวจบ แต่มีการเปลี่ยนกรอบคิดใหญ่ราว 5–6 ครั้ง ส่วนที่นับรอบได้ชัดคือระบบพืชดอก APG ซึ่งออกมาแล้ว 4 ฉบับ ปีในส่วนนี้ <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span> ยกเว้น APG IV<sup><a href="#r3">3</a></sup></p><p class="en">There was no single proof. There were about five or six major shifts, and the one you can count cleanly is the APG system for flowering plants, now in its fourth edition. Years here are <span class="noref">not yet checked</span>, except APG IV.<sup><a href="#r3">3</a></sup></p>
+  <ol class="tline">
+    <li class="k"><span class="when"><span class="th">~300 ปีก่อน ค.ศ.</span><span class="en">~300 BCE</span></span><b>Theophrastus</b> <span class="th">แบ่งพืชเป็นไม้ต้น ไม้พุ่ม ไม้ล้มลุก</span><span class="en">groups plants into trees, shrubs and herbs</span><br><span class="dom"><span class="th">จัดตามรูปร่าง</span><span class="en">By form</span></span></li>
+    <li class="k"><span class="when">1686</span><b>John Ray</b> <span class="th">นิยามคำว่า "ชนิด" และแยกใบเลี้ยงเดี่ยวกับใบเลี้ยงคู่</span><span class="en">defines “species” and separates monocots from dicots</span></li>
+    <li class="k"><span class="when">1753</span><b>Carl Linnaeus</b> <span class="th">ชื่อวิทยาศาสตร์ 2 คำที่ใช้ถึงวันนี้ แต่จัดกลุ่มตามจำนวนเกสรซึ่งเป็นระบบเทียม</span><span class="en">two-part scientific names still used today, but an artificial grouping by stamen count</span><br><span class="dom"><span class="th">ระบบชื่อ</span><span class="en">Naming</span></span></li>
+    <li class="k"><span class="when">1789 · 1813</span><b>A.L. de Jussieu · A.P. de Candolle</b> <span class="th">จัดเป็นวงศ์ตามความคล้ายหลายลักษณะ</span><span class="en">natural families from many shared traits</span></li>
+    <li class="k"><span class="when">1851</span><b>Wilhelm Hofmeister</b> <span class="th">พบวงจรสลับรุ่น เชื่อมมอส เฟิร์น สน และพืชดอกเป็นสายเดียวกัน</span><span class="en">alternation of generations links mosses, ferns, conifers and flowering plants</span></li>
+    <li class="k"><span class="when">1858–1859</span><b>Charles Darwin · Alfred Russel Wallace</b> <span class="th">การคัดเลือกโดยธรรมชาติ</span><span class="en">natural selection</span><br><span class="dom"><span class="th">เกิดทฤษฎีวิวัฒนาการ</span><span class="en">Evolution</span></span></li>
+    <li class="k"><span class="when">1866 · 1900</span><b>Gregor Mendel</b> <span class="th">กฎพันธุกรรมจากถั่วลันเตา ถูกค้นพบซ้ำปี 1900 โดย de Vries, Correns, Tschermak</span><span class="en">laws of inheritance from peas, rediscovered in 1900 by de Vries, Correns and Tschermak</span></li>
+    <li class="k"><span class="when">1887–1915</span><b>Engler &amp; Prantl · Bessey</b> <span class="th">ระบบที่พยายามเรียงตามวิวัฒนาการ ใช้จัดหอพรรณไม้ทั่วโลก</span><span class="en">systems ordered by presumed evolution, used in herbaria worldwide</span></li>
+    <li class="k"><span class="when">1917–1937</span><b>Kidston &amp; Lang</b> <span class="th">ซากพืชบกยุคแรกใน Rhynie chert และตั้งชื่อ Cooksonia</span><span class="en">early land plants in the Rhynie chert; Cooksonia named</span></li>
+    <li class="k"><span class="when">1930s–1950</span><b>Fisher · Haldane · Wright · Dobzhansky · Stebbins</b> <span class="th">รวมพันธุศาสตร์กับวิวัฒนาการ Stebbins ขยายมาสู่พืช เช่น การเกิดชนิดใหม่จากโครโมโซมเพิ่มชุด</span><span class="en">the modern synthesis; Stebbins brings it to plants, including speciation by polyploidy</span><br><span class="dom"><span class="th">พันธุศาสตร์ + วิวัฒนาการ</span><span class="en">Genetics + evolution</span></span></li>
+    <li class="k"><span class="when">1950 · 1966</span><b>Willi Hennig</b> <span class="th">เคลดิสติกส์ จัดกลุ่มตามบรรพบุรุษร่วม</span><span class="en">cladistics: group by shared ancestry</span></li>
+    <li class="k"><span class="when">1966 · 1967</span><b>Hatch &amp; Slack · Lynn Margulis</b> <span class="th">กลไก C4 และทฤษฎีคลอโรพลาสต์มาจากแบคทีเรีย</span><span class="en">the C4 pathway; chloroplasts came from bacteria</span></li>
+    <li class="k"><span class="when">1960s–1981</span><b>Takhtajan · Cronquist · Thorne · Dahlgren</b> <span class="th">ระบบตามลักษณะภายนอกที่ใช้ในตำราจนถึงยุค 90</span><span class="en">morphology-based systems used in textbooks into the 1990s</span></li>
+    <li class="k"><span class="when">1993</span><b>Chase <span class="th">และคณะ</span><span class="en">et al.</span></b> <span class="th">ใช้ยีน rbcL สร้างต้นไม้วิวัฒนาการพืชดอกราว 500 ชนิด</span><span class="en">rbcL gene tree of about 500 flowering plants</span><br><span class="dom"><span class="th">ยุค DNA</span><span class="en">DNA era</span></span></li>
+    <li class="k"><span class="when">1998 · 2003 · 2009 · 2016</span><b>APG I–IV</b> <span class="th">ระบบพืชดอกตาม DNA ปรับมาแล้ว 4 ฉบับ</span><span class="en">four editions of the DNA-based flowering plant system</span><sup><a href="#r3">3</a></sup></li>
+    <li class="k"><span class="when">2000 · 2013 · 2019</span><b>Arabidopsis · Amborella · 1KP</b> <span class="th">จีโนมพืชชนิดแรก จีโนมพืชดอกสายเก่าแก่ที่สุด และต้นไม้วิวัฒนาการพืชราว 1,100 ชนิด</span><span class="en">first plant genome, genome of the oldest flowering-plant lineage, and a tree of about 1,100 plant species</span></li>
+  </ol>
+  <div class="grid2">
+    <div class="answer"><h3><span class="th">ยืนยันซ้ำจากหลายหลักฐาน</span><span class="en">Confirmed by several lines of evidence</span></h3><p class="th">ลำดับสาหร่าย → พืชบก → พืชมีท่อลำเลียง → พืชมีเมล็ด → พืชดอก และคลอโรพลาสต์มาจากแบคทีเรีย ซากดึกดำบรรพ์ กายวิภาค และ DNA ให้ผลตรงกัน</p><p class="en">The sequence algae → land plants → vascular plants → seed plants → flowering plants, and the bacterial origin of chloroplasts. Fossils, anatomy and DNA agree.</p></div>
+    <div class="answer"><h3><span class="th">ยังปรับกันอยู่</span><span class="en">Still being revised</span></h3><p class="th">อายุที่แน่นอนของพืชดอก ความสัมพันธ์ระหว่างมอส ลิเวอร์เวิร์ต ฮอร์นเวิร์ต ตำแหน่งของบางวงศ์ และสาเหตุที่พืชดอกแพร่เร็ว</p><p class="en">The exact age of flowering plants, how mosses, liverworts and hornworts relate, where some families sit, and why flowering plants spread so fast.</p></div>
+  </div>
+  </section>
+
+  <section class="topic" id="thinkers">
+  <h2><span class="th">8. นักคิดร่วมสมัย พืช และข้อโต้แย้ง</span><span class="en">8. Contemporary thinkers, plants and their critics</span></h2>
+  <p class="th">ทั้ง 6 คนไม่ได้วิจัยพืชโดยตรง ความเชื่อมโยงกับพืชในส่วนนี้เป็นการตีความ <span class="inf">อนุมาน</span> และชื่องาน ปี และข้อโต้แย้ง <span class="noref">ยังไม่ได้ตรวจกับต้นฉบับ</span> ป้ายหลักฐานบอกว่าข้อแย้งที่สำคัญที่สุดมีหลักฐานหนักแน่นแค่ไหน แตะชื่อเพื่อเปิดดู</p><p class="en">None of the six research plants directly. The plant links here are interpretation <span class="inf">inferred</span>, and titles, years and critiques are <span class="noref">not yet checked</span>. The evidence tag shows how strong the main critique’s evidence is. Tap a name to open it.</p>
+
+  <details class="thinker"><summary>Richard Dawkins <small><span class="th">ยีนเห็นแก่ตัว</span><span class="en">The selfish gene</span></small> <span class="strength s-mid"><span class="th">แก้ให้แม่นขึ้น ไม่ได้ล้ม</span><span class="en">refined, not overturned</span></span></summary><div class="body"><dl>
+    <dt><span class="th">แนวคิด</span><span class="en">Idea</span></dt><dd><span class="th">การคัดเลือกเกิดที่ระดับยีน (<i>The Selfish Gene</i> 1976, <i>The Extended Phenotype</i> 1982)</span><span class="en">Selection acts at the level of the gene (<i>The Selfish Gene</i> 1976, <i>The Extended Phenotype</i> 1982)</span></dd>
+    <dt><span class="th">กับพืช</span><span class="en">Plant link</span></dt><dd><span class="th">หลักนี้ใช้กับพืชได้เต็มที่ <i>Climbing Mount Improbable</i> มีบทยาวเรื่องมะเดื่อกับแตนผสมเกสร และปุ่มปมบนใบที่แมลงสั่งให้พืชสร้างคือตัวอย่าง extended phenotype</span><span class="en">Applies fully to plants. <i>Climbing Mount Improbable</i> has a long chapter on figs and fig wasps, and insect-induced leaf galls are an extended-phenotype example</span></dd>
+    <dt><span class="th">ผู้แย้ง</span><span class="en">Critics</span></dt><dd><span class="th">Gould &amp; Eldredge (วิวัฒนาการแบบก้าวกระโดด) · Kimura (ทฤษฎีเป็นกลาง) · Margulis (การรวมตัวของสิ่งมีชีวิต) · Laland, Jablonka, Noble (Extended Evolutionary Synthesis) · Nowak, Tarnita &amp; E.O. Wilson 2010</span><span class="en">Gould &amp; Eldredge (punctuated equilibrium) · Kimura (neutral theory) · Margulis (symbiogenesis) · Laland, Jablonka, Noble (Extended Evolutionary Synthesis) · Nowak, Tarnita &amp; E.O. Wilson 2010</span></dd>
+    <dt><span class="th">หลักฐาน</span><span class="en">Evidence</span></dt><dd><span class="th">ทฤษฎีเป็นกลางมีหลักฐาน DNA หนักแน่น ในพืชมีการถ่ายทอดเอพิเจเนติกส์จริง เช่น ดอก Linaria (Cubas 1999) แต่ทั้งหมดเพิ่มกลไก ไม่ได้ล้มแกน บทความปี 2010 ถูกนักวิจัยกว่า 130 คนโต้กลับ</span><span class="en">Neutral theory has strong DNA support, and plants show real epigenetic inheritance, such as the Linaria flower (Cubas 1999). These add mechanisms rather than overturn the core. The 2010 paper drew a reply from over 130 researchers</span></dd>
+  </dl></div></details>
+
+  <details class="thinker"><summary>Robert Sapolsky <small><span class="th">พฤติกรรมและเจตจำนงเสรี</span><span class="en">Behaviour and free will</span></small> <span class="strength s-mid"><span class="th">บางงานที่อ้างทำซ้ำไม่ได้</span><span class="en">some cited studies failed to replicate</span></span></summary><div class="body"><dl>
+    <dt><span class="th">แนวคิด</span><span class="en">Idea</span></dt><dd><span class="th">พฤติกรรมถูกกำหนดจากยีน ฮอร์โมน สิ่งแวดล้อม และวัฒนธรรม จนไม่มีเจตจำนงเสรี (<i>Behave</i> 2017, <i>Determined</i> 2023)</span><span class="en">Behaviour is set by genes, hormones, environment and culture, leaving no free will (<i>Behave</i> 2017, <i>Determined</i> 2023)</span></dd>
+    <dt><span class="th">กับพืช</span><span class="en">Plant link</span></dt><dd><span class="th">ไม่มีงานด้านพืช ที่เชื่อมได้คือเกษตรเป็นส่วนหนึ่งของวัฒนธรรมที่หล่อพฤติกรรม เช่น งานที่เปรียบเทียบสังคมปลูกข้าวกับข้าวสาลี</span><span class="en">No plant work. The link is that farming is part of the culture that shapes behaviour, as in studies comparing rice- and wheat-growing societies</span></dd>
+    <dt><span class="th">ผู้แย้ง</span><span class="en">Critics</span></dt><dd>Daniel Dennett · Kevin Mitchell (<i>Free Agents</i>, 2023)</dd>
+    <dt><span class="th">หลักฐาน</span><span class="en">Evidence</span></dt><dd><span class="th">เรื่องเจตจำนงเสรีเป็นการถกเชิงปรัชญา ไม่มีการทดลองชี้ขาด แต่บางงานที่อ้างทำซ้ำไม่ได้ เช่น ออกซิโทซินพ่นจมูกเพิ่มความไว้ใจ และผู้พิพากษาตัดสินโหดขึ้นตอนหิว</span><span class="en">Free will is a philosophical debate with no decisive experiment, but some cited studies did not replicate, such as nasal oxytocin raising trust and hungry judges ruling more harshly</span></dd>
+  </dl></div></details>
+
+  <details class="thinker"><summary>Anna Lembke <small><span class="th">โดพามีนและการเสพติด</span><span class="en">Dopamine and addiction</span></small> <span class="strength s-hi"><span class="th">ข้อแย้งมีหลักฐานแข็งแรง</span><span class="en">critique well supported</span></span></summary><div class="body"><dl>
+    <dt><span class="th">แนวคิด</span><span class="en">Idea</span></dt><dd><span class="th">สมองต้องรักษาสมดุลสุข/ทุกข์ เมื่อสิ่งกระตุ้นล้นเหลือ สมดุลจะเสีย (<i>Dopamine Nation</i> 2021)</span><span class="en">The brain balances pleasure and pain, and abundance tips the balance (<i>Dopamine Nation</i> 2021)</span></dd>
+    <dt><span class="th">กับพืช</span><span class="en">Plant link</span></dt><dd><span class="th">เชื่อมตรงที่สุด สารเสพติดคลาสสิกมาจากพืช ได้แก่ ฝิ่น โคคา ยาสูบ กัญชา กาแฟ และน้ำตาลจากอ้อย หลายตัวพืชวิวัฒน์ขึ้นเพื่อป้องกันแมลง กาแฟและอ้อยอยู่ในเกมเรา</span><span class="en">The closest link. Classic drugs come from plants: opium poppy, coca, tobacco, cannabis, coffee and cane sugar. Many evolved as defences against insects. Coffee and sugarcane are in our game</span></dd>
+    <dt><span class="th">ผู้แย้ง</span><span class="en">Critics</span></dt><dd>Kent Berridge · Wolfram Schultz · Carl Hart · Marc Lewis · Gene Heyman</dd>
+    <dt><span class="th">หลักฐาน</span><span class="en">Evidence</span></dt><dd><span class="th">การทดลองชี้ว่าโดพามีนเกี่ยวกับ "ความอยาก" และการคาดการณ์ผิด มากกว่าความสุข ข้อมูลประชากรชี้ว่าผู้ใช้สารส่วนใหญ่ไม่ติด ส่วนงานของเธอเรื่องการจ่ายยาโอปิออยด์เกินจำเป็นได้รับการสนับสนุนจากวิกฤตโอปิออยด์ในสหรัฐฯ</span><span class="en">Experiments link dopamine to wanting and prediction error more than pleasure, and population data show most users do not become addicted. Her work on opioid overprescribing is supported by the US opioid crisis</span></dd>
+  </dl></div></details>
+
+  <details class="thinker"><summary>Yuval Noah Harari <small><span class="th">การปฏิวัติเกษตรคือการหลอกลวง</span><span class="en">Farming as history’s biggest fraud</span></small> <span class="strength s-hi"><span class="th">ข้อแย้งมีหลักฐานแข็งแรง</span><span class="en">critique well supported</span></span></summary><div class="body"><dl>
+    <dt><span class="th">แนวคิด</span><span class="en">Idea</span></dt><dd><span class="th">ใน <i>Sapiens</i> ข้าวสาลีเลี้ยงมนุษย์ให้เชื่อง ไม่ใช่กลับกัน ใน <i>Homo Deus</i> การออกแบบโดยมนุษย์จะแทนการคัดเลือกโดยธรรมชาติ</span><span class="en">In <i>Sapiens</i>, wheat domesticated humans, not the reverse. In <i>Homo Deus</i>, human design replaces natural selection</span></dd>
+    <dt><span class="th">กับพืช</span><span class="en">Plant link</span></dt><dd><span class="th">ชัดที่สุดในกลุ่มอนาคต ใช้หลักเดียวกับวิวัฒนาการ คือวัดความสำเร็จจากจำนวนยีนที่ส่งต่อ ข้าวสาลีจึงชนะ</span><span class="en">The clearest among the futurists. It uses the evolutionary yardstick of genes passed on, by which wheat won</span></dd>
+    <dt><span class="th">ผู้แย้ง</span><span class="en">Critics</span></dt><dd>David Graeber &amp; David Wengrow (<i>The Dawn of Everything</i>, 2021) · Dorian Fuller · Christopher Hallpike · Darshana Narayanan</dd>
+    <dt><span class="th">หลักฐาน</span><span class="en">Evidence</span></dt><dd><span class="th">ส่วนที่ Harari ถูก: โครงกระดูกชาวนายุคแรกมีสุขภาพแย่ลงในหลายพื้นที่ ส่วนที่ถูกแย้งด้วยหลักฐาน: ข้าวสาลีใช้เวลาราว 2,000–3,000 ปีกว่าจะเป็นพืชปลูกเต็มตัว คนทดลองปลูกแล้วเลิกสลับกัน ไม่ใช่การปฏิวัติฉับพลัน</span><span class="en">Supported: early farmers’ skeletons show worse health in many regions. Contradicted: wheat took about 2,000–3,000 years to become fully domesticated, with people farming and abandoning it, not a sudden revolution</span></dd>
+  </dl></div></details>
+
+  <details class="thinker"><summary>David Deutsch <small><span class="th">ความรู้ไม่มีขีดจำกัด</span><span class="en">Knowledge without limit</span></small> <span class="strength s-lo"><span class="th">ยังไม่มีหลักฐานชี้ขาด</span><span class="en">no decisive evidence yet</span></span></summary><div class="body"><dl>
+    <dt><span class="th">แนวคิด</span><span class="en">Idea</span></dt><dd><span class="th">การปรับตัวของสิ่งมีชีวิตคือความรู้ที่เก็บในยีน แต่ช้าและอธิบายตัวเองไม่ได้ ความรู้เชิงอธิบายของมนุษย์ก้าวหน้าได้ไม่จำกัด (<i>The Beginning of Infinity</i> 2011)</span><span class="en">Adaptation is knowledge stored in genes, slow and unexplained. Human explanatory knowledge can grow without limit (<i>The Beginning of Infinity</i> 2011)</span></dd>
+    <dt><span class="th">กับพืช</span><span class="en">Plant link</span></dt><dd><span class="th">การปรับปรุงพันธุ์ ปฏิวัติเขียว และโรงงานพืช คือความรู้แบบมนุษย์ที่เร่งความรู้ในยีน ผลผลิตต่อไร่เพิ่มเพราะความรู้ ซึ่งเป็นแก่นเดียวกับเกมของเรา</span><span class="en">Breeding, the Green Revolution and plant factories are human knowledge speeding up gene knowledge. Yield per rai rose because of knowledge, the same core as our game</span></dd>
+    <dt><span class="th">ผู้แย้ง</span><span class="en">Critics</span></dt><dd><span class="th">Limits to Growth (Meadows 1972) · Planetary Boundaries (Rockström 2009) · นักฟิสิกส์ที่ถือการตีความควอนตัมแบบอื่น</span><span class="en">Limits to Growth (Meadows 1972) · Planetary Boundaries (Rockström 2009) · physicists holding other quantum interpretations</span></dd>
+    <dt><span class="th">หลักฐาน</span><span class="en">Evidence</span></dt><dd><span class="th">ผลผลิตต่อไร่ที่เพิ่มหลายเท่าเข้าข้าง Deutsch ส่วนดินเสื่อม น้ำใต้ดินลด และผลผลิตบางพืชที่เพิ่มช้าลง เข้าข้างฝ่ายแย้ง เรื่องอนาคตยังตัดสินไม่ได้</span><span class="en">Multiplied yields favour Deutsch; soil degradation, falling groundwater and slowing yield gains favour the critics. The future question is still open</span></dd>
+  </dl></div></details>
+
+  <details class="thinker"><summary>Nick Bostrom <small><span class="th">ความเสี่ยงต่อการอยู่รอด</span><span class="en">Existential risk</span></small> <span class="strength s-lo"><span class="th">ยังไม่มีหลักฐานชี้ขาด</span><span class="en">no decisive evidence yet</span></span></summary><div class="body"><dl>
+    <dt><span class="th">แนวคิด</span><span class="en">Idea</span></dt><dd><span class="th">AI ที่ฉลาดเกินมนุษย์และเทคโนโลยีบางอย่างอาจเป็นภัยต่อการอยู่รอด (<i>Superintelligence</i> 2014)</span><span class="en">Superhuman AI and some technologies may threaten survival (<i>Superintelligence</i> 2014)</span></dd>
+    <dt><span class="th">กับพืช</span><span class="en">Plant link</span></dt><dd><span class="th">ไม่ได้พูดเรื่องพืชโดยตรง ที่เชื่อมได้คือความเสี่ยงจากชีววิทยาสังเคราะห์ และความเปราะบางของระบบอาหารที่พึ่งพืชไม่กี่ชนิด</span><span class="en">No direct plant work. The links are synthetic-biology risk and the fragility of a food system resting on a few crops</span></dd>
+    <dt><span class="th">ผู้แย้ง</span><span class="en">Critics</span></dt><dd>Yann LeCun · Rodney Brooks · Melanie Mitchell · Emily Bender · Timnit Gebru · Émile Torres · Sean Carroll</dd>
+    <dt><span class="th">หลักฐาน</span><span class="en">Evidence</span></dt><dd><span class="th">เป็นการทำนายอนาคตที่ยังพิสูจน์ไม่ได้ทั้งสองฝ่าย</span><span class="en">These are forecasts that neither side can yet prove</span></dd>
+  </dl></div></details>
+
+  <div class="answer"><p class="th"><strong>เส้นที่เชื่อมทุกคน:</strong> วิวัฒนาการโดยธรรมชาติราว 470 ล้านปี → การคัดพันธุ์โดยมนุษย์ราว 10,000 ปี → การออกแบบโดยตรงด้วยการตัดต่อยีน AI และระบบปลูกในอาคาร Dawkins อธิบายกลไก Harari เล่าว่ามันเปลี่ยนสังคมอย่างไร Lembke กับ Sapolsky อธิบายว่าสมองตอบสนองต่อผลผลิตจากพืชอย่างไร Deutsch อธิบายว่าทำไมความรู้เร่งมันได้ และ Bostrom ถามว่าความเสี่ยงอยู่ตรงไหน <span class="inf">อนุมาน</span></p><p class="en"><strong>The common thread:</strong> about 470 million years of natural selection → about 10,000 years of human breeding → direct design with gene editing, AI and indoor farming. Dawkins explains the mechanism, Harari how it changed society, Lembke and Sapolsky how the brain responds to plant products, Deutsch why knowledge speeds it up, and Bostrom where the risks are. <span class="inf">inferred</span></p></div>
+  </section>
+
+  <section class="topic" id="refs">
+  <h2><span class="th">แหล่งอ้างอิง</span><span class="en">References</span></h2>
+  <ol class="refs">
+    <li id="r1">Royal Botanic Gardens, Kew (2016). <i>State of the World’s Plants 2016</i>. <span class="chk">✓</span></li>
+    <li id="r2">Royal Botanic Gardens, Kew (2020). <i>State of the World’s Plants and Fungi 2020</i>. <span class="chk">✓</span></li>
+    <li id="r3">Angiosperm Phylogeny Group (2016). An update of the Angiosperm Phylogeny Group classification for the orders and families of flowering plants: APG IV. <i>Botanical Journal of the Linnean Society</i> 181: 1–20. <a href="https://doi.org/10.1111/boj.12385">doi.org/10.1111/boj.12385</a> <span class="chk">✓</span></li>
+    <li id="r4">FAO (2019). <i>The State of the World’s Biodiversity for Food and Agriculture</i>. <span class="chk">✓</span></li>
+    <li id="r5">Nickrent, D.L. (2020). Parasitic angiosperms: how often and how many? <i>Taxon</i> 69. <span class="chk">✓</span></li>
+    <li id="r6">Sage, R.F. (2004). The evolution of C4 photosynthesis. <i>New Phytologist</i> 161; Still, C.J. et al. (2003). Global distribution of C3 and C4 vegetation. <i>Global Biogeochemical Cycles</i> 17. <span class="chk">✓</span></li>
+    <li id="r7">Brundrett, M.C. &amp; Tedersoo, L. (2018). Evolutionary history of mycorrhizal symbioses and global host plant diversity. <i>New Phytologist</i> 220. <span class="chk">✓</span></li>
+  </ol>
+  <p class="th refs">ข้อความที่ไม่มีหมายเลขอ้างอิง ได้แก่ อายุในไทม์ไลน์ ปีในประวัติความรู้ สัดส่วนสารอาหาร และข้อมูลนักคิด ยังไม่ได้ตรวจกับต้นฉบับทีละรายการ ควรตรวจก่อนนำไปอ้างอิง</p><p class="en refs">Statements without a reference number, including timeline ages, history dates, nutrient shares and the thinker notes, have not yet been checked item by item. Check before citing.</p>
+  </section>
+</div>
+</body>
+</html>
