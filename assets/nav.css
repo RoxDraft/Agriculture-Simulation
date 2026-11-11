@@ -45,3 +45,6 @@ html{scroll-padding-top:84px}
 .nv-game{--c:var(--nv-game,#b5651d)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--nv-game:#e3a066}}
 :root[data-theme="dark"]{--nv-game:#e3a066}
+.nv-plants{--c:var(--nv-plants,#2f7d5b)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--nv-plants:#6fcf9f}}
+:root[data-theme="dark"]{--nv-plants:#6fcf9f}
