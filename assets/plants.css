@@ -39,3 +39,37 @@ details.thinker summary:focus-visible{outline:2px solid var(--water);outline-off
   details.thinker dl{grid-template-columns:1fr}
   details.thinker dt{margin-top:6px}
 }
+/* Topics 9–10 animations (assets/lifecycle.js). The drawings keep their own sky/soil colours so they read the same in both themes. */
+.lc{background:var(--surface);border:1px solid var(--line);border-radius:6px;margin-top:16px;overflow:hidden}
+.lc svg{display:block;width:100%;height:auto;color:var(--fg)}
+.lc-sky{fill:#eaf3f4}
+.lc-soil{fill:#b98d62}
+.lc-ground{stroke:#7a4f2c;stroke-width:2}
+.lc-root{stroke:#f3e6cf;stroke-width:2.4;fill:none;stroke-linecap:round}
+.lc-root.thin{stroke-width:1.3}
+.lc-stem{stroke:#4f8a3a;fill:none;stroke-linecap:round}
+.lc-pet{stroke:#4f8a3a;stroke-width:1.8;fill:none;stroke-linecap:round}
+.lc-mer{fill:#e5484d;opacity:.85}
+.lc-merk{fill:#e5484d}
+.lc-lab{font-family:var(--body);font-size:12px;fill:#1f2a24}
+.lc-cell{stroke:#7a4f2c;stroke-width:1}
+.lc-cell.z0{fill:#cfe6b8} .lc-cell.z1{fill:#e9f2d9} .lc-cell.z2{fill:#f5efe1}
+.lc-ctl{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding:10px 14px;border-top:1px solid var(--line);font-size:.88rem}
+.lc-ctl input[type=range]{flex:1 1 180px;accent-color:var(--leaf)}
+.lc-ctl output{font-family:var(--mono);font-size:.82rem;color:var(--muted);min-width:7ch}
+.lc-play{font:inherit;font-size:.85rem;padding:4px 14px;border-radius:4px;border:1px solid var(--leaf);background:var(--surface);color:var(--leaf);cursor:pointer}
+.lc-play[aria-pressed="true"]{background:var(--leaf);color:var(--surface)}
+.lc-play:focus-visible,.lc-stages li:focus-visible{outline:2px solid var(--water);outline-offset:2px}
+.lc-stages{list-style:none;margin:0;padding:8px 14px 12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:4px 14px;font-size:.86rem;border-top:1px solid var(--line)}
+.lc-stages li{max-width:none;cursor:pointer;padding:3px 6px;border-radius:4px;line-height:1.45;color:var(--muted)}
+.lc-stages li b{font-family:var(--mono);font-weight:500;font-size:.75rem;color:var(--water);margin-right:6px}
+.lc-stages li.on{background:var(--tag);color:var(--fg)}
+.lc-cap{font-size:.84rem;color:var(--muted);padding:0 14px 12px;margin:0;max-width:none}
+.lc-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.lc-row .lc{margin-top:0}
+/* Related animal topic, set apart from the plant topics */
+.side{border:1px solid var(--line);border-left:4px solid var(--warn);background:var(--surface);border-radius:6px;padding:4px 20px 18px;margin-top:48px}
+.side>h2{border-top:0;margin-top:12px;padding-top:0}
+.side .tag{font-family:var(--mono);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--warn);display:block;margin-top:14px}
+.side .answer{background:var(--bg)}
+@media (max-width:560px){.side{padding:4px 14px 14px}}
